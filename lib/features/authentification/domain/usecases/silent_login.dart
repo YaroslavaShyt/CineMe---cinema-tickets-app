@@ -1,4 +1,4 @@
-import 'package:cine_me/features/authentification/domain/usecases/usecase.dart';
+import 'package:cine_me/core/usecases/usecase.dart';
 import 'package:dartz/dartz.dart';
 
 import '../entities/app_error_entity.dart';

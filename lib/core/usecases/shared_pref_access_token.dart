@@ -11,3 +11,9 @@ Future<bool> hasAccessToken() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   return prefs.containsKey('accessToken');
 }
+
+
+Future<String> getAccessToken() async{
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.getString('accessToken')!;
+}

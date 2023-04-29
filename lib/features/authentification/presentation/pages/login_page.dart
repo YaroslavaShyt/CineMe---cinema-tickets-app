@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bloc/silent_login_bloc.dart';
 import '../widgets/custom_appbar_widget.dart';
+import '../widgets/images.dart';
 
 class LogIn extends StatefulWidget {
   const LogIn({Key? key}) : super(key: key);
@@ -19,12 +20,7 @@ class _LogInState extends State<LogIn> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: const CustomAppBar(),
-      body: Image.asset(
-              'assets/images/img.png',
-              fit: BoxFit.cover,
-              height: double.infinity,
-              width: double.infinity,
-            ),
+      body: image1,
       bottomNavigationBar:
       BlocConsumer<SilentLoginBloc, SilentLoginState>(
         builder: (context, state) {
@@ -35,7 +31,7 @@ class _LogInState extends State<LogIn> {
         },
         listenWhen: (previous, current) => current is SilentLoginSuccess,
         listener: (context, state){
-          Navigator.of(context).push(MaterialPageRoute(builder: (_) => const FilmsPage()));
+          Navigator.of(context).push(MaterialPageRoute(builder: (_) => const FilmsPage(detailsPath: 'home/details',)));
         }
     ));
   }

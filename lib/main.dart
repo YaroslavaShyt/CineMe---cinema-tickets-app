@@ -5,6 +5,7 @@ import 'package:cine_me/features/films/presentation/pages/films_page.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'core/widgets/bottom_nav_bar.dart';
 import 'features/authentification/domain/repositories/silent_authentication_repository.dart';
 import 'core/getit/get_it.dart';
 import 'features/authentification/presentation/pages/login_page.dart';
@@ -24,7 +25,7 @@ Future<void> main() async {
     print('after await: $exists');
     if (exists == Right(true)){
       print('in exists');
-      initialScreen = const FilmsPage();
+      initialScreen = const BottomNavBar();
     }
   }
   runApp(CineMe(initScreen: initialScreen));

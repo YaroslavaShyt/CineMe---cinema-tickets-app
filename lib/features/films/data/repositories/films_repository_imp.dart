@@ -1,39 +1,56 @@
+import 'package:cine_me/core/usecases/shared_pref_access_token.dart';
 import 'package:cine_me/features/films/data/models/film_model.dart';
 import 'package:cine_me/features/films/domain/repository/films_repository.dart';
-
+import 'package:dartz/dartz.dart';
+import '../../../authentification/domain/entities/app_error_entity.dart';
 import '../datasourses/films_remote_datasourse.dart';
+
 
 class FilmsRepositoryImpl implements FilmsRepository{
   final FilmsRemoteDatasourse _filmsRemoteDatasourse;
 
   FilmsRepositoryImpl(this._filmsRemoteDatasourse);
 
-  Future<List<FilmModel>> getTodayFilms(String date, String search) async{
+  @override
+  Future<Either<AppError, List<FilmModel>>> getTodayFilms() async{
     List<FilmModel> filmsList = [];
-    final data = await _filmsRemoteDatasourse.getTodayFilmsJson(date, search);
-    if (data == Map<String, dynamic>){
-      for (var i = 0; i < data.length(); i++){
-        filmsList.add(FilmModel(
-            id: data['data'][i]['id'],
-            name: i['data']['name'],
-            allowedAge: i['data']['age'],
-            trailer: trailer,
-            image: image,
-            smallImage: smallImage,
-            originalName: originalName,
-            duration: duration,
-            language: language,
-            rating: rating,
-            year: year,
-            country: country,
-            genre: genre,
-            plot: plot,
-            starring:
-            starring,
-            director: director,
-            screenwriter: screenwriter,
-            studio: studio));
+    final accessToken = await getAccessToken();
+    final data = await _filmsRemoteDatasourse.getTodayFilmsJson('', '', accessToken);
+  //  print('in getTodayFilms filmsrepoimp');
+  //  print('data: $data');
+    if (data.isRight()){
+      final elseData = data.getOrElse(() => {});
+      if (elseData != {}){
+  //      print('elseData: $elseData');
+        final mapData = elseData['data'];
+        print('mapData: $mapData');
+        for (var i = 0; i < mapData.length; i++) {
+          filmsList.add(
+              FilmModel(
+              id: mapData[i]['id'],
+              name: mapData[i]['name'],
+              allowedAge: mapData[i]['age'],
+              trailer: mapData[i]['trailer'],
+              image: mapData[i]['image'],
+              smallImage: mapData[i]['smallImage'],
+              originalName: mapData[i]['originalName'],
+              duration: mapData[i]['duration'],
+              language: mapData[i]['language'],
+              rating: mapData[i]['rating'],
+              year: mapData[i]['year'],
+              country: mapData[i]['country'],
+              genre: mapData[i]['genre'],
+              plot: mapData[i]['plot'],
+              starring: mapData[i]['starring'],
+              director: mapData[i]['director'],
+              screenwriter: mapData[i]['screenwriter'],
+              studio: mapData[i]['studio']));
+          print('filmList: $filmsList');
+        }
+        print('filmList: $filmsList');
+        return Right(filmsList);
       }
     }
+    return const Left(AppError(AppErrorType.api));
   }
 }

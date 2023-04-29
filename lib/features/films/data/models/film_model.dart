@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 class FilmModel{
   final int id;
   final String name;
-  final String allowedAge;
+  final int allowedAge;
   final String trailer;
   final String image;
   final String smallImage;
   final String originalName;
   final int duration;
   final String language;
-  final double rating;
+  final String rating;
   final int year;
   final String country;
   final String genre;
