@@ -8,8 +8,8 @@ abstract class FilmsEvent extends Equatable{
 }
 
 class FilmsInitiateEvent extends FilmsEvent {
-
-  const FilmsInitiateEvent();
+  final String search;
+  const FilmsInitiateEvent({this.search = ''});
 
   @override
   List<Object> get props => [];

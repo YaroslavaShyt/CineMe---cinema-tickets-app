@@ -11,6 +11,6 @@ class Films extends UseCase<List<FilmModel>>{
   Films(this._filmsRepository);
 
   @override
-  Future<Either<AppError, List<FilmModel>>> call() async =>
-      _filmsRepository.getTodayFilms();
+  Future<Either<AppError, List<FilmModel>>> call({String search = ''}) async =>
+      _filmsRepository.getTodayFilms(search: search);
 }

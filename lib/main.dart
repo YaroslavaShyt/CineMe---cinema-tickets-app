@@ -28,6 +28,7 @@ Future<void> main() async {
       initialScreen = const BottomNavBar();
     }
   }
+  print('init screen in main: $initialScreen');
   runApp(CineMe(initScreen: initialScreen));
 }
 

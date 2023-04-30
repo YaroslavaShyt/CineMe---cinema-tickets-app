@@ -1,3 +1,4 @@
+import 'package:cine_me/cine_me_app.dart';
 import 'package:cine_me/features/films/presentation/pages/films_page.dart';
 import 'package:cine_me/features/authentification/presentation/widgets/custom_bottom_navbar_widget.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ class LogIn extends StatefulWidget {
 class _LogInState extends State<LogIn> {
   @override
   Widget build(BuildContext context) {
+    print('in logIn page');
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: const CustomAppBar(),
@@ -31,7 +33,7 @@ class _LogInState extends State<LogIn> {
         },
         listenWhen: (previous, current) => current is SilentLoginSuccess,
         listener: (context, state){
-          Navigator.of(context).push(MaterialPageRoute(builder: (_) => const FilmsPage(detailsPath: 'home/details',)));
+          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => appFilms));
         }
     ));
   }

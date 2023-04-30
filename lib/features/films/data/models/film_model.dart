@@ -22,21 +22,22 @@ class FilmModel{
   FilmModel({
     required this.id,
     required this.name,
-    required this.allowedAge,
-    required this.trailer,
+    this.allowedAge = 0,
+    this.trailer = '',
     required this.image,
-    required this.smallImage,
-    required this.originalName,
-    required this.duration,
-    required this.language,
-    required this.rating,
-    required this.year,
-    required this.country,
-    required this.genre,
-    required this.plot,
-    required this.starring,
-    required this.director,
-    required this.screenwriter,
-    required this.studio
+    this.smallImage = '',
+    this.originalName = '',
+    this.duration = 0,
+    this.language ='',
+    this.rating = '',
+    this.year = 2023,
+    this.country = '',
+    this.genre = '',
+    this.plot = '',
+    this.starring = '',
+    this.director = '',
+    this.screenwriter = '',
+    this.studio = ''
   });
 }
+

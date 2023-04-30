@@ -1,7 +1,10 @@
 import 'package:beamer/beamer.dart';
 import 'package:cine_me/core/constants/colors.dart';
 import 'package:cine_me/features/films/data/models/film_model.dart';
+import 'package:cine_me/features/films/presentation/widgets/transparent_button.dart';
 import 'package:flutter/material.dart';
+
+import '../bloc/films_bloc.dart';
 
 class MySliderItem extends StatelessWidget {
   final FilmModel filmModel;
@@ -9,8 +12,7 @@ class MySliderItem extends StatelessWidget {
   const MySliderItem({
     Key? key,
     required this.filmModel,
-    required this.detailsPath
- //   required this.onPressed,
+    required this.detailsPath,
   }) : super(key: key);
 
   @override
@@ -34,17 +36,7 @@ class MySliderItem extends StatelessWidget {
         ),
         const SizedBox(height: 30.0),
         Padding(padding: const EdgeInsets.fromLTRB(10, 0, 10, 10), child:
-        OutlinedButton(
-          onPressed: () => Beamer.of(context).beamToNamed(detailsPath),
-          style: OutlinedButton.styleFrom(
-            minimumSize: const Size(double.infinity, 50.0),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(0.0),
-            ),
-              side: const BorderSide(color: white, width: 1),
-            foregroundColor: white,
-          ),
-          child: const Text('Деталі')),
+        TransparentButton(rout: '$detailsPath?filmName=${filmModel.name}', text: 'Деталі',),
         ),
         const SizedBox(height: 10.0),
       ],

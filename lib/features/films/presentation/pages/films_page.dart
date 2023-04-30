@@ -18,18 +18,11 @@ class FilmsPage extends StatefulWidget {
 
 class _FilmsPageState extends State<FilmsPage> {
   late FilmsBloc filmsBloc;
-  TextEditingController controller = TextEditingController();
-  List<String> images = [
-    'http://images2.fanpop.com/images/photos/8400000/Movie-Posters-movies-8405245-1224-1773.jpg',
-    'http://www.graphicdesignjunction.com/wp-content/uploads/2013/03/large/Olympus+Has+Fallen+movie+posters.jpg',
-    'https://larryfire.files.wordpress.com/2017/10/39.jpg',
-    'http://www.filmeducation.org/startrek/images/posters/main.jpg'
-  ];
-  int activePage = 1;
+
   @override
   void initState() {
     super.initState();
-    filmsBloc = getItInst<FilmsBloc>();
+    filmsBloc = getItInst<FilmsBloc>(param1: '', param2: '');
     filmsBloc.add(const FilmsInitiateEvent());
   }
 
@@ -37,7 +30,6 @@ class _FilmsPageState extends State<FilmsPage> {
   void dispose() {
     super.dispose();
     filmsBloc.close();
-    controller.dispose();
   }
 
   @override
@@ -55,13 +47,13 @@ class _FilmsPageState extends State<FilmsPage> {
                 else if (state is FilmsSuccess){
                   final films = state.films;
                   if (films.isEmpty){
-                    return Text('Отакої, виникла помилка!');
+                    return const Text('Отакої, виникла помилка!');
                   }
                   return Column(children: [
                     const SizedBox(height: 10),
                     Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: const [
-                          Text('29 квітня'),
+                          Text('29 квітня', style: TextStyle(color: white),),
                       Padding(
                             padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
                             child: Text('Посмiхаємося i махаємо, хлопцi,\nпосмiхаємося i махаємо…\n«Мадагаскар»',
@@ -93,14 +85,17 @@ class _FilmsPageState extends State<FilmsPage> {
                             return Container(
                               width: MediaQuery.of(context).size.width,
                               margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                              child: MySliderItem(filmModel: image, detailsPath: widget.detailsPath),
-                            );
+                              child: MySliderItem(
+                                filmModel: image,
+                                detailsPath: widget.detailsPath,
+                               ),
+                              );
                           },
                         );
                       }).toList(),
                     )
                   ]);
-              }
+                }
                 return const CircularProgressIndicator();
                 },
             ),
