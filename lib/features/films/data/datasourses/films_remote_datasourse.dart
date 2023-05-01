@@ -2,23 +2,29 @@ import 'dart:convert';
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
-import '../../../../core/constants/api_constants.dart';
-import '../../../authentification/domain/entities/app_error_entity.dart';
+import 'package:cine_me/core/constants/api_constants.dart';
+import 'package:cine_me/features/authentification/domain/entities/app_error_entity.dart';
 
 abstract class FilmsRemoteDatasourse{
   Future<Either<AppError, Map<String, dynamic>>>
   getTodayFilmsJson(String accessToken, {String search = ''});
   Future<Either<AppError, Map<String, dynamic>>>
-  getFilmSessionsJson(String filmId, String accessToken);
+  getFilmSessionsJson(String accessToken, {String filmId='', String sessionId=''});
+  String getDateTimeNow();
 }
 
 class FilmsRemoteDatasourseImpl implements FilmsRemoteDatasourse{
+  //move out?
+  @override
+  String getDateTimeNow(){
+    DateTime now = DateTime.now();
+    return DateFormat('yyyy-MM-dd').format(now);
+  }
 
   @override
   Future<Either<AppError, Map<String, dynamic>>>
   getTodayFilmsJson(String accessToken, {String search = ''}) async {
-    DateTime now = DateTime.now();
-    String formattedDate = DateFormat('yyyy-MM-dd').format(now);
+    String formattedDate = getDateTimeNow();
     final response = await http.get(Uri.parse('${API.apiFilmsAddress}?date=$formattedDate&query=$search'),
         headers: {'Authorization': 'Bearer $accessToken'});
   //  print('statusCode: ${response.statusCode}');
@@ -32,17 +38,25 @@ class FilmsRemoteDatasourseImpl implements FilmsRemoteDatasourse{
 
   @override
   Future<Either<AppError, Map<String, dynamic>>>
-  getFilmSessionsJson(String filmId, String accessToken) async{
-    DateTime now = DateTime.now();
-    String formattedDate = DateFormat('yyyy-MM-dd').format(now);
-    final response = await http.get(Uri.parse('${API.apiFilmSessionAddress}?movieId=${filmId}date=$formattedDate'),
+  getFilmSessionsJson(String accessToken, {String filmId='', String sessionId=''}) async{
+    var request;
+    String formattedDate = getDateTimeNow();
+    sessionId.isEmpty && filmId.isNotEmpty?
+    request = '?movieId=${filmId}date=$formattedDate':
+      request = '/$sessionId';
+  //  print('session id: $sessionId');
+    final response = await http.get(Uri.parse('${API.apiFilmSessionAddress}$request'),
         headers: {'Authorization': 'Bearer $accessToken'});
     if (response.statusCode == 200){
       final data = jsonDecode(response.body);
-      print('got sessions: ${data}');
+    //  print('got session: ${data['data'][0]}');
+    //  print('got session2:${data['data'][1]}');
+    //  print('for each now (datalength: ${data.length}):\n');
+    /*  for (var i = 0; i< data.length; i++){
+        print(data['data']['room']);
+      }*/
       return Right(data);
     }
     return const Left(AppError(AppErrorType.network));
   }
-
 }

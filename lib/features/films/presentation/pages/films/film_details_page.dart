@@ -7,12 +7,13 @@ import 'package:cine_me/features/films/presentation/widgets/transparent_button.d
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/getit/get_it.dart';
-import '../bloc/films_bloc.dart';
+import '../../../../../core/getit/get_it.dart';
+import '../../bloc/films/films_bloc.dart';
 
 class FilmDetails extends StatefulWidget {
   final String filmName;
-  const FilmDetails({Key? key, required this.filmName}) : super(key: key);
+  final String detailsPath;
+  const FilmDetails({Key? key, required this.filmName, required this.detailsPath}) : super(key: key);
 
   @override
   State<FilmDetails> createState() => _FilmDetailsState();
@@ -90,7 +91,8 @@ class _FilmDetailsState extends State<FilmDetails> {
                 Text(films[0].starring),
                 Text(films[0].rating),
                 Text(films[0].plot),
-                TransparentButton(rout: '/home/details/sessions?filmId=${films[0].id}', text: 'Переглянути сеанси')
+                TransparentButton(rout: '${widget.detailsPath}?filmId=${films[0].id}',
+                    text: 'Переглянути сеанси')
               ]
 
             )

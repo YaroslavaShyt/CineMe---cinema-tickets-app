@@ -3,8 +3,8 @@ import 'package:cine_me/features/films/data/models/film_model.dart';
 import 'package:cine_me/features/films/data/models/film_session_model.dart';
 import 'package:cine_me/features/films/domain/repository/films_repository.dart';
 import 'package:dartz/dartz.dart';
-import '../../../authentification/domain/entities/app_error_entity.dart';
-import '../datasourses/films_remote_datasourse.dart';
+import 'package:cine_me/features/authentification/domain/entities/app_error_entity.dart';
+import 'package:cine_me/features/films/data/datasourses/films_remote_datasourse.dart';
 
 
 class FilmsRepositoryImpl implements FilmsRepository{
@@ -26,13 +26,12 @@ class FilmsRepositoryImpl implements FilmsRepository{
         final mapData = elseData['data'];
   //      print('mapData: $mapData');
         for (var i = 0; i < mapData.length; i++) {
-          if (search.isEmpty){
+          search.isEmpty ?
             filmsList.add(
                 FilmModel(
                     id: mapData[i]['id'],
                     name: mapData[i]['name'],
-                    image: mapData[i]['image']));
-          }else {
+                    image: mapData[i]['image'])):
             filmsList.add(
                 FilmModel(
                     id: mapData[i]['id'],
@@ -55,42 +54,57 @@ class FilmsRepositoryImpl implements FilmsRepository{
                     studio: mapData[i]['studio']
                 ));
             //     print('filmList: $filmsList');
-          }}}
-        print('filmList: $filmsList');
+          }}
+     //   print('filmList: $filmsList');
         return Right(filmsList);
     }
     return const Left(AppError(AppErrorType.api));
   }
 
   @override
-  Future<Either<AppError, List<FilmSessionModel>>> getFilmSessions(String filmId) async {
+  Future<Either<AppError, List<FilmSessionModel>>> getFilmSessions({String filmId = '', String sessionId = ''}) async {
       List<FilmSessionModel> sessionsList = [];
       final accessToken = await getAccessToken();
-      final data = await _filmsRemoteDatasourse.getFilmSessionsJson(filmId, accessToken);
+      final data = await _filmsRemoteDatasourse.getFilmSessionsJson(accessToken, filmId: filmId, sessionId: sessionId);
       //  print('in getTodayFilms filmsrepoimp');
-      //  print('data: $data');
+      //  print('data 1: $data');
       if (data.isRight()){
-      final elseData = data.getOrElse(() => {});
-      if (elseData != {}){
-      //      print('elseData: $elseData');
-        final mapData = elseData['data'];
-      //      print('mapData: $mapData');
-        for (var i = 0; i < mapData.length; i++) {
-          print('${mapData[i]['id']}\n'
-              '${mapData[i]['date']}\n'
-              '${mapData[i]['type']}\n'
-              '${mapData[i]['minPrice']}');
-          sessionsList.add(
-              FilmSessionModel(
-          id: mapData[i]['id'].toString(),
-          date: mapData[i]['date'].toString(),
-          type: mapData[i]['type'],
-          minPrice: mapData[i]['minPrice'].toString(),
-          ));
-      //     print('filmList: $filmsList');
-  }}
-    print('filmList: $sessionsList');
-    return Right(sessionsList);
+          final elseData = data.getOrElse(() => {});
+          if (elseData != {}){
+             //   print('elseData: $elseData');
+            final mapData = elseData['data'];
+          //  print('mapData: $mapData');
+            if (filmId.isNotEmpty){
+              for (var i = 0; i < mapData.length; i++) {
+                sessionsList.add(
+                    FilmSessionModel(
+                id: mapData[i]['id'].toString(),
+                date: mapData[i]['date'].toString(),
+                type: mapData[i]['type'],
+                minPrice: mapData[i]['minPrice'].toString(),
+                ));
+              }
+            }
+            else{
+         /*   print('---------begin--------');
+            print('${mapData['id']}\n'
+                '${mapData['date']}\n'
+                '${mapData['type']}\n'
+                '${mapData['minPrice']}');
+            print('|||||||||||||||end||||||||||');*/
+            sessionsList.add(FilmSessionModel(
+                id: mapData['id'].toString(),
+                date: mapData['date'].toString(),
+                type: mapData['type'],
+                minPrice: mapData['minPrice'].toString(),
+                room: mapData['room']));
+            }
+          //     print('filmList: $filmsList');
+          }
+        //  print('filmList: $sessionsList');
+          return Right(sessionsList);
+      }
+      return const Left(AppError(AppErrorType.api));
   }
-  return const Left(AppError(AppErrorType.api));
-}}
+
+}

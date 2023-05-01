@@ -7,7 +7,7 @@ import 'package:cine_me/core/getit/get_it.dart';
 
 import 'core/widgets/bottom_nav_bar.dart';
 import 'features/films/domain/usecases/get_films.dart';
-import 'features/films/presentation/pages/films_page.dart';
+import 'features/films/presentation/pages/films/films_page.dart';
 
 class CineMe extends StatefulWidget {
   final initScreen;

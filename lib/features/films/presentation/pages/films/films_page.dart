@@ -1,10 +1,10 @@
 import 'package:cine_me/core/constants/colors.dart';
 import 'package:cine_me/core/getit/get_it.dart';
-import 'package:cine_me/features/films/presentation/bloc/films_bloc.dart';
+import 'package:cine_me/features/films/presentation/bloc/films/films_bloc.dart';
 import 'package:cine_me/features/films/presentation/widgets/slider_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/widgets/films_app_bar.dart';
+import '../../../../../core/widgets/films_app_bar.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 

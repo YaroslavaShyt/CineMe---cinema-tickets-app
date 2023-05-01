@@ -3,11 +3,13 @@ class FilmSessionModel{
   final String date;
   final String type;
   final String minPrice;
+  final Map<String, dynamic> room;
 
   FilmSessionModel({
     required this.id,
     required this.date,
     required this.type,
-    required this.minPrice
+    required this.minPrice,
+    this.room = const {}
 });
 }

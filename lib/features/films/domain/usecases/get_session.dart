@@ -12,8 +12,8 @@ class FilmSessions extends UseCase<List<FilmSessionModel>>{
   FilmSessions(this._filmsRepository);
 
   @override
-  Future<Either<AppError, List<FilmSessionModel>>> call({String filmId=''}) async =>
-    _filmsRepository.getFilmSessions(filmId);
+  Future<Either<AppError, List<FilmSessionModel>>> call({String filmId='', String sessionId = ''}) async =>
+    _filmsRepository.getFilmSessions(filmId: filmId, sessionId: sessionId);
 
 
 }

@@ -11,8 +11,8 @@ import '../../features/authentification/data/repositories/auth_repository_imp.da
 import '../../features/authentification/domain/repositories/silent_authentication_repository.dart';
 import '../../features/authentification/presentation/bloc/silent_login_bloc.dart';
 import '../../features/films/domain/usecases/get_films.dart';
-import '../../features/films/presentation/bloc/films_bloc.dart';
-import '../../features/films/presentation/bloc/sessions_bloc.dart';
+import '../../features/films/presentation/bloc/films/films_bloc.dart';
+import '../../features/films/presentation/bloc/film_session/sessions_bloc.dart';
 
 
 final getItInst = GetIt.I;
@@ -36,7 +36,7 @@ Future init() async {
           () => FilmsRepositoryImpl(getItInst()));
 
   getItInst.registerFactoryParam<FilmsBloc, String, String>((param1, param2) {
-    print('in factory');
+ //   print('in factory');
     return FilmsBloc(films: getItInst(), date: param1, search: param2);
   });
 
@@ -45,8 +45,8 @@ Future init() async {
   getItInst.registerLazySingleton<FilmSessions>(() => FilmSessions(getItInst()));
 
   getItInst.registerFactoryParam<SessionsBloc, String, String>((param1, param2){
-    print('in session factory');
-    return SessionsBloc(filmSessions: getItInst(), filmId: param1);
+  //  print('in session factory');
+    return SessionsBloc(filmSessions: getItInst(), filmId: param1, sessionId: param2);
    },
   );
 

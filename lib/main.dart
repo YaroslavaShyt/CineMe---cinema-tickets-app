@@ -1,7 +1,7 @@
 import 'package:cine_me/features/authentification/domain/entities/app_error_entity.dart';
 import 'package:cine_me/core/getit/get_it.dart' as getIt;
 import 'package:cine_me/cine_me_app.dart';
-import 'package:cine_me/features/films/presentation/pages/films_page.dart';
+import 'package:cine_me/features/films/presentation/pages/films/films_page.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';

@@ -4,7 +4,7 @@ import 'package:cine_me/features/films/data/models/film_model.dart';
 import 'package:cine_me/features/films/presentation/widgets/transparent_button.dart';
 import 'package:flutter/material.dart';
 
-import '../bloc/films_bloc.dart';
+import '../bloc/films/films_bloc.dart';
 
 class MySliderItem extends StatelessWidget {
   final FilmModel filmModel;

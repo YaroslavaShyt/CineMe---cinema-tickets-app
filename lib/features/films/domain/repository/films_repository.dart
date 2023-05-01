@@ -6,5 +6,5 @@ import '../../data/models/film_session_model.dart';
 
 abstract class FilmsRepository{
   Future<Either<AppError, List<FilmModel>>> getTodayFilms ({String search = ''});
-  Future<Either<AppError, List<FilmSessionModel>>> getFilmSessions(String filmId);
+  Future<Either<AppError, List<FilmSessionModel>>> getFilmSessions({String filmId='', String sessionId=''});
 }

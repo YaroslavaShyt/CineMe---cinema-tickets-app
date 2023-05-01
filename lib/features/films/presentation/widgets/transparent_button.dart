@@ -7,7 +7,7 @@ class TransparentButton extends StatelessWidget {
   final String rout;
   final String text;
   const TransparentButton({Key? key,
-    required this.rout,
+  this.rout = '',
     required this.text
   }) : super(key: key);
 
@@ -15,7 +15,8 @@ class TransparentButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return OutlinedButton(
         onPressed: (){
-          Beamer.of(context).beamToNamed(rout);
+         // print(rout);
+          rout.isNotEmpty? Beamer.of(context).beamToNamed(rout): print('rout is empty');
         },
         style: OutlinedButton.styleFrom(
           minimumSize: const Size(double.infinity, 50.0),

@@ -9,7 +9,8 @@ abstract class SessionsEvent extends Equatable{
 
 class SessionsInitiateEvent extends SessionsEvent {
   final String filmId;
-  const SessionsInitiateEvent(this.filmId);
+  final String sessionId;
+  const SessionsInitiateEvent({this.filmId='', this.sessionId=''});
 
   @override
   List<Object> get props => [];
