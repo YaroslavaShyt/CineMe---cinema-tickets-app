@@ -22,7 +22,7 @@ class _SessionsPageState extends State<SessionsPage> {
   @override
   void initState() {
     super.initState();
-    print('in sessions page init, ${widget.filmId}');
+  //  print('in sessions page init, ${widget.filmId}');
     sessionsBloc = getItInst<SessionsBloc>(param1: widget.filmId, param2: '');
     sessionsBloc.add(SessionsInitiateEvent(filmId: widget.filmId));
   }
@@ -73,8 +73,7 @@ class _SessionsPageState extends State<SessionsPage> {
                       for (var i = 0; i < filteredDates.length; i++)
                         //if (sessions[i].date > timestampMilliseconds)
                         TransparentButton(
-                            rout:
-                                '${widget.detailsPath}?sessionId=${sessions[i].id}',
+                            onPressed: (){Beamer.of(context).beamToNamed('${widget.detailsPath}?sessionId=${sessions[i].id}');},
                             text: DateTime.fromMillisecondsSinceEpoch(
                                     int.parse(filteredDates[i]) * 1000)
                                 .toString())

@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:cine_me/features/films/data/models/film_session_model.dart';
 
 class BookTicketDialog extends StatelessWidget {
-  final String sessionId;
-  final List<String> seats;
+  final String result1;
+  final String result2;
   const BookTicketDialog({Key? key,
-    required this.sessionId,
-    required this.seats}) : super(key: key);
+    required this.result1,
+    required this.result2}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return  AlertDialog(
-      title: Text(sessionId),
-      content: Text(seats.toString()),
+      title: Text(result1),
+      content: Text(result2),
       actions: [
         TextButton(
           child: const Text("OK"),

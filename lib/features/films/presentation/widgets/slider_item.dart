@@ -36,7 +36,9 @@ class MySliderItem extends StatelessWidget {
         ),
         const SizedBox(height: 30.0),
         Padding(padding: const EdgeInsets.fromLTRB(10, 0, 10, 10), child:
-        TransparentButton(rout: '$detailsPath?filmName=${filmModel.name}', text: 'Деталі',),
+        TransparentButton(
+          onPressed: (){Beamer.of(context).beamToNamed('$detailsPath?filmName=${filmModel.name}');},
+          text: 'Деталі',),
         ),
         const SizedBox(height: 10.0),
       ],

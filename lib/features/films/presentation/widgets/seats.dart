@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 
 class Seats extends StatelessWidget {
   final List<FilmSessionModel> seats;
-  const Seats({Key? key, required this.seats}) : super(key: key);
+  final Function(int) onSeatPressed;
+  const Seats({Key? key, required this.seats, required this.onSeatPressed}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,27 +18,32 @@ class Seats extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   for (var j = 0; j < seats[k].room['rows'][i]['seats'].length; j++)
-                   SeatButton(
-                     text: '${seats[k].room['rows'][i]['seats'][j]['index']}',
-                     isActive: seats[k].room['rows'][i]['seats'][j]['isAvailable']
-                   ),
+                    if(seats[k].room['rows'][i]['seats'][j]['isAvailable'])
+                       SeatActiveButton(
+                         text: '${seats[k].room['rows'][i]['index']}${seats[k].room['rows'][i]['seats'][j]['index']}',
+                         onSeatPressed: onSeatPressed,
+                         seatId: seats[k].room['rows'][i]['seats'][j]['id'],
+                       )
+                    else
+                      SeatInactiveButton(text: '${seats[k].room['rows'][i]['index']}${seats[k].room['rows'][i]['seats'][j]['index']}')
                 ],
               ),
         ]);
   }
 }
 
-
-class SeatButton extends StatefulWidget {
+class SeatActiveButton extends StatefulWidget {
   final String text;
-  late bool isActive;
-  SeatButton({Key? key, required this.text, required this.isActive}) : super(key: key);
+  bool isActive = true;
+  final int seatId;
+  final Function(int) onSeatPressed;
+  SeatActiveButton({Key? key, required this.text, required this.onSeatPressed, required this.seatId}) : super(key: key);
 
   @override
-  State<SeatButton> createState() => _SeatButtonState();
+  State<SeatActiveButton> createState() => _SeatActiveButtonState();
 }
 
-class _SeatButtonState extends State<SeatButton> {
+class _SeatActiveButtonState extends State<SeatActiveButton> {
   late Color buttonColor;
 
   @override
@@ -56,9 +62,25 @@ class _SeatButtonState extends State<SeatButton> {
         onPressed: (){
           setState(() {
             widget.isActive = !widget.isActive;
-            widget.isActive ? buttonColor = red : buttonColor = green;
+            widget.isActive ? buttonColor = green : buttonColor = red;
+            widget.onSeatPressed(widget.seatId);
           });
         },
         child: Text(widget.text));
+  }
+}
+
+class SeatInactiveButton extends StatelessWidget {
+  final String text;
+  const SeatInactiveButton({Key? key, required this.text}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+        style: ElevatedButton.styleFrom(
+        minimumSize: const Size(30, 40),
+    backgroundColor: red
+    ), onPressed: () {},
+    child: Text(text),);
   }
 }

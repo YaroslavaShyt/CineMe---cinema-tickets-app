@@ -91,7 +91,7 @@ class _FilmDetailsState extends State<FilmDetails> {
                 Text(films[0].starring),
                 Text(films[0].rating),
                 Text(films[0].plot),
-                TransparentButton(rout: '${widget.detailsPath}?filmId=${films[0].id}',
+                TransparentButton(onPressed: (){Beamer.of(context).beamToNamed('${widget.detailsPath}?filmId=${films[0].id}');},
                     text: 'Переглянути сеанси')
               ]
 

@@ -1,9 +1,13 @@
+import 'package:cine_me/features/account/domain/usecases/get_account.dart';
+import 'package:cine_me/features/account/presentation/bloc/account_bloc.dart';
 import 'package:cine_me/features/authentification/data/datasourses/auth_remote_datasource.dart';
 import 'package:cine_me/features/authentification/domain/usecases/silent_login.dart';
 import 'package:cine_me/features/films/data/datasourses/films_remote_datasourse.dart';
 import 'package:cine_me/features/films/data/repositories/films_repository_imp.dart';
 import 'package:cine_me/features/films/domain/repository/films_repository.dart';
 import 'package:cine_me/features/films/domain/usecases/get_session.dart';
+import 'package:cine_me/features/films/domain/usecases/get_ticket_booked.dart';
+import 'package:cine_me/features/films/presentation/bloc/book_ticket/book_ticket_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart';
 
@@ -43,14 +47,22 @@ Future init() async {
 
 
   getItInst.registerLazySingleton<FilmSessions>(() => FilmSessions(getItInst()));
-
   getItInst.registerFactoryParam<SessionsBloc, String, String>((param1, param2){
   //  print('in session factory');
     return SessionsBloc(filmSessions: getItInst(), filmId: param1, sessionId: param2);
    },
   );
 
+  getItInst.registerLazySingleton<BookedTicket>(() => BookedTicket(getItInst()));
+  getItInst.registerFactoryParam<BookTicketBloc, int, List<int>>((param1, param2){
+    //  print('in session factory');
+    return BookTicketBloc(bookedTicket: getItInst(), sessionId: param1, seats: param2);
+  },
+  );
 
-
+  getItInst.registerLazySingleton<Account>(() => Account(getItInst()));
+  getItInst.registerFactoryParam<AccountBloc, Map<String, dynamic>, String>((param1, param2) {
+    return AccountBloc(account: getItInst(), newUserData: param1);
+  });
 
 }

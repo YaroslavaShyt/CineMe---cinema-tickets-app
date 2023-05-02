@@ -5,7 +5,7 @@ import '../../../authentification/domain/entities/app_error_entity.dart';
 import '../../data/models/film_model.dart';
 import '../repository/films_repository.dart';
 
-class Films extends UseCase<List<FilmModel>>{
+class Films implements UseCase<List<FilmModel>>{
   final FilmsRepository _filmsRepository;
 
   Films(this._filmsRepository);

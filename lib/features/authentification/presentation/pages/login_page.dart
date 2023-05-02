@@ -1,5 +1,4 @@
 import 'package:cine_me/cine_me_app.dart';
-import 'package:cine_me/features/films/presentation/pages/films/films_page.dart';
 import 'package:cine_me/features/authentification/presentation/widgets/custom_bottom_navbar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,7 +17,7 @@ class LogIn extends StatefulWidget {
 class _LogInState extends State<LogIn> {
   @override
   Widget build(BuildContext context) {
-    print('in logIn page');
+  //  print('in logIn page');
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: const CustomAppBar(),

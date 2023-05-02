@@ -1,6 +1,7 @@
 import 'package:cine_me/core/usecases/shared_pref_access_token.dart';
 import 'package:cine_me/features/films/data/models/film_model.dart';
 import 'package:cine_me/features/films/data/models/film_session_model.dart';
+import 'package:cine_me/features/films/data/models/is_ticket_booked.dart';
 import 'package:cine_me/features/films/domain/repository/films_repository.dart';
 import 'package:dartz/dartz.dart';
 import 'package:cine_me/features/authentification/domain/entities/app_error_entity.dart';
@@ -107,4 +108,19 @@ class FilmsRepositoryImpl implements FilmsRepository{
       return const Left(AppError(AppErrorType.api));
   }
 
+  @override
+  Future<Either<AppError, IsTicketBooked>> getIsTicketBooked(int sessionId, List <int> seats) async {
+    print('in implementation: $sessionId, $seats');
+    final accessToken = await getAccessToken();
+    final data = await _filmsRemoteDatasourse.bookTicket(
+        accessToken, sessionId, seats);
+    if (data.isRight()) {
+      final elseData = data.getOrElse(() => {});
+      if (elseData != {}) {
+        return Right(IsTicketBooked(
+            data: elseData['data'], success: elseData['success']));
+      }
+    }
+    return const Left(AppError(AppErrorType.api));
+  }
 }

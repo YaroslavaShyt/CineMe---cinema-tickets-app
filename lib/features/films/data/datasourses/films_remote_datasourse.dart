@@ -11,6 +11,8 @@ abstract class FilmsRemoteDatasourse{
   Future<Either<AppError, Map<String, dynamic>>>
   getFilmSessionsJson(String accessToken, {String filmId='', String sessionId=''});
   String getDateTimeNow();
+  Future<Either<AppError, Map<String, dynamic>>>
+  bookTicket(String accessToken, int sessionId, List<int> seats);
 }
 
 class FilmsRemoteDatasourseImpl implements FilmsRemoteDatasourse{
@@ -58,5 +60,31 @@ class FilmsRemoteDatasourseImpl implements FilmsRemoteDatasourse{
       return Right(data);
     }
     return const Left(AppError(AppErrorType.network));
+  }
+
+  @override
+  Future<Either<AppError, Map<String, dynamic>>>
+  bookTicket(String accessToken, int sessionId, List<int> seats) async{
+ //   print(accessToken);
+ //   print('session id: ${sessionId}\ntype: ${sessionId is int}');
+ //   print('seats: ${seats}\n${seats is List<int>}');
+ //   print(jsonEncode({'seats': seats, 'sessionID':sessionId}));
+    final response = await http.post(Uri.parse(API.apiFilmBookAddress),
+        headers: {'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $accessToken'},
+        body: jsonEncode({
+          'seats': seats,
+          'sessionId': sessionId
+        })
+    );
+  //  print(response.statusCode);
+    if (response.statusCode == 200){
+      final data = jsonDecode(response.body);
+   //   print(data);
+      if(data['success'] == true && data['data'] == true){
+        return Right(data);
+      }
+    }
+    return const Left(AppError(AppErrorType.api));
   }
 }
