@@ -13,11 +13,12 @@ class AccountInitial extends AccountState {}
 
 class AccountSuccess extends AccountState {
   final UserModel user;
+  final Either<AppError, List<TicketModel>> ticketsResponse;
 
-  const AccountSuccess(this.user);
+  const AccountSuccess(this.user, this.ticketsResponse);
 
   @override
-  List<Object> get props => [user];
+  List<Object> get props => [user, ticketsResponse];
 }
 
 class AccountError extends AccountState {

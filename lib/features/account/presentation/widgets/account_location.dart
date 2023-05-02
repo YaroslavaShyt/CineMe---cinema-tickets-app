@@ -1,10 +1,11 @@
+import 'package:cine_me/features/account/presentation/pages/account_page.dart';
 import 'package:flutter/material.dart';
 import 'package:beamer/beamer.dart';
 
 
 
-class BLocation extends BeamLocation<BeamState> {
-  BLocation(super.routeInformation);
+class AccountLocation extends BeamLocation<BeamState> {
+  AccountLocation(super.routeInformation);
   @override
   List<String> get pathPatterns => ['/*'];
 
@@ -14,17 +15,10 @@ class BLocation extends BeamLocation<BeamState> {
       key: ValueKey('account'),
       title: 'Account',
       type: BeamPageType.noTransition,
-      child: RootScreen(),
+      child: AccountPage(detailsPath: '/account/buyticket'),
     ),
 
   ];
 }
 
-class RootScreen extends StatelessWidget {
-  const RootScreen({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return const Center(child: Text('this is account(rout)'));
-  }
-}

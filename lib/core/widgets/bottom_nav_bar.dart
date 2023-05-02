@@ -2,7 +2,7 @@ import 'package:cine_me/core/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:beamer/beamer.dart';
 
-import '../../features/films/presentation/pages/nested_nav_locations/account_location.dart';
+import '../../features/account/presentation/widgets/account_location.dart';
 import '../../features/films/presentation/pages/nested_nav_locations/home_location.dart';
 
 
@@ -32,7 +32,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       initialPath: '/account',
       locationBuilder: (routeInformation, _) {
         if (routeInformation.location!.contains('/account')) {
-          return BLocation(routeInformation);
+          return AccountLocation(routeInformation);
         }
         return NotFound(path: routeInformation.location!);
       },

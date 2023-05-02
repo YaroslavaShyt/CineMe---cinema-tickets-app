@@ -6,5 +6,6 @@ class API{
   static const String apiFilmsAddress = 'https://fs-mt.qwerty123.tech/api/movies';
   static const String apiFilmSessionAddress = 'https://fs-mt.qwerty123.tech/api/movies/sessions';
   static const String apiFilmBookAddress = 'https://fs-mt.qwerty123.tech/api/movies/book';
+  static const String apiUserTicketsAddress = 'http://fs-mt.qwerty123.tech/api/user/tickets';
   static const String secretKey = '2jukqvNnhunHWMBRRVcZ9ZQ9';
 }

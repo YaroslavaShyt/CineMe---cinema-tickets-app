@@ -9,8 +9,8 @@ abstract class AccountEvent extends Equatable{
 }
 
 class AccountInitiateEvent extends AccountEvent {
-  final String search;
-  const AccountInitiateEvent({this.search = ''});
+  final Map<String, dynamic> newUserData;
+  const AccountInitiateEvent({this.newUserData = const {'name':'', 'phoneNumber': ''}});
 
   @override
   List<Object> get props => [];

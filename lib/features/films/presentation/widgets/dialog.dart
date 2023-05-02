@@ -15,7 +15,7 @@ class BookTicketDialog extends StatelessWidget {
       content: Text(result2),
       actions: [
         TextButton(
-          child: const Text("OK"),
+          child: const Text("До оплати:"),
           onPressed: () {
             Navigator.of(context).pop();
           },

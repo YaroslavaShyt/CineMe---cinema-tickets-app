@@ -10,6 +10,6 @@ class Account implements UseCaseAccount{
   Account(this._accountRepository);
 
   @override
-  Future<Either<AppError, UserModel>> call({Map<String, dynamic> newUserData=const {}}) async=>
+  Future<Either<AppError, UserModel>> call({Map<String, dynamic> newUserData=const {'name': '', 'phoneNumber': ''}}) async=>
       _accountRepository.getAccountData(newUserData: newUserData);
 }

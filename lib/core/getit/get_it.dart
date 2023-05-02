@@ -1,4 +1,5 @@
 import 'package:cine_me/features/account/domain/usecases/get_account.dart';
+import 'package:cine_me/features/account/domain/usecases/get_user_tickets.dart';
 import 'package:cine_me/features/account/presentation/bloc/account_bloc.dart';
 import 'package:cine_me/features/authentification/data/datasourses/auth_remote_datasource.dart';
 import 'package:cine_me/features/authentification/domain/usecases/silent_login.dart';
@@ -11,6 +12,9 @@ import 'package:cine_me/features/films/presentation/bloc/book_ticket/book_ticket
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart';
 
+import '../../features/account/data/datasourses/account_remote_datasource.dart';
+import '../../features/account/data/repositories/account_repository_imp.dart';
+import '../../features/account/domain/repository/account_repository.dart';
 import '../../features/authentification/data/repositories/auth_repository_imp.dart';
 import '../../features/authentification/domain/repositories/silent_authentication_repository.dart';
 import '../../features/authentification/presentation/bloc/silent_login_bloc.dart';
@@ -60,9 +64,14 @@ Future init() async {
   },
   );
 
+  getItInst.registerLazySingleton<Tickets>(()=> Tickets(getItInst()));
+  getItInst.registerLazySingleton<AccountRemoteDatasourse>(
+          () =>AccountRemoteDatasourseImpl());
+  getItInst.registerLazySingleton<AccountRepository>(
+          () => AccountRepositoryImp(getItInst()));
   getItInst.registerLazySingleton<Account>(() => Account(getItInst()));
   getItInst.registerFactoryParam<AccountBloc, Map<String, dynamic>, String>((param1, param2) {
-    return AccountBloc(account: getItInst(), newUserData: param1);
+    return AccountBloc(account: getItInst(), newUserData: param1, tickets: getItInst());
   });
 
 }

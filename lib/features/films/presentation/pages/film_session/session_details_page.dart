@@ -11,8 +11,11 @@ import 'package:cine_me/features/films/presentation/widgets/error_widget.dart';
 import '../../widgets/transparent_button.dart';
 
 class SessionDetails extends StatefulWidget {
+  final String detailsPath;
   final String sessionId;
-  const SessionDetails({Key? key, required this.sessionId}) : super(key: key);
+  const SessionDetails({Key? key,
+    required this.sessionId,
+    required this.detailsPath}) : super(key: key);
 
   @override
   State<SessionDetails> createState() => _SessionDetailsState();
