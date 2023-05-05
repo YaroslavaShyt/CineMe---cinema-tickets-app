@@ -15,7 +15,7 @@ class AccountLocation extends BeamLocation<BeamState> {
       key: ValueKey('account'),
       title: 'Account',
       type: BeamPageType.noTransition,
-      child: AccountPage(detailsPath: '/account/buyticket'),
+      child: AccountPage(detailsPath: '/account'),
     ),
 
   ];

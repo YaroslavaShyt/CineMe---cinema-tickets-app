@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 class Seats extends StatelessWidget {
   final List<FilmSessionModel> seats;
-  final Function(int) onSeatPressed;
+  final Function(int, int) onSeatPressed;
   const Seats({Key? key, required this.seats, required this.onSeatPressed}) : super(key: key);
 
   @override
@@ -23,6 +23,7 @@ class Seats extends StatelessWidget {
                          text: '${seats[k].room['rows'][i]['index']}${seats[k].room['rows'][i]['seats'][j]['index']}',
                          onSeatPressed: onSeatPressed,
                          seatId: seats[k].room['rows'][i]['seats'][j]['id'],
+                         price: seats[k].room['rows'][i]['seats'][j]['price'],
                        )
                     else
                       SeatInactiveButton(text: '${seats[k].room['rows'][i]['index']}${seats[k].room['rows'][i]['seats'][j]['index']}')
@@ -36,8 +37,14 @@ class SeatActiveButton extends StatefulWidget {
   final String text;
   bool isActive = true;
   final int seatId;
-  final Function(int) onSeatPressed;
-  SeatActiveButton({Key? key, required this.text, required this.onSeatPressed, required this.seatId}) : super(key: key);
+  final int price;
+  final Function(int, int) onSeatPressed;
+  SeatActiveButton({Key? key,
+    required this.text,
+    required this.onSeatPressed,
+    required this.seatId,
+    required this.price
+  }) : super(key: key);
 
   @override
   State<SeatActiveButton> createState() => _SeatActiveButtonState();
@@ -63,7 +70,7 @@ class _SeatActiveButtonState extends State<SeatActiveButton> {
           setState(() {
             widget.isActive = !widget.isActive;
             widget.isActive ? buttonColor = green : buttonColor = red;
-            widget.onSeatPressed(widget.seatId);
+            widget.onSeatPressed(widget.seatId, widget.price);
           });
         },
         child: Text(widget.text));

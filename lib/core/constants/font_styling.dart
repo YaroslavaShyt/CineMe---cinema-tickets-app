@@ -1,3 +1,4 @@
+import 'package:cine_me/core/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 class BoldFont extends StatelessWidget {
@@ -14,3 +15,34 @@ class BoldFont extends StatelessWidget {
     );
   }
 }
+
+const notoSansDisplayRegularLarge = TextStyle(
+  fontFamily: 'NotoSansDisplay',
+  fontSize: 30,
+  color: white
+);
+
+const notoSansDisplayRegularMedium = TextStyle(
+    fontFamily: 'NotoSansDisplay',
+    fontSize: 25,
+    color: white
+);
+
+const notoSansDisplayRegularSmall = TextStyle(
+    fontFamily: 'NotoSansDisplay',
+    fontSize: 20,
+    color: white
+);
+
+const notoSansDisplayRegularTiny = TextStyle(
+    fontFamily: 'NotoSansDisplay',
+    fontSize: 15,
+    color: white
+);
+
+const notoSansDisplayBoldLarge = TextStyle(
+  fontFamily: 'NotoSansDisplay',
+  fontWeight: FontWeight.w600,
+  fontSize: 30,
+  color: white
+);

@@ -13,6 +13,9 @@ abstract class FilmsRemoteDatasourse{
   String getDateTimeNow();
   Future<Either<AppError, Map<String, dynamic>>>
   bookTicket(String accessToken, int sessionId, List<int> seats);
+  Future<Either<AppError, Map<String, dynamic>>>
+  buyTicket(String accessToken, int sessionId, List<int> seats,
+      String email, String cardNumber, String expirationDate, String cvv);
 }
 
 class FilmsRemoteDatasourseImpl implements FilmsRemoteDatasourse{
@@ -82,6 +85,50 @@ class FilmsRemoteDatasourseImpl implements FilmsRemoteDatasourse{
       final data = jsonDecode(response.body);
    //   print(data);
       if(data['success'] == true && data['data'] == true){
+        return Right(data);
+      }
+    }
+    return const Left(AppError(AppErrorType.api));
+  }
+
+  @override
+  Future<Either<AppError, Map<String, dynamic>>>
+  buyTicket(String accessToken,
+      int sessionId,
+      List<int> seats,
+      String email,
+      String cvv,
+      String cardNumber,
+      String expirationDate,
+     ) async{
+       print(accessToken);
+       print('session id: ${sessionId}\ntype: ${sessionId is int}');
+       print('seats: ${seats}\n${seats is List<int>}');
+       print('email: ${email}\n${email is String}');
+       print('cardNumber: ${cardNumber}\n${cardNumber is String}');
+       print('expirationDate: ${expirationDate}\n${expirationDate is String}');
+       print('cvv: ${cvv}\n${cvv is String}');
+    //   print(jsonEncode({'seats': seats, 'sessionID':sessionId}));
+    var newCvv = jsonEncode(cvv);
+    final response = await http.post(Uri.parse(API.apiFilmBuyAddress),
+           headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer $accessToken'},
+           body: jsonEncode({
+              'sessionId': sessionId,
+              'seats': seats,
+              'email': email,
+              'cardNumber': cardNumber.toString(),
+              'expirationDate': expirationDate,
+              'cvv': cvv
+           })
+    );
+    print('in buying: ${response.statusCode}');
+    print('errorType: ${response.body}');
+    if (response.statusCode == 200){
+      final data = jsonDecode(response.body);
+      print('in buying $data');
+      if(data['success'] == true){
         return Right(data);
       }
     }

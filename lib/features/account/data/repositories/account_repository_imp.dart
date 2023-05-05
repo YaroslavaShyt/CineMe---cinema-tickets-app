@@ -37,19 +37,22 @@ class AccountRepositoryImp implements AccountRepository{
     final accessToken = await getAccessToken();
     final data = await _accountRemoteDatasourse.getUserTicketsJson(accessToken);
     if(data.isRight()){
+      print('in if');
       final elseData = data.getOrElse(() => {});
       if (elseData != {}){
         final mapData = elseData['data'];
         for (var i = 0; i < mapData.length; i++){
+          print('йобаний проект тут: ${mapData[i]['id'] is int}');
           ticketsList.add(TicketModel(
-              id: mapData['id'],
-              movieId: mapData['movieId'],
-              name: mapData['name'],
-              image: mapData['image'],
-              smallImage: mapData['smallImage'],
-              date: mapData['date']
+              id: mapData[i]['id'],
+              movieId: mapData[i]['movieId'],
+              name: mapData[i]['name'],
+              image: mapData[i]['image'],
+              smallImage: mapData[i]['smallImage'],
+              date: mapData[i]['date']
           ));
         }
+        print(ticketsList);
         return Right(ticketsList);
       }
     }

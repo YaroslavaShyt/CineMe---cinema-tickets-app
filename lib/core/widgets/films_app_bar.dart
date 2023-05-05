@@ -11,10 +11,15 @@ class FilmsAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: const Padding(
-          padding: EdgeInsets.fromLTRB(5, 30, 0, 20),
-          child: BoldFont(title: 'Афiша')),
-      actions: <Widget>[
+      title: Padding(
+          padding: const EdgeInsets.fromLTRB(5, 30, 0, 20),
+          child: Row(children: [
+          ClipRRect(
+          borderRadius: BorderRadius.circular(10.0),
+          child: const Image(image: AssetImage('assets/images/logo.png'), height: 50,)),
+            const SizedBox(width: 10,),
+            const Text('Афiша', style: notoSansDisplayRegularLarge)])),
+   /*   actions: <Widget>[
         Padding(
             padding: const EdgeInsets.fromLTRB(0, 15, 15, 20),
             child: IconButton(
@@ -23,13 +28,13 @@ class FilmsAppBar extends StatelessWidget implements PreferredSizeWidget {
                   Icons.menu,
                   size: 30,
                 )))
-      ],
+      ],*/
       bottom: PreferredSize(
         preferredSize: const Size.fromHeight(4.0),
         child: SizedBox(
-            height: 1.0,
+            height: 4.0,
             child: Container(
-              color: white,
+              color: red,
           ),
         ),
       ),

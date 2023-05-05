@@ -1,6 +1,7 @@
 import 'package:cine_me/core/usecases/shared_pref_access_token.dart';
 import 'package:cine_me/features/films/data/models/film_model.dart';
 import 'package:cine_me/features/films/data/models/film_session_model.dart';
+import 'package:cine_me/features/films/data/models/is_payment_success_model.dart';
 import 'package:cine_me/features/films/data/models/is_ticket_booked.dart';
 import 'package:cine_me/features/films/domain/repository/films_repository.dart';
 import 'package:dartz/dartz.dart';
@@ -118,6 +119,26 @@ class FilmsRepositoryImpl implements FilmsRepository{
       final elseData = data.getOrElse(() => {});
       if (elseData != {}) {
         return Right(IsTicketBooked(
+            data: elseData['data'], success: elseData['success']));
+      }
+    }
+    return const Left(AppError(AppErrorType.api));
+  }
+
+  @override
+  Future<Either<AppError, IsPaymentSuccess>>
+  getIsPaymentSuccess(int sessionId, List <int> seats, String email, String cvv, String cardNumber, String expirationDate) async {
+  //  print('in implementation: $sessionId, $seats');
+    final accessToken = await getAccessToken();
+    print('in repository impl:');
+    print('sessionId: ${sessionId}\nseats:${seats}\nemail${email}'
+        '\ncardNumber:${cardNumber}\ncvv:${cvv}\nexpire:${expirationDate}');
+    final data = await _filmsRemoteDatasourse.buyTicket(
+        accessToken, sessionId, seats, email, cvv, cardNumber, expirationDate);
+    if (data.isRight()) {
+      final elseData = data.getOrElse(() => {});
+      if (elseData != {}) {
+        return Right(IsPaymentSuccess(
             data: elseData['data'], success: elseData['success']));
       }
     }

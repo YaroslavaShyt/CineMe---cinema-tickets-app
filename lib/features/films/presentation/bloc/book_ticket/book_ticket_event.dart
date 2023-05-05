@@ -10,7 +10,8 @@ abstract class BookTicketEvent extends Equatable{
 class BookTicketInitiateEvent extends BookTicketEvent {
   final int sessionId;
   final List<int> seats;
-  const BookTicketInitiateEvent({this.sessionId=0, this.seats=const []});
+  final int price;
+  const BookTicketInitiateEvent({this.sessionId=0, this.seats=const [], this.price = 0});
 
   @override
   List<Object> get props => [];

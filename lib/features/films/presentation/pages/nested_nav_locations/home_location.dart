@@ -60,9 +60,10 @@ class HomeLocation extends BeamLocation<BeamState> {
           BeamPage(
             key: const ValueKey('home/details/sessions/session/buyticket'),
             child: BuyTicketPage(
+              totalToPay: int.parse(state.queryParameters['totalToPay']!),
               detailsPath: 'home/details/sessions/session/buyticket',
               sessionId: int.parse(state.queryParameters['sessionId']!),
-              seats: state.queryParameters['sessionId']?.split(',').map((e) => int.parse(e)).toList() ?? [0],
+              seats: state.queryParameters['seats']?.split(',').map((e) => int.parse(e)).toList() ?? [0],
             )
           )
       ];

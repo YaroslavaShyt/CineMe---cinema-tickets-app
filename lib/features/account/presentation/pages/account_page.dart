@@ -49,6 +49,7 @@ class _AccountPageState extends State<AccountPage> {
                     final account = state.user;
                     final tickets = state.ticketsResponse.map((value) => value);
                     final ticketsList = tickets.getOrElse(() => []);
+                    print('in account page: $ticketsList');
                     {
                       return SafeArea(
                         child: Column(children: [
@@ -113,13 +114,15 @@ class _AccountPageState extends State<AccountPage> {
                               },
                               icon: const Icon(Icons.edit)),
                           if (ticketsList.isNotEmpty)
-                            ListView(
-                              children: [
-                                  for (var i = 0; i < tickets.length(); i++)
-                                    Text(
-                                        '${ticketsList[i].id}\n${ticketsList[i].name}')
-                              ],
-                            )
+                              SizedBox(
+                              height: 200, // set a fixed height
+                              child: ListView(
+                                children: [
+                                    for (var i = 0; i < ticketsList.length; i++)
+                                      Text(
+                                          '${ticketsList[i].id}\n${ticketsList[i].name}')
+                                ],
+                            ))
                         ]),
                       );
                     }

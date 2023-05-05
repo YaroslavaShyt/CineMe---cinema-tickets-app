@@ -6,6 +6,7 @@ import 'package:cine_me/features/authentification/domain/usecases/silent_login.d
 import 'package:cine_me/features/films/data/datasourses/films_remote_datasourse.dart';
 import 'package:cine_me/features/films/data/repositories/films_repository_imp.dart';
 import 'package:cine_me/features/films/domain/repository/films_repository.dart';
+import 'package:cine_me/features/films/domain/usecases/buy_ticket.dart';
 import 'package:cine_me/features/films/domain/usecases/get_session.dart';
 import 'package:cine_me/features/films/domain/usecases/get_ticket_booked.dart';
 import 'package:cine_me/features/films/presentation/bloc/book_ticket/book_ticket_bloc.dart';
@@ -19,6 +20,7 @@ import '../../features/authentification/data/repositories/auth_repository_imp.da
 import '../../features/authentification/domain/repositories/silent_authentication_repository.dart';
 import '../../features/authentification/presentation/bloc/silent_login_bloc.dart';
 import '../../features/films/domain/usecases/get_films.dart';
+import '../../features/films/presentation/bloc/buy_ticket/buy_ticket_bloc.dart';
 import '../../features/films/presentation/bloc/films/films_bloc.dart';
 import '../../features/films/presentation/bloc/film_session/sessions_bloc.dart';
 
@@ -73,5 +75,11 @@ Future init() async {
   getItInst.registerFactoryParam<AccountBloc, Map<String, dynamic>, String>((param1, param2) {
     return AccountBloc(account: getItInst(), newUserData: param1, tickets: getItInst());
   });
+
+  getItInst.registerLazySingleton<BoughtTicket>(() => BoughtTicket(getItInst()));
+  getItInst.registerFactory<BuyTicketBloc>(
+        () => BuyTicketBloc(boughtTicket: getItInst(),),
+  );
+
 
 }
