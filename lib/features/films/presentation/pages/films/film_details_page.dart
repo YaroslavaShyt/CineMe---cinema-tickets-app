@@ -59,7 +59,7 @@ class _FilmDetailsState extends State<FilmDetails> {
                     if (films.isEmpty) {
                       return const ErrorPage();
                     }
-                    videoUrl = YoutubePlayer.convertUrlToId(films[0].trailer)!;
+                  //  videoUrl = YoutubePlayer.convertUrlToId(films[0].trailer)!;
                     return FilmDetailsWidget(
                       films: films,
                       detailsPath: widget.detailsPath,

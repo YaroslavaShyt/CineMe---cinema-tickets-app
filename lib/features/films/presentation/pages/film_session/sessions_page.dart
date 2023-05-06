@@ -9,9 +9,10 @@ import 'package:cine_me/core/constants/font_styling.dart';
 
 
 class SessionsPage extends StatefulWidget {
+  final String filmName;
   final String filmId;
   final String detailsPath;
-  const SessionsPage({Key? key, required this.filmId, required this.detailsPath}) : super(key: key);
+  const SessionsPage({Key? key, required this.filmId, required this.detailsPath, required this.filmName}) : super(key: key);
 
   @override
   State<SessionsPage> createState() => _SessionsPageState();
@@ -92,7 +93,7 @@ class _SessionsPageState extends State<SessionsPage> {
                                         if (sessions[j].date == filteredDates[i])
                                           OutlinedButton(
                                             onPressed: () {
-                                              Beamer.of(context).beamToNamed('${widget.detailsPath}?sessionId=${sessions[j].id}');
+                                              Beamer.of(context).beamToNamed('${widget.detailsPath}?sessionId=${sessions[j].id}&filmName=${widget.filmName}');
                                             },
                                             style: OutlinedButton.styleFrom(
                                               backgroundColor: red,),
@@ -117,7 +118,7 @@ class _SessionsPageState extends State<SessionsPage> {
                                   if (sessions[j].date == filteredDates[i])
                                     OutlinedButton(
                                       onPressed: () {
-                                        Beamer.of(context).beamToNamed('${widget.detailsPath}?sessionId=${sessions[j].id}');
+                                        Beamer.of(context).beamToNamed('${widget.detailsPath}?sessionId=${sessions[j].id}&filmName=${widget.filmName}');
                                       },
                                       style: OutlinedButton.styleFrom(
                                         backgroundColor: red,),

@@ -39,6 +39,7 @@ class HomeLocation extends BeamLocation<BeamState> {
               key: const ValueKey('home/details/sessions'),
               child: SessionsPage(
                   filmId: state.queryParameters['filmId'] ?? '',
+                  filmName: state.queryParameters['filmName'] ?? '',
                   detailsPath: '/home/details/sessions/session'))
         else if (state.uri.pathSegments.length == 4 &&
             state.uri.pathSegments[0] == 'home' &&
@@ -48,6 +49,7 @@ class HomeLocation extends BeamLocation<BeamState> {
           BeamPage(
               key: const ValueKey('home/details/sessions/session'),
               child: SessionDetails(
+                  filmName: state.queryParameters['filmName'] ?? '',
                 detailsPath: '/home/details/sessions/session/buyticket',
                   sessionId:
                       state.queryParameters['sessionId']?.toString() ?? ''))
@@ -60,6 +62,10 @@ class HomeLocation extends BeamLocation<BeamState> {
           BeamPage(
             key: const ValueKey('home/details/sessions/session/buyticket'),
             child: BuyTicketPage(
+              cinemaName: state.queryParameters['cinemaName'] ?? '',
+              filmName: state.queryParameters['filmName'] ?? '',
+              date: state.queryParameters['date'] ?? '',
+              type: state.queryParameters['type'] ?? '',
               totalToPay: int.parse(state.queryParameters['totalToPay']!),
               detailsPath: 'home/details/sessions/session/buyticket',
               sessionId: int.parse(state.queryParameters['sessionId']!),

@@ -3,19 +3,23 @@ import 'package:cine_me/features/films/presentation/bloc/book_ticket/book_ticket
 import 'package:cine_me/features/films/presentation/bloc/film_session/sessions_bloc.dart';
 import 'package:cine_me/features/films/presentation/widgets/dialog.dart';
 import 'package:cine_me/features/films/presentation/widgets/seats.dart';
+import 'package:cine_me/features/films/presentation/widgets/session_details_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cine_me/core/constants/colors.dart';
 import 'package:cine_me/features/films/presentation/widgets/transparent_button.dart';
 import 'package:cine_me/core/widgets/error_widget.dart';
 import 'package:cine_me/core/constants/font_styling.dart';
+import 'package:cine_me/features/films/presentation/widgets/screen_painter.dart';
+
 
 class SessionDetails extends StatefulWidget {
+  final String filmName;
   final String detailsPath;
   final String sessionId;
-  const SessionDetails({Key? key,
-    required this.sessionId,
-    required this.detailsPath}) : super(key: key);
+  const SessionDetails(
+      {Key? key, required this.sessionId, required this.detailsPath, required this.filmName})
+      : super(key: key);
 
   @override
   State<SessionDetails> createState() => _SessionDetailsState();
@@ -25,6 +29,7 @@ class _SessionDetailsState extends State<SessionDetails> {
   late final SessionsBloc sessionsBloc;
   late final BookTicketBloc bookTicketBloc;
   List<int> seats = [];
+  List<int> seatsNumbers = [];
   int totalToPay = 0;
 
   @override
@@ -45,13 +50,15 @@ class _SessionDetailsState extends State<SessionDetails> {
     bookTicketBloc.close();
   }
 
-  void _onSeatPressed(int seatNumber, int price) {
+  void _onSeatPressed(int seatId, int seatNumber, int price) {
     setState(() {
-      if (seats.contains(seatNumber)) {
-        seats.remove(seatNumber);
+      if (seats.contains(seatId)) {
+        seats.remove(seatId);
+        seatsNumbers.remove(seatNumber);
         totalToPay -= price;
       } else {
-        seats.add(seatNumber);
+        seats.add(seatId);
+        seatsNumbers.add(seatNumber);
         totalToPay += price;
       }
     });
@@ -92,9 +99,11 @@ class _SessionDetailsState extends State<SessionDetails> {
                                     totalToPay: totalToPay.toString(),
                                     sessionId: widget.sessionId,
                                     seats: seats.join(','),
-                                    detailsPath: widget.detailsPath,
-                                      result:
-                                    state.isTicketBooked.success.toString(),
+                                    seatsNumbers: seatsNumbers.join(','),
+                                    detailsPath: '${widget.detailsPath}?cinemaName=${session[0].room['name']}'
+                                        '&filmName=${widget.filmName}&date=${session[0].date}&type=${session[0].type}',
+                                    result:
+                                        state.isTicketBooked.success.toString(),
                                   );
                                 },
                               );
@@ -102,44 +111,47 @@ class _SessionDetailsState extends State<SessionDetails> {
                           },
                         ),
                       ],
-                      child:Column(
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      const Padding(
-                          padding: EdgeInsets.only(top: 10, left: 10),
-                          child: Text('Оберіть місце', style: notoSansDisplayRegularMedium,)),
-
-
-                      Seats(
-                        seats: session,
-                        onSeatPressed: _onSeatPressed,
-                      ),
-                      Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                      Text(
-                        'Обрано: ${seats.toString()}',
-                        style: notoSansDisplayRegularSmall,
-                      ),
-                      Text('До сплати: $totalToPay',
-                        style: notoSansDisplayRegularSmall,
-                      ),]),
-                      CustomButton(
-                        text: 'Обрати',
-                        onPressed: () {
-                          context.read<BookTicketBloc>().add(
-                              BookTicketInitiateEvent(
-                                  seats: seats,
-                                  sessionId: int.parse(widget.sessionId),
-                                  price: totalToPay
-                              ));
-                        },
-                      )
-                    ],
-                  ));
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SessionDetailsHead(date: session[0].date, type: session[0].type, name: session[0].room['name']),
+                          const SeatTypesRow(),
+                          CustomPaint(
+                            painter: UpwardArcPainter(),
+                            child: const SizedBox(
+                              height: 50,
+                              width: double.maxFinite,
+                              child: Center(
+                                  child: Text('Екран',
+                                style: notoSansDisplayRegularTiny,
+                              )),
+                            ),
+                          ),
+                          Center(child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Seats(
+                                seats: session,
+                                onSeatPressed: _onSeatPressed,
+                              ))),
+                          SessionDetailsTail(seatsNumbers: seatsNumbers, totalToPay: totalToPay),
+                          Padding(padding: const EdgeInsets.only(left: 20, right: 20),
+                              child: CustomButton(
+                                text: 'Обрати',
+                                onPressed: () {
+                                  context.read<BookTicketBloc>().add(
+                                      BookTicketInitiateEvent(
+                                          seats: seats,
+                                          sessionId:
+                                              int.parse(widget.sessionId),
+                                          price: totalToPay));
+                                },
+                              ))
+                        ],
+                      ));
                 }
-                return const CircularProgressIndicator();
+                return const Center(
+                    child: CircularProgressIndicator(color: white));
               }),
           backgroundColor: lightBlack,
         ));
