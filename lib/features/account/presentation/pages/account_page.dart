@@ -16,8 +16,8 @@ class _AccountPageState extends State<AccountPage> {
   late AccountBloc accountBloc;
   final TextEditingController _controller1 = TextEditingController();
   final TextEditingController _controller2 = TextEditingController();
-  late String _newName;
-  late String _newPhoneNumber;
+  late String _newName = '';
+  late String _newPhoneNumber = '';
 
   @override
   void initState() {
@@ -49,9 +49,7 @@ class _AccountPageState extends State<AccountPage> {
                     final account = state.user;
                     final tickets = state.ticketsResponse.map((value) => value);
                     final ticketsList = tickets.getOrElse(() => []);
-                    print('in account page: $ticketsList');
-                    {
-                      return SafeArea(
+                    {return SafeArea(
                         child: Column(children: [
                           Column(
                             children: [
@@ -92,8 +90,6 @@ class _AccountPageState extends State<AccountPage> {
                                                   'name': _newName,
                                                   'phoneNumber': _newPhoneNumber
                                                 }));
-                                            print(
-                                                'name: ${_controller1.text}, phoneNumber: ${_controller2.text}');
                                             Navigator.of(context).pop();
                                           },
                                         ),

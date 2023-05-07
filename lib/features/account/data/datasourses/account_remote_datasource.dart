@@ -20,21 +20,28 @@ class AccountRemoteDatasourseImpl implements AccountRemoteDatasourse{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? accessToken = prefs.getString('accessToken');
     var response;
-    print('error is here, ${newUserData['name']}');
+    var data;
     if(newUserData['name'].isEmpty && newUserData['phoneNumber'].isEmpty) {
-      print('works');
        response = await http.get(Uri.parse(API.apiUserAddress),
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
             'Authorization': 'Bearer $accessToken',
           });
     }else{
-      print('have data: ${newUserData}');
+      if(newUserData['name'].isNotEmpty && newUserData['phoneNumber'].isNotEmpty){
+        data = {'name': newUserData['name'], 'phoneNumber': newUserData['phoneNumber']};
+      }
+      else if(newUserData['name'].isEmpty && newUserData['phoneNumber'].isNotEmpty){
+        data = {'phoneNumber': newUserData['phoneNumber']};
+      }
+      else if(newUserData['name'].isNotEmpty && newUserData['phoneNumber'].isEmpty){
+        data = {'name': newUserData['name']};
+      }
       response = await http.post(Uri.parse(API.apiUserAddress),
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
             'Authorization': 'Bearer $accessToken',},
-          body: jsonEncode({'name': newUserData['name'], 'phoneNumber': newUserData['phoneNumber']})
+          body: jsonEncode(data)
       );
     }
     if (response.statusCode == 200) {

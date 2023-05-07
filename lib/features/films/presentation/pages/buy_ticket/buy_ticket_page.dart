@@ -1,10 +1,9 @@
 import 'package:beamer/beamer.dart';
 import 'package:cine_me/core/constants/colors.dart';
-import 'package:cine_me/core/constants/font_styling.dart';
 import 'package:cine_me/core/getit/get_it.dart';
 import 'package:cine_me/features/films/presentation/bloc/buy_ticket/buy_ticket_bloc.dart';
+import 'package:cine_me/features/films/presentation/widgets/dialog.dart';
 import 'package:cine_me/features/films/presentation/widgets/text_field_widget.dart';
-import 'package:cine_me/features/films/presentation/widgets/transparent_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,10 +19,10 @@ class BuyTicketPage extends StatefulWidget {
 
   const BuyTicketPage(
       {Key? key,
-        required this.filmName,
-        required this.type,
-        required this.date,
-        required this.cinemaName,
+      required this.filmName,
+      required this.type,
+      required this.date,
+      required this.cinemaName,
       required this.totalToPay,
       required this.detailsPath,
       required this.sessionId,
@@ -57,69 +56,71 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
               listener: (context, state) {},
               builder: (context, state) {
                 if (state is BuyTicketError) {
-                  return const Text('error');
-                } else if (state is BuyTicketSuccess) {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                            title: Text('Операція: ${state.result.success}'),
-                            content: Text('data ${state.result.data}'),
-                            actions: [
-                              TextButton(
-                                  child: const Text("У кабінет"),
-                                  onPressed: () {
-                                    Beamer.of(context).beamToNamed('/account');
-                                  })
-                            ]);
-                      });
-                }
-                return SafeArea(
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                      Text(
-                        'sessionId: ${widget.filmName}',
-                        style: notoSansDisplayBoldSmall,
-                      ),
-                          Text(
-                            'sessionId: ${widget.type}',
-                            style: notoSansDisplayBoldSmall,
-                          ),
-                          Text(
-                            'sessionId: ${widget.date}',
-                            style: notoSansDisplayBoldSmall,
-                          ),
-                      Text(
-                        'seats: ${widget.cinemaName}',
-                        style: notoSansDisplayBoldSmall,
-                      ),
-                      CustomTextField(
-                          controller: _emailController, title: 'Email'),
-                      CustomTextField(
-                          controller: _cardNumberController,
-                          title: 'Номер картки'),
-                      CustomTextField(
-                          controller: _expirationDate, title: 'Дійсна до'),
-                      CustomTextField(controller: _cvvController, title: 'CVV'),
-                      Text(
-                        'Всього до оплати: ${widget.totalToPay} грн',
-                        style: notoSansDisplayBoldSmall,
-                      ),
-                      Padding(
-                          padding: const EdgeInsets.only(left: 20, right: 20),
-                          child: CustomButton(
-                              text: 'Оплатити',
+                  WidgetsBinding.instance?.addPostFrameCallback((_) {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return CustomAlertDialog(
                               onPressed: () {
-                                buyTicketBloc.add(BuyTicketInitiateEvent(
-                                    seats: widget.seats,
-                                    sessionId: widget.sessionId,
-                                    email: _emailController.text,
-                                    cardNumber: _cardNumberController.text,
-                                    expireDate: _expirationDate.text,
-                                    cvv: _cvvController.text));
-                              })),
-                    ]));
+                                Navigator.of(context).pop();
+                              },
+                              body: 'Кіна не буде :(',
+                              success: 'Операція не успішна!',
+                              buttonText: "Сумно");
+                        });
+                  });
+                } else if (state is BuyTicketSuccess) {
+                  WidgetsBinding.instance?.addPostFrameCallback((_) {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return CustomAlertDialog(
+                              onPressed: () {
+                                Beamer.of(context).beamToNamed('/account');
+                              },
+                              body: 'Приємного кіно :)',
+                              success: 'Операція успішна!',
+                              buttonText: "Дякую!");
+                        });
+                  });
+                }
+                return PaymentForm(
+                    filmName: widget.filmName,
+                    type: widget.type,
+                    cinemaName: widget.cinemaName,
+                    date: widget.date,
+                    emailController: _emailController,
+                    totalToPay: widget.totalToPay,
+                    onPressed: () {
+                      if (_emailController.text.isEmpty ||
+                          _cardNumberController.text.isEmpty ||
+                          _cvvController.text.isEmpty ||
+                          _expirationDate.text.isEmpty) {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return CustomAlertDialog(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  body: '',
+                                  success: 'Заповніть усі поля!',
+                                  buttonText: "Добре");
+                            });
+                      } else {
+                        buyTicketBloc.add(BuyTicketInitiateEvent(
+                            seats: widget.seats,
+                            sessionId: widget.sessionId,
+                            email: _emailController.text,
+                            cardNumber:
+                                _cardNumberController.text.replaceAll(' ', ''),
+                            expireDate: _expirationDate.text,
+                            cvv: _cvvController.text));
+                      }
+                    },
+                    expirationDate: _expirationDate,
+                    cardNumberController: _cardNumberController,
+                    cvvController: _cvvController);
               }),
         ));
   }

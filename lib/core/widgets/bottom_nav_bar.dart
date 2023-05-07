@@ -67,7 +67,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         currentIndex: _currentIndex,
         items: const [
           BottomNavigationBarItem(label: 'Афіша', icon: Icon(Icons.movie_creation_outlined, color: white,)),
-          BottomNavigationBarItem(label: 'Аккаунт', icon: Icon(Icons.account_circle, color: white,)),
+          BottomNavigationBarItem(label: 'Акаунт', icon: Icon(Icons.account_circle, color: white,)),
         ],
         onTap: (index) {
           if (index != _currentIndex) {

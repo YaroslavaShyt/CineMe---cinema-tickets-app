@@ -3,7 +3,6 @@ import 'package:cine_me/core/constants/colors.dart';
 import 'package:cine_me/core/constants/font_styling.dart';
 import 'package:cine_me/features/films/presentation/widgets/transparent_button.dart';
 import 'package:flutter/material.dart';
-import 'package:cine_me/features/films/data/models/film_session_model.dart';
 
 class BookTicketDialog extends StatelessWidget {
   final String totalToPay;
@@ -39,3 +38,28 @@ class BookTicketDialog extends StatelessWidget {
     );
   }
 }
+
+class CustomAlertDialog extends StatelessWidget {
+  final String success;
+  final String body;
+  final String buttonText;
+  final VoidCallback onPressed;
+  const CustomAlertDialog({Key? key, required this.onPressed,
+    required this.body,
+    required this.success,
+    required this.buttonText}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      backgroundColor: lightBlack,
+        title: Text(success, style: notoSansDisplayBoldSmall,),
+        content: Text(body, style: notoSansDisplayRegularTiny,),
+        actions: [
+          TextButton(
+              onPressed: onPressed,
+              child: Center(child: Text(buttonText, style: notoSansDisplayRegularTiny,)))
+        ]);
+  }
+}
+

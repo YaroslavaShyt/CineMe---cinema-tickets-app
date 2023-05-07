@@ -142,14 +142,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_animate:
-    dependency: "direct main"
-    description:
-      name: flutter_animate
-      sha256: f611a67082d4c5ff9b8b7737ec7e675a22af70a94c8c3c22109f14b078d4d2bf
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.1.1+1"
   flutter_bloc:
     dependency: "direct main"
     description:
@@ -248,6 +240,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.1"
+  mask_text_input_formatter:
+    dependency: transitive
+    description:
+      name: mask_text_input_formatter
+      sha256: "19bb7809c3c2559277e95521b3ee421e1409eb2cc85efd2feb191696c92490f4"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.0"
+  masked_text:
+    dependency: "direct main"
+    description:
+      name: masked_text
+      sha256: dc3467eb5a128f9a4767023c10279ea522788fb90fd126a2b49fd858df576e65
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.2"
   matcher:
     dependency: transitive
     description:
