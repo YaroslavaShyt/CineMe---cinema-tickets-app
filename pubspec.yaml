@@ -30,7 +30,7 @@ dependencies:
   flutter_inappwebview: ^5.7.2+3
   youtube_player_flutter: ^8.1.2
   masked_text: ^1.1.2
-
+  barcode_widget: ^2.0.3
 
 
 dev_dependencies:

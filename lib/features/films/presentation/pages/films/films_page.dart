@@ -39,7 +39,7 @@ class _FilmsPageState extends State<FilmsPage> {
         providers: [BlocProvider(create: (context) => filmsBloc)],
         child: Scaffold(
             backgroundColor: lightBlack,
-            appBar: const FilmsAppBar(),
+            appBar: const FilmsAppBar(title: 'Афіша',),
             body: BlocConsumer<FilmsBloc, FilmsState>(
                 listener: (context, state) {},
               builder: (context, state) {

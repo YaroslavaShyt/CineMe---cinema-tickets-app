@@ -60,3 +60,10 @@ const notoSansDisplayBoldSmall = TextStyle(
     fontSize: 20,
     color: white
 );
+
+const notoSansDisplayBoldTiny = TextStyle(
+    fontFamily: 'NotoSansDisplay',
+    fontWeight: FontWeight.w600,
+    fontSize: 15,
+    color: white
+);

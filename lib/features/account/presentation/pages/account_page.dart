@@ -1,8 +1,13 @@
+import 'package:cine_me/core/constants/colors.dart';
 import 'package:cine_me/core/getit/get_it.dart';
-import 'package:cine_me/features/account/data/models/ticket_model.dart';
+import 'package:cine_me/core/widgets/error_widget.dart';
+import 'package:cine_me/core/widgets/films_app_bar.dart';
 import 'package:cine_me/features/account/presentation/bloc/account_bloc.dart';
+import 'package:cine_me/features/account/presentation/widgets/account_page_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:cine_me/core/constants/font_styling.dart';
+
 
 class AccountPage extends StatefulWidget {
   final String detailsPath;
@@ -40,90 +45,108 @@ class _AccountPageState extends State<AccountPage> {
     return MultiBlocProvider(
         providers: [BlocProvider(create: (context) => accountBloc)],
         child: Scaffold(
+            backgroundColor: lightBlack,
+            appBar: const FilmsAppBar(title: 'Акаунт',),
             body: BlocConsumer<AccountBloc, AccountState>(
                 listener: (context, state) {},
                 builder: (context, state) {
                   if (state is AccountError) {
-                    return const Text('Отакої, виникла помилка!');
+                    return const ErrorPage();
                   } else if (state is AccountSuccess) {
                     final account = state.user;
                     final tickets = state.ticketsResponse.map((value) => value);
                     final ticketsList = tickets.getOrElse(() => []);
-                    {return SafeArea(
-                        child: Column(children: [
-                          Column(
+                    {
+                      return SafeArea(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Text(account.name),
-                              Text(account.phoneNumber)
-                            ],
-                          ),
-                          IconButton(
-                              onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: const Text('Alert'),
-                                      content: Column(
-                                        children: [
-                                          TextFormField(
-                                            controller: _controller1,
-                                            onChanged: (text) {
-                                              _newName = text;
-                                            },
-                                          ),
-                                          TextFormField(
-                                            controller: _controller2,
-                                            onChanged: (text) {
-                                              _newPhoneNumber = text;
-                                            },
-                                          )
-                                        ],
-                                      ),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          child: const Text('Зберегти'),
-                                          onPressed: () {
-                                            accountBloc.add(
-                                                AccountInitiateEvent(
-                                                    newUserData: {
-                                                  'name': _newName,
-                                                  'phoneNumber': _newPhoneNumber
-                                                }));
-                                            Navigator.of(context).pop();
+                              const SizedBox(height: 10,),
+                          AccountPageHead(
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    backgroundColor: lightBlack,
+                                    title: const Text(
+                                      'Редагувати дані',
+                                      style: notoSansDisplayBoldSmall,
+                                    ),
+                                    content: SizedBox(
+                                        height: 100,
+                                        child: Column(
+                                      children: [
+                                        TextFormField(
+                                          style: notoSansDisplayRegularTiny,
+                                          controller: _controller1,
+                                          onChanged: (text) {
+                                            _newName = text;
                                           },
                                         ),
-                                        TextButton(
-                                          child: const Text('Відміна'),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
+                                        TextFormField(
+                                          style: notoSansDisplayRegularTiny,
+                                          controller: _controller2,
+                                          onChanged: (text) {
+                                            _newPhoneNumber = text;
                                           },
-                                        ),
+                                        )
                                       ],
-                                    );
-                                  },
-                                );
-                                setState(() {
-                                  _controller1.text = account.name;
-                                  _controller2.text = account.phoneNumber;
-                                });
-                              },
-                              icon: const Icon(Icons.edit)),
+                                    )),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: const Text('Зберегти', style: notoSansDisplayRegularTiny,),
+                                        onPressed: () {
+                                          accountBloc.add(AccountInitiateEvent(
+                                              newUserData: {
+                                                'name': _newName,
+                                                'phoneNumber': _newPhoneNumber
+                                              }));
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                      TextButton(
+                                        child: const Text('Відміна', style: notoSansDisplayRegularTiny,),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                              setState(() {
+                                _controller1.text = account.name;
+                                _controller2.text = account.phoneNumber;
+                              });
+                            },
+                            phoneNumber: account.phoneNumber,
+                            username: account.name,
+                          ),
+                          SizedBox(height: 20,),
                           if (ticketsList.isNotEmpty)
-                              SizedBox(
-                              height: 200, // set a fixed height
-                              child: ListView(
-                                children: [
-                                    for (var i = 0; i < ticketsList.length; i++)
-                                      Text(
-                                          '${ticketsList[i].id}\n${ticketsList[i].name}')
-                                ],
-                            ))
+                            SizedBox(
+                                height: 600, // set a fixed height
+                                child: ListView(
+                                  scrollDirection: Axis.horizontal,
+                                  children: [
+                                    for (var i = ticketsList.length-1; i >=0; i--)
+                                        TicketCard(
+                                            id: ticketsList[i].id,
+                                            date: ticketsList[i].date,
+                                            image: ticketsList[i].image,
+                                            title: ticketsList[i].name,
+                                         )
+                                  ],
+                                ))
                         ]),
                       );
                     }
                   }
-                  return const CircularProgressIndicator();
+                  return const Center(
+                      child: CircularProgressIndicator(
+                    color: white,
+                  ));
                 })));
   }
 }
