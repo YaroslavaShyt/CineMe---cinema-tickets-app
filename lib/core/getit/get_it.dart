@@ -11,8 +11,6 @@ import 'package:cine_me/features/films/domain/usecases/get_session.dart';
 import 'package:cine_me/features/films/domain/usecases/get_ticket_booked.dart';
 import 'package:cine_me/features/films/presentation/bloc/book_ticket/book_ticket_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:http/http.dart';
-
 import '../../features/account/data/datasourses/account_remote_datasource.dart';
 import '../../features/account/data/repositories/account_repository_imp.dart';
 import '../../features/account/domain/repository/account_repository.dart';

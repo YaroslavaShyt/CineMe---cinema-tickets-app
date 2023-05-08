@@ -30,7 +30,11 @@ class FilmsRemoteDatasourseImpl implements FilmsRemoteDatasourse{
   Future<Either<AppError, Map<String, dynamic>>>
   getTodayFilmsJson(String accessToken, {String search = ''}) async {
     String formattedDate = getDateTimeNow();
-    final response = await http.get(Uri.parse('${API.apiFilmsAddress}?date=$formattedDate&query=$search'),
+    var request = '${API.apiFilmsAddress}?date=$formattedDate&query=$search';
+    if(search.isNotEmpty){
+      request = '${API.apiFilmsAddress}?query=$search';
+    }
+    final response = await http.get(Uri.parse(request),
         headers: {
       'Authorization': 'Bearer $accessToken',
           'Accept-Language': 'uk'});

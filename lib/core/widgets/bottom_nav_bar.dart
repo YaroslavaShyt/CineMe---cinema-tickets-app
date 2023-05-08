@@ -4,6 +4,7 @@ import 'package:beamer/beamer.dart';
 
 import '../../features/account/presentation/widgets/account_location.dart';
 import '../../features/films/presentation/pages/nested_nav_locations/home_location.dart';
+import '../../features/films/presentation/widgets/search_location.dart';
 
 
 
@@ -24,6 +25,15 @@ class _BottomNavBarState extends State<BottomNavBar> {
       locationBuilder: (routeInformation, _) {
         if (routeInformation.location!.contains('/home')) {
           return HomeLocation(routeInformation);
+        }
+        return NotFound(path: routeInformation.location!);
+      },
+    ),
+    BeamerDelegate(
+      initialPath: '/search',
+      locationBuilder: (routeInformation, _) {
+        if (routeInformation.location!.contains('/search')) {
+          return SearchLocation(routeInformation);
         }
         return NotFound(path: routeInformation.location!);
       },
@@ -58,6 +68,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
           Beamer(
             routerDelegate: _routerDelegates[1],
           ),
+          Beamer(
+            routerDelegate: _routerDelegates[2],
+          ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -67,6 +80,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         currentIndex: _currentIndex,
         items: const [
           BottomNavigationBarItem(label: 'Афіша', icon: Icon(Icons.movie_creation_outlined, color: white,)),
+          BottomNavigationBarItem(label: 'Пошук', icon: Icon(Icons.search_outlined, color: white,)),
           BottomNavigationBarItem(label: 'Акаунт', icon: Icon(Icons.account_circle, color: white,)),
         ],
         onTap: (index) {

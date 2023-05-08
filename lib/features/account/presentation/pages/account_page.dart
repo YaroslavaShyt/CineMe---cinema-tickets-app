@@ -64,6 +64,7 @@ class _AccountPageState extends State<AccountPage> {
                             children: [
                               const SizedBox(height: 10,),
                           AccountPageHead(
+                            onPressed2: (){},
                             onPressed: () {
                               showDialog(
                                 context: context,

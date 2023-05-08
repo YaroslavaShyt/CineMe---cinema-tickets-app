@@ -24,7 +24,7 @@ class _FilmsPageState extends State<FilmsPage> {
   void initState() {
     super.initState();
     filmsBloc = getItInst<FilmsBloc>(param1: '', param2: '');
-    filmsBloc.add(const FilmsInitiateEvent());
+    filmsBloc.add(FilmsInitiateEvent());
   }
 
   @override

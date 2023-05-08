@@ -9,8 +9,10 @@ class AccountPageHead extends StatelessWidget {
   final String username;
   final String phoneNumber;
   final VoidCallback onPressed;
+  final VoidCallback onPressed2;
   const AccountPageHead(
       {Key? key,
+        required this.onPressed2,
       required this.onPressed,
       required this.phoneNumber,
       required this.username})
@@ -23,7 +25,7 @@ class AccountPageHead extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
       Padding(padding: const EdgeInsets.only(left: 10), child:
-        Column(
+        Row(children: [Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
@@ -35,8 +37,14 @@ class AccountPageHead extends StatelessWidget {
               style: notoSansDisplayRegularTiny,
             ),
           ],
-        )),
-        IconButton(onPressed: onPressed, icon: const Icon(Icons.edit, color: white, size: 20,))
+        ),
+        IconButton(onPressed: onPressed, icon: const Icon(Icons.edit, color: white, size: 20,))])),
+        Row(children: [
+          IconButton(
+            icon: const Icon(Icons.favorite_outline_outlined, color: white,),
+            onPressed: onPressed2,),
+            const Text('Улюблені фільми', style: notoSansDisplayBoldSmall,)
+        ],)
       ],
     );
   }

@@ -19,14 +19,10 @@ class FilmsRepositoryImpl implements FilmsRepository{
     List<FilmModel> filmsList = [];
     final accessToken = await getAccessToken();
     final data = await _filmsRemoteDatasourse.getTodayFilmsJson(accessToken, search: search);
-  //  print('in getTodayFilms filmsrepoimp');
-  //  print('data: $data');
     if (data.isRight()){
       final elseData = data.getOrElse(() => {});
       if (elseData != {}){
-  //      print('elseData: $elseData');
         final mapData = elseData['data'];
-  //      print('mapData: $mapData');
         for (var i = 0; i < mapData.length; i++) {
           search.isEmpty ?
             filmsList.add(
