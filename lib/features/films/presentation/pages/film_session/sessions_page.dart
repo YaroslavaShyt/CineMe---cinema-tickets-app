@@ -1,11 +1,13 @@
 import 'package:beamer/beamer.dart';
 import 'package:cine_me/core/getit/get_it.dart';
 import 'package:cine_me/core/widgets/error_widget.dart';
+import 'package:cine_me/features/films/data/models/film_session_model.dart';
 import 'package:cine_me/features/films/presentation/bloc/film_session/sessions_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cine_me/core/constants/colors.dart';
 import 'package:cine_me/core/constants/font_styling.dart';
+import 'package:intl/intl.dart';
 
 
 class SessionsPage extends StatefulWidget {
@@ -20,6 +22,7 @@ class SessionsPage extends StatefulWidget {
 
 class _SessionsPageState extends State<SessionsPage> {
   late SessionsBloc sessionsBloc;
+  Map<String, dynamic> dateTime = {};
 
   @override
   void initState() {
@@ -32,6 +35,49 @@ class _SessionsPageState extends State<SessionsPage> {
   void dispose() {
     super.dispose();
     sessionsBloc.close();
+  }
+
+  List<FilmSessionModel> filterDates(List<FilmSessionModel> filmDates){
+    int currentTimeStamp = DateTime
+        .now()
+        .millisecondsSinceEpoch ~/ 1000;
+    List<FilmSessionModel> dates = [];
+    for (var i = 0; i < filmDates.length; i++) {
+      dates.add(filmDates[i]);
+    }
+    List<FilmSessionModel> filteredDates = dates
+        .where((date) => int.parse(date.date) > currentTimeStamp)
+        .toList();
+    filteredDates.sort((a, b) =>
+        a.date.compareTo(b.date));
+    return filteredDates;
+  }
+
+  void processDates(List<FilmSessionModel> filteredDates){
+    for (var i = 0; i < filteredDates.length; i++) {
+      if (i == 0 ||
+          DateTime.fromMillisecondsSinceEpoch(int.parse(filteredDates[i].date) * 1000).day !=
+              DateTime.fromMillisecondsSinceEpoch(int.parse(filteredDates[i - 1].date) * 1000).day) {
+              dateTime[DateFormat('dd.MM.yyyy').format(DateTime
+                  .fromMillisecondsSinceEpoch(int.parse(filteredDates[i].date) * 1000))] = [];
+      }
+    }
+    for (var i = 0; i < filteredDates.length; i++) {
+      dateTime[DateFormat('dd.MM.yyyy').format(DateTime
+          .fromMillisecondsSinceEpoch(int.parse(filteredDates[i].date) * 1000))]
+          .add(OutlinedButton(
+        onPressed: () {
+          Beamer.of(context).beamToNamed('${widget.detailsPath}?sessionId=${filteredDates[i].id}&filmName=${widget.filmName}');
+        },
+        style: OutlinedButton.styleFrom(
+          backgroundColor: red,),
+        child: Text(
+            DateFormat('HH:mm').format(DateTime
+                .fromMillisecondsSinceEpoch(int.parse(filteredDates[i].date) * 1000)),
+            style: const TextStyle(fontSize: 18, color: white)
+        ),
+      ),);
+    }
   }
 
   @override
@@ -54,90 +100,23 @@ class _SessionsPageState extends State<SessionsPage> {
                     if (sessions.isEmpty) {
                       return const ErrorPage();
                     }
-                    int currentTimeStamp = DateTime
-                        .now()
-                        .millisecondsSinceEpoch ~/ 1000;
-                    List<String> dates = [];
-                    for (var i = 0; i < sessions.length; i++) {
-                      dates.add(sessions[i].date);
-                    }
-                    List<String> filteredDates = dates
-                        .where((date) => int.parse(date) > currentTimeStamp)
-                        .toList();
-                    filteredDates.sort((a, b) =>
-                        a.compareTo(b));
+                   var filteredDates = filterDates(sessions);
+                    processDates(filteredDates);
                     return ListView(
                       children: [
-                        for (var i = 0; i < filteredDates.length; i++)
-                          if (i == 0 ||
-                              DateTime.fromMillisecondsSinceEpoch(int.parse(filteredDates[i]) * 1000).day !=
-                                  DateTime.fromMillisecondsSinceEpoch(int.parse(filteredDates[i - 1]) * 1000).day)
-                                Column(children: [Padding(
-                                    padding: const EdgeInsets.only(left: 10, top: 5),
-                                    child: Text(
-                                  '${DateTime
-                                      .fromMillisecondsSinceEpoch(int.parse(filteredDates[i]) * 1000)
-                                      .day}'
-                                      '.${DateTime
-                                      .fromMillisecondsSinceEpoch(int.parse(filteredDates[i]) * 1000)
-                                      .month}'
-                                      '.${DateTime
-                                      .fromMillisecondsSinceEpoch(int.parse(filteredDates[i]) * 1000)
-                                      .year}\n',
-                                  style: notoSansDisplayRegularSmall,
-                                )),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      for (var j = 0; j < sessions.length; j++)
-                                        if (sessions[j].date == filteredDates[i])
-                                          OutlinedButton(
-                                            onPressed: () {
-                                              Beamer.of(context).beamToNamed('${widget.detailsPath}?sessionId=${sessions[j].id}&filmName=${widget.filmName}');
-                                            },
-                                            style: OutlinedButton.styleFrom(
-                                              backgroundColor: red,),
-                                            child: Text(
-                                              '${DateTime
-                                                  .fromMillisecondsSinceEpoch(int.parse(sessions[j].date) * 1000)
-                                                  .hour}'
-                                                  ':${DateTime
-                                                  .fromMillisecondsSinceEpoch(int.parse(sessions[j].date) * 1000)
-                                                  .minute}',
-                                                style: const TextStyle(fontSize: 18, color: white)
-                                            ),
-                                          ),
-                                    ],
-                                  ),
-                                ])
-                          else
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                for (var j = 0; j < sessions.length; j++)
-                                  if (sessions[j].date == filteredDates[i])
-                                    OutlinedButton(
-                                      onPressed: () {
-                                        Beamer.of(context).beamToNamed('${widget.detailsPath}?sessionId=${sessions[j].id}&filmName=${widget.filmName}');
-                                      },
-                                      style: OutlinedButton.styleFrom(
-                                        backgroundColor: red,),
-                                      child: Text(
-                                        '${DateTime
-                                            .fromMillisecondsSinceEpoch(int.parse(sessions[j].date) * 1000)
-                                            .hour}'
-                                            ':${DateTime
-                                            .fromMillisecondsSinceEpoch(int.parse(sessions[j].date) * 1000)
-                                            .minute}',
-                                        style: const TextStyle(fontSize: 18, color: white),
-                                      ),
-                                    ),
-                              ],
-                            ),
+                        for (var entry in dateTime.entries)
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(entry.key, style: notoSansDisplayRegularSmall,),
+                              Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: entry.value.cast<Widget>()),
+                              const SizedBox(height: 50,)
+                            ],
+                          ),
                       ],
                     );
-
-
                   }
     return const Center(child: CircularProgressIndicator(color: white,));
                 }

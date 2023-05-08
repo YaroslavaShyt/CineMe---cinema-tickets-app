@@ -1,4 +1,5 @@
 import 'package:beamer/beamer.dart';
+import 'package:cine_me/core/constants/colors.dart';
 import 'package:cine_me/features/authentification/presentation/bloc/silent_login_bloc.dart';
 import 'package:cine_me/features/authentification/presentation/pages/login_page.dart';
 import 'package:flutter/material.dart';
@@ -36,12 +37,9 @@ class _CineMeState extends State<CineMe> {
   @override
   Widget build(BuildContext context) {
     var screen = appFilms;
-    print(widget.initScreen);
     if (widget.initScreen is LogIn){
-      print('in if');
       screen = appLogIn;
     }
-    print('in cineme: $screen');
     return  MultiBlocProvider(
       providers: [
         BlocProvider<SilentLoginBloc>.value(
@@ -52,7 +50,7 @@ class _CineMeState extends State<CineMe> {
   }
 }
 
-var appLogIn = MaterialApp(
+var appLogIn = const MaterialApp(
   debugShowCheckedModeBanner: false,
   home: LogIn(),
   title: 'CineMe',

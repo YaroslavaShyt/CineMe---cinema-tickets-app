@@ -43,7 +43,7 @@ const notoSansDisplayRegularTiny = TextStyle(
 const notoSansDisplayBoldLarge = TextStyle(
   fontFamily: 'NotoSansDisplay',
   fontWeight: FontWeight.w600,
-  fontSize: 30,
+  fontSize: 27,
   color: white
 );
 

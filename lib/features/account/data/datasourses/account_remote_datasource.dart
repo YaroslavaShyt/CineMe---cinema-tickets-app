@@ -26,6 +26,7 @@ class AccountRemoteDatasourseImpl implements AccountRemoteDatasourse{
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
             'Authorization': 'Bearer $accessToken',
+            'Accept-Language': 'uk'
           });
     }else{
       if(newUserData['name'].isNotEmpty && newUserData['phoneNumber'].isNotEmpty){
@@ -45,10 +46,8 @@ class AccountRemoteDatasourseImpl implements AccountRemoteDatasourse{
       );
     }
     if (response.statusCode == 200) {
-      print('in datasourse: ${response.body}');
       return Right(jsonDecode(response.body));
     }
-   // print(response.statusCode);
     return const Left(AppError(AppErrorType.api));
   }
 
@@ -61,11 +60,11 @@ class AccountRemoteDatasourseImpl implements AccountRemoteDatasourse{
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'Bearer $accessToken',
+          'Accept-Language': 'uk'
         });
     if(response.statusCode==200){
       final elseData = jsonDecode(response.body);
       if(elseData['success'] == true){
-        print('else data: $elseData');
         return Right(elseData);
       }
     }

@@ -21,12 +21,13 @@ class AuthenticationRemoteDatasourceImpl
   @override
   Future<String> getSessionToken() async {
     final response = await http.post(Uri.parse(API.apiSessionTokenAddress),
-        headers: {'Content-Type': 'application/json'},
+        headers: {
+      'Content-Type': 'application/json',
+      'Accept-Language': 'uk'
+        },
         body: jsonEncode(<String, String>{'key': 'your_secret_key'}));
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-  //    print('SESSION TOKEN BODY: ${response.body}');
-  //    print('SESSION TOKEN: ${data['data']['sessionToken']}');
       return data['data']['sessionToken'];
     } else {
       throw Exception('Error: ${response.statusCode}');
@@ -37,7 +38,6 @@ class AuthenticationRemoteDatasourceImpl
   String calculateSignature(String sessionToken) {
     var bytes = utf8.encode(sessionToken + API.secretKey);
     var digest = sha256.convert(bytes);
-  //  print(digest);
     return digest.toString();
   }
 
@@ -47,7 +47,6 @@ class AuthenticationRemoteDatasourceImpl
     try {
       if (Platform.isAndroid) {
         final AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    //    print(androidInfo.id);
         return androidInfo.id;
       } else if (Platform.isIOS) {
         final IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
@@ -69,11 +68,11 @@ class AuthenticationRemoteDatasourceImpl
           'signature': signature,
           'deviceID': deviceID
         }),
-        headers: {'Content-type': 'application/json'});
+        headers: {
+      'Content-type': 'application/json',
+      'Accept-Language': 'uk'
+        });
     if (response.statusCode == 200) {
- //     print('access token: ${jsonDecode(response.body)['data']['accessToken']}');
-  //    print('code: ${response.statusCode}');
-  //    print('ACCESS TOKEN: ${jsonDecode(response.body)['data']['sessionToken']}');
       return jsonDecode(response.body)['data']['sessionToken'];
     } else {
       throw Exception('Error: ${response.statusCode}');
@@ -89,10 +88,8 @@ class AuthenticationRemoteDatasourceImpl
       'Authorization': 'Bearer $accessToken',
     });
     if (response.statusCode == 200) {
-        print(response.body);
       return jsonDecode(response.body)['success'];
     }
-  //  print(response.statusCode);
     return false;
   }
 }

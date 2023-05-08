@@ -1,5 +1,6 @@
 import 'package:beamer/beamer.dart';
 import 'package:cine_me/core/constants/colors.dart';
+import 'package:cine_me/core/constants/font_styling.dart';
 import 'package:cine_me/features/films/data/models/film_model.dart';
 import 'package:cine_me/features/films/presentation/widgets/transparent_button.dart';
 import 'package:flutter/material.dart';
@@ -30,8 +31,7 @@ class MySliderItem extends StatelessWidget {
         const SizedBox(height: 20.0),
         Text(
           filmModel.name,
-          style: const TextStyle(
-              fontSize: 20.0, fontWeight: FontWeight.bold, color: white),
+          style: notoSansDisplayBoldSmall,
         ),
         const SizedBox(height: 20.0),
         Padding(

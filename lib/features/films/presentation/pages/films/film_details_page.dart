@@ -20,16 +20,22 @@ class FilmDetails extends StatefulWidget {
 
 class _FilmDetailsState extends State<FilmDetails> {
   late FilmsBloc filmsBloc;
-  late String videoUrl;
   late YoutubePlayerController controller;
+
+  void playVideo(String videoUrl){
+    controller = YoutubePlayerController(initialVideoId: YoutubePlayer.convertUrlToId(videoUrl)!,
+    flags: const YoutubePlayerFlags(
+      autoPlay: true,
+      enableCaption: false
+    )
+    );
+  }
 
   @override
   void initState() {
     super.initState();
     filmsBloc = getItInst<FilmsBloc>(param1: '', param2: widget.filmName);
     filmsBloc.add(FilmsInitiateEvent(search: widget.filmName));
-    videoUrl = '';
-    controller = YoutubePlayerController(initialVideoId: videoUrl);
   }
 
   @override
@@ -59,13 +65,18 @@ class _FilmDetailsState extends State<FilmDetails> {
                     if (films.isEmpty) {
                       return const ErrorPage();
                     }
-                  //  videoUrl = YoutubePlayer.convertUrlToId(films[0].trailer)!;
-                    return FilmDetailsWidget(
+                   playVideo(films[0].trailer);
+                    return YoutubePlayerBuilder(
+                        player: YoutubePlayer(
+                          controller: controller,
+                        ), builder: (context, player){
+                      return
+                        FilmDetailsWidget(
                       films: films,
                       detailsPath: widget.detailsPath,
-                      controller: controller,
+                      player: player,
                     );
-                  }
+                  });}
                   return const Center(child: CircularProgressIndicator(color: white));
                 })));
   }

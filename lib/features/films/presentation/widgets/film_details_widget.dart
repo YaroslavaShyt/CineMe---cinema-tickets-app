@@ -5,7 +5,8 @@ import 'package:cine_me/features/films/data/models/film_model.dart';
 import 'package:cine_me/features/films/presentation/widgets/transparent_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:cine_me/core/constants/colors.dart';
+import 'package:share_plus/share_plus.dart';
 
 BoxDecoration imageBackgroundDecoration = BoxDecoration(
   gradient: LinearGradient(
@@ -22,13 +23,14 @@ BoxDecoration imageBackgroundDecoration = BoxDecoration(
 class FilmDetailsWidget extends StatelessWidget {
   final List<FilmModel> films;
   final String detailsPath;
-  final YoutubePlayerController controller;
+  final Widget player;
   const FilmDetailsWidget(
       {Key? key,
       required this.films,
       required this.detailsPath,
-      required this.controller})
+      required this.player})
       : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
@@ -45,14 +47,11 @@ class FilmDetailsWidget extends StatelessWidget {
           child: Container(
               decoration: imageBackgroundDecoration,
               child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Padding(
-                        padding: const EdgeInsets.only(top: 20),
-                        child: YoutubePlayer(
-                          controller: controller,
-                          showVideoProgressIndicator: true,
-                        )),
+                        padding: const EdgeInsets.only(top: 0),
+                        child: SizedBox(height: 200,child: player)),
                     Wrap(alignment: WrapAlignment.center, children: [
                       Text(
                         films[0].name,
@@ -86,6 +85,13 @@ class FilmDetailsWidget extends StatelessWidget {
                                   ),
                                 Text(films[0].rating,
                                     style: notoSansDisplayRegularTiny),
+                                IconButton(onPressed: ()async{
+                                  await Share.share('Дивитись "${films[0].name} ${films[0].year}"\n'
+                                      '\nРейтинг: ${films[0].rating}\n'
+                                      '\nКраїна: ${films[0].country}\n'
+                                      '\nЖанр: ${films[0].genre}\n'
+                                      '\nТрейлер: ${films[0].trailer}\n');
+                                }, icon: const Icon(Icons.share, color: white,))
                               ])
                         ])),
                     Padding(

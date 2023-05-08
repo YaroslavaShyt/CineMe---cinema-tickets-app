@@ -18,17 +18,12 @@ Future<void> main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? accessToken = prefs.getString('accessToken');
   if (accessToken!=null){
-    print('before get it');
     AuthenticationRepository datasource = getItInst<AuthenticationRepository>();
-    print('after get it');
     Either<AppError, bool> exists = await datasource.checkUserExists();
-    print('after await: $exists');
     if (exists == Right(true)){
-      print('in exists');
       initialScreen = const BottomNavBar();
     }
   }
-  print('init screen in main: $initialScreen');
   runApp(CineMe(initScreen: initialScreen));
 }
 

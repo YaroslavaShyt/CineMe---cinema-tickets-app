@@ -19,7 +19,7 @@ abstract class FilmsRemoteDatasourse{
 }
 
 class FilmsRemoteDatasourseImpl implements FilmsRemoteDatasourse{
-  //move out?
+
   @override
   String getDateTimeNow(){
     DateTime now = DateTime.now();
@@ -31,9 +31,9 @@ class FilmsRemoteDatasourseImpl implements FilmsRemoteDatasourse{
   getTodayFilmsJson(String accessToken, {String search = ''}) async {
     String formattedDate = getDateTimeNow();
     final response = await http.get(Uri.parse('${API.apiFilmsAddress}?date=$formattedDate&query=$search'),
-        headers: {'Authorization': 'Bearer $accessToken'});
-  //  print('statusCode: ${response.statusCode}');
-  //  print('responseBody: ${response.body}');
+        headers: {
+      'Authorization': 'Bearer $accessToken',
+          'Accept-Language': 'uk'});
     if (response.statusCode == 200){
       final data = jsonDecode(response.body);
       return Right(data);
@@ -49,17 +49,11 @@ class FilmsRemoteDatasourseImpl implements FilmsRemoteDatasourse{
     sessionId.isEmpty && filmId.isNotEmpty?
     request = '?movieId=${filmId}date=$formattedDate':
       request = '/$sessionId';
-  //  print('session id: $sessionId');
     final response = await http.get(Uri.parse('${API.apiFilmSessionAddress}$request'),
-        headers: {'Authorization': 'Bearer $accessToken'});
+        headers: {'Authorization': 'Bearer $accessToken',
+          'Accept-Language': 'uk'});
     if (response.statusCode == 200){
       final data = jsonDecode(response.body);
-    //  print('got session: ${data['data'][0]}');
-    //  print('got session2:${data['data'][1]}');
-    //  print('for each now (datalength: ${data.length}):\n');
-    /*  for (var i = 0; i< data.length; i++){
-        print(data['data']['room']);
-      }*/
       return Right(data);
     }
     return const Left(AppError(AppErrorType.network));
@@ -68,22 +62,17 @@ class FilmsRemoteDatasourseImpl implements FilmsRemoteDatasourse{
   @override
   Future<Either<AppError, Map<String, dynamic>>>
   bookTicket(String accessToken, int sessionId, List<int> seats) async{
- //   print(accessToken);
- //   print('session id: ${sessionId}\ntype: ${sessionId is int}');
- //   print('seats: ${seats}\n${seats is List<int>}');
- //   print(jsonEncode({'seats': seats, 'sessionID':sessionId}));
     final response = await http.post(Uri.parse(API.apiFilmBookAddress),
         headers: {'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': 'Bearer $accessToken'},
+          'Authorization': 'Bearer $accessToken',
+          'Accept-Language': 'uk'},
         body: jsonEncode({
           'seats': seats,
           'sessionId': sessionId
         })
     );
-  //  print(response.statusCode);
     if (response.statusCode == 200){
       final data = jsonDecode(response.body);
-   //   print(data);
       if(data['success'] == true && data['data'] == true){
         return Right(data);
       }
@@ -101,19 +90,12 @@ class FilmsRemoteDatasourseImpl implements FilmsRemoteDatasourse{
       String cardNumber,
       String expirationDate,
      ) async{
-       print(accessToken);
-       print('session id: ${sessionId}\ntype: ${sessionId is int}');
-       print('seats: ${seats}\n${seats is List<int>}');
-       print('email: ${email}\n${email is String}');
-       print('cardNumber: ${cardNumber}\n${cardNumber is String}');
-       print('expirationDate: ${expirationDate}\n${expirationDate is String}');
-       print('cvv: ${cvv}\n${cvv is String}');
-    //   print(jsonEncode({'seats': seats, 'sessionID':sessionId}));
-    var newCvv = jsonEncode(cvv);
+
     final response = await http.post(Uri.parse(API.apiFilmBuyAddress),
            headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
-            'Authorization': 'Bearer $accessToken'},
+            'Authorization': 'Bearer $accessToken',
+             'Accept-Language': 'uk'},
            body: jsonEncode({
               'sessionId': sessionId,
               'seats': seats,
@@ -123,11 +105,8 @@ class FilmsRemoteDatasourseImpl implements FilmsRemoteDatasourse{
               'cvv': cvv
            })
     );
-    print('in buying: ${response.statusCode}');
-    print('errorType: ${response.body}');
     if (response.statusCode == 200){
       final data = jsonDecode(response.body);
-      print('in buying $data');
       if(data['success'] == true){
         return Right(data);
       }

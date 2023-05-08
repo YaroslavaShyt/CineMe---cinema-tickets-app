@@ -58,7 +58,8 @@ class _AccountPageState extends State<AccountPage> {
                     final ticketsList = tickets.getOrElse(() => []);
                     {
                       return SafeArea(
-                        child: Column(
+                        child: SingleChildScrollView(
+                          child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               const SizedBox(height: 10,),
@@ -140,7 +141,7 @@ class _AccountPageState extends State<AccountPage> {
                                   ],
                                 ))
                         ]),
-                      );
+                      ));
                     }
                   }
                   return const Center(
