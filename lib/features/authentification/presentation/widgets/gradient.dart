@@ -8,8 +8,8 @@ const appBarGradient = LinearGradient(
 );
 
 const bottomNavBarGradient = LinearGradient(
-    colors: [Colors.transparent, Colors.black],
+    colors: [Colors.red, Colors.black],
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
-    stops: [0, 0.5]
+    stops: [0, 0.2]
 );

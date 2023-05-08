@@ -17,7 +17,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               children:
           const [Text('CineMe',
             style: TextStyle(
-                fontSize: 30,
+                fontSize: 25,
                 fontWeight: FontWeight.w400,
                 fontFamily: 'Prompt'),),
             Text('Кiнотеатр твого мiста',

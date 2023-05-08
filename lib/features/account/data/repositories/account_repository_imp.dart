@@ -24,6 +24,10 @@ class AccountRepositoryImp implements AccountRepository{
       final elseData = data.getOrElse(() => {});
       if (elseData != {}){
         final mapData = elseData['data'];
+        if(mapData['name'] == null || mapData['phoneNumber'] == null){
+          mapData['name'] = 'Anonymus';
+          mapData['phoneNumber'] = '+000000000000';
+        }
         return Right(UserModel(name: mapData['name'], phoneNumber: mapData['phoneNumber']));
       }
     }
@@ -37,12 +41,10 @@ class AccountRepositoryImp implements AccountRepository{
     final accessToken = await getAccessToken();
     final data = await _accountRemoteDatasourse.getUserTicketsJson(accessToken);
     if(data.isRight()){
-      print('in if');
       final elseData = data.getOrElse(() => {});
       if (elseData != {}){
         final mapData = elseData['data'];
         for (var i = 0; i < mapData.length; i++){
-          print('йобаний проект тут: ${mapData[i]['id'] is int}');
           ticketsList.add(TicketModel(
               id: mapData[i]['id'],
               movieId: mapData[i]['movieId'],

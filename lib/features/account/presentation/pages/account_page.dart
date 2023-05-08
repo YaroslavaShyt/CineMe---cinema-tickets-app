@@ -124,7 +124,7 @@ class _AccountPageState extends State<AccountPage> {
                             phoneNumber: account.phoneNumber,
                             username: account.name,
                           ),
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
                           if (ticketsList.isNotEmpty)
                             SizedBox(
                                 height: 600, // set a fixed height
@@ -140,6 +140,14 @@ class _AccountPageState extends State<AccountPage> {
                                          )
                                   ],
                                 ))
+                              else if(ticketsList.isEmpty)
+                                  Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: const[
+                                        SizedBox(height: 200,),
+                                    Text('Йой, ви ще не були у кіно?', style: notoSansDisplayRegularSmall,),
+                                    Text('Гайда до афіші!', style: notoSansDisplayRegularSmall,),
+                                   ])
                         ]),
                       ));
                     }
