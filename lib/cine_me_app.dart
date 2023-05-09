@@ -41,11 +41,11 @@ class _CineMeState extends State<CineMe> {
       screen = appLogIn;
     }
     return  MultiBlocProvider(
-      providers: [
-        BlocProvider<SilentLoginBloc>.value(
-        value: _silentLoginBloc,
-      ),],
-      child: screen
+        providers: [
+          BlocProvider<SilentLoginBloc>.value(
+            value: _silentLoginBloc,
+          ),],
+        child: screen
     );
   }
 }
@@ -69,4 +69,3 @@ var appFilms = MaterialApp.router(
   ),
   routeInformationParser: BeamerParser(),
 );
-
