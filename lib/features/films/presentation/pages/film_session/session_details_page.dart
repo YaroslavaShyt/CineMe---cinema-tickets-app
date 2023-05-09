@@ -8,17 +8,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cine_me/core/constants/colors.dart';
 import 'package:cine_me/features/films/presentation/widgets/transparent_button.dart';
-import 'package:cine_me/core/widgets/error_widget.dart';
+import 'package:cine_me/core/widgets/error_page.dart';
 import 'package:cine_me/core/constants/font_styling.dart';
 import 'package:cine_me/features/films/presentation/widgets/screen_painter.dart';
-
 
 class SessionDetails extends StatefulWidget {
   final String filmName;
   final String detailsPath;
   final String sessionId;
   const SessionDetails(
-      {Key? key, required this.sessionId, required this.detailsPath, required this.filmName})
+      {Key? key,
+      required this.sessionId,
+      required this.detailsPath,
+      required this.filmName})
       : super(key: key);
 
   @override
@@ -50,7 +52,7 @@ class _SessionDetailsState extends State<SessionDetails> {
     bookTicketBloc.close();
   }
 
-  void _onSeatPressed(int seatId, int seatNumber, int price) {
+  void onSeatPressed(int seatId, int seatNumber, int price) {
     setState(() {
       if (seats.contains(seatId)) {
         seats.remove(seatId);
@@ -81,11 +83,11 @@ class _SessionDetailsState extends State<SessionDetails> {
               listener: (context, state) {},
               builder: (context, state) {
                 if (state is SessionsError) {
-                  return const Text('error');
+                  return ErrorPage(error: state.message,);
                 } else if (state is SessionsSuccess) {
                   final session = state.filmSessionsList;
                   if (session.isEmpty) {
-                    return const ErrorPage();
+                    return const ErrorPage(error: 'Не вдалось завантажити деталі сеансу.',);
                   }
                   return MultiBlocListener(
                       listeners: [
@@ -100,7 +102,8 @@ class _SessionDetailsState extends State<SessionDetails> {
                                     sessionId: widget.sessionId,
                                     seats: seats.join(','),
                                     seatsNumbers: seatsNumbers.join(','),
-                                    detailsPath: '${widget.detailsPath}?cinemaName=${session[0].room['name']}'
+                                    detailsPath:
+                                        '${widget.detailsPath}?cinemaName=${session[0].room['name']}'
                                         '&filmName=${widget.filmName}&date=${session[0].date}&type=${session[0].type}',
                                     result:
                                         state.isTicketBooked.success.toString(),
@@ -115,7 +118,10 @@ class _SessionDetailsState extends State<SessionDetails> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SessionDetailsHead(date: session[0].date, type: session[0].type, name: session[0].room['name']),
+                          SessionDetailsHead(
+                              date: session[0].date,
+                              type: session[0].type,
+                              name: session[0].room['name']),
                           const SeatTypesRow(),
                           CustomPaint(
                             painter: UpwardArcPainter(),
@@ -123,19 +129,25 @@ class _SessionDetailsState extends State<SessionDetails> {
                               height: 50,
                               width: double.maxFinite,
                               child: Center(
-                                  child: Text('Екран',
+                                  child: Text(
+                                'Екран',
                                 style: notoSansDisplayRegularTiny,
                               )),
                             ),
                           ),
-                          Center(child: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Seats(
-                                seats: session,
-                                onSeatPressed: _onSeatPressed,
-                              ))),
-                          SessionDetailsTail(seatsNumbers: seatsNumbers, totalToPay: totalToPay),
-                          Padding(padding: const EdgeInsets.only(left: 20, right: 20),
+                          Center(
+                              child: SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Seats(
+                                    seats: session,
+                                    onSeatPressed: onSeatPressed,
+                                  ))),
+                          SessionDetailsTail(
+                              seatsNumbers: seatsNumbers,
+                              totalToPay: totalToPay),
+                          Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 20, right: 20),
                               child: CustomButton(
                                 text: 'Обрати',
                                 onPressed: () {

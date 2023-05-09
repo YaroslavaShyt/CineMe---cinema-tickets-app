@@ -1,5 +1,5 @@
 import 'package:cine_me/core/constants/colors.dart';
-import 'package:cine_me/core/widgets/error_widget.dart';
+import 'package:cine_me/core/widgets/error_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cine_me/core/getit/get_it.dart';
@@ -25,7 +25,7 @@ class _FilmDetailsState extends State<FilmDetails> {
   void playVideo(String videoUrl){
     controller = YoutubePlayerController(initialVideoId: YoutubePlayer.convertUrlToId(videoUrl)!,
     flags: const YoutubePlayerFlags(
-      autoPlay: true,
+      autoPlay: false,
       enableCaption: false
     )
     );
@@ -59,11 +59,11 @@ class _FilmDetailsState extends State<FilmDetails> {
                 listener: (context, state) {},
                 builder: (context, state) {
                   if (state is FilmsError) {
-                    return const ErrorPage();
+                    return ErrorPage(error: state.message,);
                   } else if (state is FilmsSuccess) {
                     final films = state.films;
                     if (films.isEmpty) {
-                      return const ErrorPage();
+                      return const ErrorPage(error: 'Не вдалось завантажити деталі',);
                     }
                    playVideo(films[0].trailer);
                     return YoutubePlayerBuilder(

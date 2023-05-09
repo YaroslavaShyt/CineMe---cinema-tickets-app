@@ -1,6 +1,6 @@
 import 'package:cine_me/core/constants/colors.dart';
 import 'package:cine_me/core/getit/get_it.dart';
-import 'package:cine_me/core/widgets/error_widget.dart';
+import 'package:cine_me/core/widgets/error_page.dart';
 import 'package:cine_me/core/widgets/films_app_bar.dart';
 import 'package:cine_me/features/account/presentation/bloc/account_bloc.dart';
 import 'package:cine_me/features/account/presentation/widgets/account_page_widgets.dart';
@@ -51,7 +51,7 @@ class _AccountPageState extends State<AccountPage> {
                 listener: (context, state) {},
                 builder: (context, state) {
                   if (state is AccountError) {
-                    return const ErrorPage();
+                    return ErrorPage(error: state.message,);
                   } else if (state is AccountSuccess) {
                     final account = state.user;
                     final tickets = state.ticketsResponse.map((value) => value);
@@ -142,13 +142,7 @@ class _AccountPageState extends State<AccountPage> {
                                   ],
                                 ))
                               else if(ticketsList.isEmpty)
-                                  Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: const[
-                                        SizedBox(height: 200,),
-                                    Text('Йой, ви ще не були у кіно?', style: notoSansDisplayRegularSmall,),
-                                    Text('Гайда до афіші!', style: notoSansDisplayRegularSmall,),
-                                   ])
+                                  const NoTicketsWidget()
                         ]),
                       ));
                     }

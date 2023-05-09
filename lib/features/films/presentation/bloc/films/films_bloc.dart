@@ -15,20 +15,15 @@ class FilmsBloc extends Bloc<FilmsEvent, FilmsState>{
     required this.films,
     required this.date,
     required this.search,
-  }) : super(FilmsInitial()){
-  print('in bloc constr $search');
-  }
+  }) : super(FilmsInitial());
 
   @override
   Stream<FilmsState> mapEventToState(FilmsEvent event) async*{
     if(event is FilmsInitiateEvent){
-      print('in bloc: $search');
       final response = await films(search: event.search);
       yield response.fold((l){
-        return const FilmsError('error');
+        return FilmsError(l.appErrorType);
       }, (r)=> FilmsSuccess(r));
-    }else{
-      print('it is not initial films');
     }
   }
 

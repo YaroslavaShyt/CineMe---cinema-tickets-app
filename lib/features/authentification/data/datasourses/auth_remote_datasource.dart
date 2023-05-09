@@ -4,7 +4,7 @@ import 'package:crypto/crypto.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:device_info_plus/device_info_plus.dart';
-import 'dart:io' show Build, Platform;
+import 'dart:io' show Platform;
 
 
 abstract class AuthenticationRemoteDatasource {
@@ -29,9 +29,8 @@ class AuthenticationRemoteDatasourceImpl
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       return data['data']['sessionToken'];
-    } else {
-      throw Exception('Error: ${response.statusCode}');
     }
+    return 'Error getting session token';
   }
 
   @override
@@ -44,7 +43,6 @@ class AuthenticationRemoteDatasourceImpl
   @override
   Future<String> getDeviceInfo() async {
     final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    try {
       if (Platform.isAndroid) {
         final AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
         return androidInfo.id;
@@ -52,12 +50,8 @@ class AuthenticationRemoteDatasourceImpl
         final IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
         return iosInfo.identifierForVendor ?? '';
       }
-    } catch (e) {
-      print('Error getting device info: $e');
+    return 'Error getting device info';
     }
-    return 'empty string';
-  }
-
 
   @override
   Future<String> getAccessToken(
@@ -74,9 +68,8 @@ class AuthenticationRemoteDatasourceImpl
         });
     if (response.statusCode == 200) {
       return jsonDecode(response.body)['data']['sessionToken'];
-    } else {
-      throw Exception('Error: ${response.statusCode}');
     }
+    return 'Error: ${response.statusCode}';
   }
 
   @override

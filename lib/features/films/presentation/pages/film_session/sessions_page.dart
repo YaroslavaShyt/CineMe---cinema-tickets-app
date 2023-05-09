@@ -1,6 +1,6 @@
 import 'package:beamer/beamer.dart';
 import 'package:cine_me/core/getit/get_it.dart';
-import 'package:cine_me/core/widgets/error_widget.dart';
+import 'package:cine_me/core/widgets/error_page.dart';
 import 'package:cine_me/features/films/data/models/film_session_model.dart';
 import 'package:cine_me/features/films/presentation/bloc/film_session/sessions_bloc.dart';
 import 'package:flutter/material.dart';
@@ -94,11 +94,11 @@ class _SessionsPageState extends State<SessionsPage> {
                 listener: (context, state) {},
                 builder: (context, state) {
                   if (state is SessionsError) {
-                    return const ErrorPage();
+                    return ErrorPage(error: state.message,);
                   } else if (state is SessionsSuccess) {
                     final sessions = state.filmSessionsList;
                     if (sessions.isEmpty) {
-                      return const ErrorPage();
+                      return const ErrorPage(error: 'Не вдалось завантажити сеанси',);
                     }
                    var filteredDates = filterDates(sessions);
                     processDates(filteredDates);

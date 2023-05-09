@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import '../entities/app_error_entity.dart';
+import 'package:cine_me/core/entities/app_error_entity.dart';
 
 abstract class AuthenticationRepository{
   Future<Either<AppError, bool>> loginUser();

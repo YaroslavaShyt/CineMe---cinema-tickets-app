@@ -23,7 +23,6 @@ class BuyTicketBloc extends Bloc<BuyTicketEvent, BuyTicketState>{
       yield response.fold((l){
         return BuyTicketError(l.toString());
       }, (r)=> BuyTicketSuccess(r));
-    }else{
     }
   }
 

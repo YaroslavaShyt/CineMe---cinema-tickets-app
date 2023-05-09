@@ -20,14 +20,10 @@ class BookTicketBloc extends Bloc<BookTicketEvent, BookTicketState>{
   @override
   Stream<BookTicketState> mapEventToState(BookTicketEvent event) async*{
     if(event is BookTicketInitiateEvent){
-      print('in bloc before book event\nsessionid: $sessionId\nseats: $seats');
       final response = await bookedTicket(sessionId: sessionId, seats: seats);
-      print('in bloc after BookTicket');
       yield response.fold((l){
-        return const BookTicketError('error');
+        return BookTicketError(l.appErrorType);
       }, (r)=> BookTicketSuccess(r));
-    }else{
-      print('it is not initial films');
     }
   }
 

@@ -15,7 +15,7 @@ class HomeLocation extends BeamLocation<BeamState> {
   List<BeamPage> buildPages(BuildContext context, BeamState state) => [
         const BeamPage(
           key: ValueKey('home'),
-          title: 'Tab Home',
+          title: 'Home',
           type: BeamPageType.noTransition,
           child: FilmsPage(
             detailsPath: '/home/details',
@@ -26,7 +26,7 @@ class HomeLocation extends BeamLocation<BeamState> {
             state.uri.pathSegments[1] == 'details')
           BeamPage(
             key: const ValueKey('home/details'),
-            title: 'Details A',
+            title: 'Details',
             child: FilmDetails(
                 filmName: state.queryParameters['filmName'] ?? '',
                 detailsPath: '/home/details/sessions'),

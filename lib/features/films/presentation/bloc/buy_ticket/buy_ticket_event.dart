@@ -14,15 +14,13 @@ class BuyTicketInitiateEvent extends BuyTicketEvent {
   final String cardNumber;
   final String expireDate;
   final String cvv;
-  BuyTicketInitiateEvent({
+  const BuyTicketInitiateEvent({
     this.sessionId=0,
     this.seats=const [0],
     this.cardNumber='',
     this.email = '',
     this.cvv = '',
-    this.expireDate = ''}){
-    print('${sessionId}\n${seats}\n${email}\n${cardNumber}\n${expireDate}\n${cvv}');
-  }
+    this.expireDate = ''});
 
   @override
   List<Object> get props => [];

@@ -1,10 +1,9 @@
 import 'package:cine_me/core/constants/colors.dart';
 import 'package:cine_me/core/getit/get_it.dart';
-import 'package:cine_me/core/widgets/error_widget.dart';
+import 'package:cine_me/core/widgets/error_page.dart';
 import 'package:cine_me/features/films/presentation/bloc/films/films_bloc.dart';
 import 'package:cine_me/features/films/presentation/widgets/slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cine_me/core/widgets/films_app_bar.dart';
 
@@ -24,7 +23,7 @@ class _FilmsPageState extends State<FilmsPage> {
   void initState() {
     super.initState();
     filmsBloc = getItInst<FilmsBloc>(param1: '', param2: '');
-    filmsBloc.add(FilmsInitiateEvent());
+    filmsBloc.add(const FilmsInitiateEvent());
   }
 
   @override
@@ -44,12 +43,12 @@ class _FilmsPageState extends State<FilmsPage> {
                 listener: (context, state) {},
               builder: (context, state) {
                 if (state is FilmsError) {
-                  return const ErrorPage();
+                  return ErrorPage(error: state.message,);
                 }
                 else if (state is FilmsSuccess){
                   final films = state.films;
                   if (films.isEmpty){
-                    return const ErrorPage();
+                    return const ErrorPage(error: 'Жодного фільму не знайдено',);
                   }
                   return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

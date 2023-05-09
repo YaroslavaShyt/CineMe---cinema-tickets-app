@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 import 'package:cine_me/core/constants/api_constants.dart';
-import 'package:cine_me/features/authentification/domain/entities/app_error_entity.dart';
+import 'package:cine_me/core/entities/app_error_entity.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class AccountRemoteDatasourse{
@@ -19,8 +19,7 @@ class AccountRemoteDatasourseImpl implements AccountRemoteDatasourse{
   getUserJson(String accessToken, {Map<String, dynamic> newUserData=const{'name': '', 'phoneNumber': ''}}) async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? accessToken = prefs.getString('accessToken');
-    var response;
-    var data;
+    dynamic response, data;
     if(newUserData['name'].isEmpty && newUserData['phoneNumber'].isEmpty) {
        response = await http.get(Uri.parse(API.apiUserAddress),
           headers: {
@@ -48,7 +47,7 @@ class AccountRemoteDatasourseImpl implements AccountRemoteDatasourse{
     if (response.statusCode == 200) {
       return Right(jsonDecode(response.body));
     }
-    return const Left(AppError(AppErrorType.api));
+    return const Left(AppError('Не вдалося отримати користувацькі дані.'));
   }
 
   @override
@@ -68,6 +67,6 @@ class AccountRemoteDatasourseImpl implements AccountRemoteDatasourse{
         return Right(elseData);
       }
     }
-    return const Left(AppError(AppErrorType.api));
+    return const Left(AppError('Не вдалося отримати користувацькі квитки.'));
   }
 }

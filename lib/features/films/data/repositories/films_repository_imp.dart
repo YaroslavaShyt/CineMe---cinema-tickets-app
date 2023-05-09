@@ -5,7 +5,7 @@ import 'package:cine_me/features/films/data/models/is_payment_success_model.dart
 import 'package:cine_me/features/films/data/models/is_ticket_booked.dart';
 import 'package:cine_me/features/films/domain/repository/films_repository.dart';
 import 'package:dartz/dartz.dart';
-import 'package:cine_me/features/authentification/domain/entities/app_error_entity.dart';
+import 'package:cine_me/core/entities/app_error_entity.dart';
 import 'package:cine_me/features/films/data/datasourses/films_remote_datasourse.dart';
 
 
@@ -51,12 +51,10 @@ class FilmsRepositoryImpl implements FilmsRepository{
                     screenwriter: mapData[i]['screenwriter'],
                     studio: mapData[i]['studio']
                 ));
-            //     print('filmList: $filmsList');
           }}
-     //   print('filmList: $filmsList');
         return Right(filmsList);
     }
-    return const Left(AppError(AppErrorType.api));
+    return const Left(AppError('Не вдалося отримати фільми з афіші.'));
   }
 
   @override
@@ -64,14 +62,10 @@ class FilmsRepositoryImpl implements FilmsRepository{
       List<FilmSessionModel> sessionsList = [];
       final accessToken = await getAccessToken();
       final data = await _filmsRemoteDatasourse.getFilmSessionsJson(accessToken, filmId: filmId, sessionId: sessionId);
-      //  print('in getTodayFilms filmsrepoimp');
-      //  print('data 1: $data');
       if (data.isRight()){
           final elseData = data.getOrElse(() => {});
           if (elseData != {}){
-             //   print('elseData: $elseData');
             final mapData = elseData['data'];
-          //  print('mapData: $mapData');
             if (filmId.isNotEmpty){
               for (var i = 0; i < mapData.length; i++) {
                 sessionsList.add(
@@ -84,12 +78,6 @@ class FilmsRepositoryImpl implements FilmsRepository{
               }
             }
             else{
-         /*   print('---------begin--------');
-            print('${mapData['id']}\n'
-                '${mapData['date']}\n'
-                '${mapData['type']}\n'
-                '${mapData['minPrice']}');
-            print('|||||||||||||||end||||||||||');*/
             sessionsList.add(FilmSessionModel(
                 id: mapData['id'].toString(),
                 date: mapData['date'].toString(),
@@ -97,17 +85,14 @@ class FilmsRepositoryImpl implements FilmsRepository{
                 minPrice: mapData['minPrice'].toString(),
                 room: mapData['room']));
             }
-          //     print('filmList: $filmsList');
           }
-        //  print('filmList: $sessionsList');
           return Right(sessionsList);
       }
-      return const Left(AppError(AppErrorType.api));
+      return const Left(AppError('Не вдалося отримати сеанси.'));
   }
 
   @override
   Future<Either<AppError, IsTicketBooked>> getIsTicketBooked(int sessionId, List <int> seats) async {
-    print('in implementation: $sessionId, $seats');
     final accessToken = await getAccessToken();
     final data = await _filmsRemoteDatasourse.bookTicket(
         accessToken, sessionId, seats);
@@ -118,17 +103,13 @@ class FilmsRepositoryImpl implements FilmsRepository{
             data: elseData['data'], success: elseData['success']));
       }
     }
-    return const Left(AppError(AppErrorType.api));
+    return const Left(AppError('Не вдалося забронювати квиток.'));
   }
 
   @override
   Future<Either<AppError, IsPaymentSuccess>>
   getIsPaymentSuccess(int sessionId, List <int> seats, String email, String cvv, String cardNumber, String expirationDate) async {
-  //  print('in implementation: $sessionId, $seats');
     final accessToken = await getAccessToken();
-    print('in repository impl:');
-    print('sessionId: ${sessionId}\nseats:${seats}\nemail${email}'
-        '\ncardNumber:${cardNumber}\ncvv:${cvv}\nexpire:${expirationDate}');
     final data = await _filmsRemoteDatasourse.buyTicket(
         accessToken, sessionId, seats, email, cvv, cardNumber, expirationDate);
     if (data.isRight()) {
@@ -138,6 +119,6 @@ class FilmsRepositoryImpl implements FilmsRepository{
             data: elseData['data'], success: elseData['success']));
       }
     }
-    return const Left(AppError(AppErrorType.api));
+    return const Left(AppError('Не вдалося придбати квиток.'));
   }
 }

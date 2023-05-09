@@ -39,12 +39,6 @@ class AccountPageHead extends StatelessWidget {
           ],
         ),
         IconButton(onPressed: onPressed, icon: const Icon(Icons.edit, color: white, size: 20,))])),
-        Row(children: [
-          IconButton(
-            icon: const Icon(Icons.favorite_outline_outlined, color: white,),
-            onPressed: onPressed2,),
-            const Text('Улюблені фільми', style: notoSansDisplayBoldSmall,)
-        ],)
       ],
     );
   }
@@ -132,5 +126,21 @@ class QRCodeWidget extends StatelessWidget {
           height: 50,
         ),
     );
+  }
+}
+
+
+class NoTicketsWidget extends StatelessWidget {
+  const NoTicketsWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const [
+          SizedBox(height: 200,),
+          Text('Йой, ви ще не були у кіно?', style: notoSansDisplayRegularSmall,),
+          Text('Гайда до афіші!', style: notoSansDisplayRegularSmall,),
+        ]);
   }
 }

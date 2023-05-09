@@ -47,6 +47,16 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
   }
 
   @override
+  void dispose() {
+    _emailController.dispose();
+    _cardNumberController.dispose();
+    _expirationDate.dispose();
+    _cvvController.dispose();
+    buyTicketBloc.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
         providers: [BlocProvider(create: (context) => buyTicketBloc)],
@@ -56,7 +66,7 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
               listener: (context, state) {},
               builder: (context, state) {
                 if (state is BuyTicketError) {
-                  WidgetsBinding.instance?.addPostFrameCallback((_) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
                     showDialog(
                         context: context,
                         builder: (BuildContext context) {
@@ -70,7 +80,7 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
                         });
                   });
                 } else if (state is BuyTicketSuccess) {
-                  WidgetsBinding.instance?.addPostFrameCallback((_) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
                     showDialog(
                         context: context,
                         builder: (BuildContext context) {

@@ -3,7 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:cine_me/core/constants/api_constants.dart';
-import 'package:cine_me/features/authentification/domain/entities/app_error_entity.dart';
+import 'package:cine_me/core/entities/app_error_entity.dart';
 
 abstract class FilmsRemoteDatasourse{
   Future<Either<AppError, Map<String, dynamic>>>
@@ -42,13 +42,13 @@ class FilmsRemoteDatasourseImpl implements FilmsRemoteDatasourse{
       final data = jsonDecode(response.body);
       return Right(data);
       }
-    return const Left(AppError(AppErrorType.network));
+    return const Left(AppError('Не вдалося отримати фільми з афіші.'));
   }
 
   @override
   Future<Either<AppError, Map<String, dynamic>>>
   getFilmSessionsJson(String accessToken, {String filmId='', String sessionId=''}) async{
-    var request;
+    dynamic request;
     String formattedDate = getDateTimeNow();
     sessionId.isEmpty && filmId.isNotEmpty?
     request = '?movieId=${filmId}date=$formattedDate':
@@ -60,7 +60,7 @@ class FilmsRemoteDatasourseImpl implements FilmsRemoteDatasourse{
       final data = jsonDecode(response.body);
       return Right(data);
     }
-    return const Left(AppError(AppErrorType.network));
+    return const Left(AppError('Не вдалося отримати сеанси.'));
   }
 
   @override
@@ -81,7 +81,7 @@ class FilmsRemoteDatasourseImpl implements FilmsRemoteDatasourse{
         return Right(data);
       }
     }
-    return const Left(AppError(AppErrorType.api));
+    return const Left(AppError('Не вдалося забронювати квиток.'));
   }
 
   @override
@@ -94,7 +94,6 @@ class FilmsRemoteDatasourseImpl implements FilmsRemoteDatasourse{
       String cardNumber,
       String expirationDate,
      ) async{
-
     final response = await http.post(Uri.parse(API.apiFilmBuyAddress),
            headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
@@ -115,6 +114,6 @@ class FilmsRemoteDatasourseImpl implements FilmsRemoteDatasourse{
         return Right(data);
       }
     }
-    return const Left(AppError(AppErrorType.api));
+    return const Left(AppError('Не вдалося придбати квиток.'));
   }
 }

@@ -9,9 +9,7 @@ abstract class FilmsEvent extends Equatable{
 
 class FilmsInitiateEvent extends FilmsEvent {
   final String search;
-  FilmsInitiateEvent({this.search = ''}){
-    print('in init event $search');
-  }
+  const FilmsInitiateEvent({this.search = ''});
 
   @override
   List<Object> get props => [];
