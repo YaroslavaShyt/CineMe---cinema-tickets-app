@@ -1,6 +1,7 @@
 import 'package:beamer/beamer.dart';
 import 'package:cine_me/core/constants/colors.dart';
 import 'package:cine_me/core/getit/get_it.dart';
+import 'package:cine_me/features/account/presentation/widgets/account_location.dart';
 import 'package:cine_me/features/films/presentation/bloc/buy_ticket/buy_ticket_bloc.dart';
 import 'package:cine_me/features/films/presentation/widgets/dialog.dart';
 import 'package:cine_me/features/films/presentation/widgets/text_field_widget.dart';
@@ -43,7 +44,7 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
   @override
   void initState() {
     super.initState();
-    buyTicketBloc = getItInst<BuyTicketBloc>();
+    buyTicketBloc = getItInst<BuyTicketBloc>(param1: context);
   }
 
   @override
@@ -56,7 +57,7 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
               listener: (context, state) {},
               builder: (context, state) {
                 if (state is BuyTicketError) {
-                  WidgetsBinding.instance?.addPostFrameCallback((_) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
                     showDialog(
                         context: context,
                         builder: (BuildContext context) {
@@ -70,19 +71,7 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
                         });
                   });
                 } else if (state is BuyTicketSuccess) {
-                  WidgetsBinding.instance?.addPostFrameCallback((_) {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return CustomAlertDialog(
-                              onPressed: () {
-                                Beamer.of(context).beamToNamed('/account');
-                              },
-                              body: 'Приємного кіно :)',
-                              success: 'Операція успішна!',
-                              buttonText: "Дякую!");
-                        });
-                  });
+                  buyTicketBloc.add(const BuyTicketSuccessEvent());
                 }
                 return PaymentForm(
                     filmName: widget.filmName,

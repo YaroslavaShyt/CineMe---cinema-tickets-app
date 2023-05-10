@@ -49,8 +49,8 @@ class HomeLocation extends BeamLocation<BeamState> {
           BeamPage(
               key: const ValueKey('home/details/sessions/session'),
               child: SessionDetails(
+                  detailsPath: '/home/details/sessions/session/buyticket',
                   filmName: state.queryParameters['filmName'] ?? '',
-                detailsPath: '/home/details/sessions/session/buyticket',
                   sessionId:
                       state.queryParameters['sessionId']?.toString() ?? ''))
         else if (state.uri.pathSegments.length == 5 &&

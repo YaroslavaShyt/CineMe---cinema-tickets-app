@@ -1,6 +1,8 @@
+import 'package:beamer/beamer.dart';
 import 'package:cine_me/core/getit/get_it.dart';
 import 'package:cine_me/features/films/presentation/bloc/book_ticket/book_ticket_bloc.dart';
 import 'package:cine_me/features/films/presentation/bloc/film_session/sessions_bloc.dart';
+import 'package:cine_me/features/films/presentation/pages/nested_nav_locations/home_location.dart';
 import 'package:cine_me/features/films/presentation/widgets/dialog.dart';
 import 'package:cine_me/features/films/presentation/widgets/seats.dart';
 import 'package:cine_me/features/films/presentation/widgets/session_details_widgets.dart';
@@ -92,21 +94,14 @@ class _SessionDetailsState extends State<SessionDetails> {
                         BlocListener<BookTicketBloc, BookTicketState>(
                           listener: (context, state) {
                             if (state is BookTicketSuccess) {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return BookTicketDialog(
-                                    totalToPay: totalToPay.toString(),
-                                    sessionId: widget.sessionId,
-                                    seats: seats.join(','),
-                                    seatsNumbers: seatsNumbers.join(','),
-                                    detailsPath: '${widget.detailsPath}?cinemaName=${session[0].room['name']}'
-                                        '&filmName=${widget.filmName}&date=${session[0].date}&type=${session[0].type}',
-                                    result:
-                                        state.isTicketBooked.success.toString(),
-                                  );
-                                },
-                              );
+                              Beamer.of(context).beamToNamed('${widget.detailsPath}?'
+                                  'filmName=${widget.filmName}&'
+                                  'sessionId=${widget.sessionId}&'
+                                  'seats=${seats.join(',')}&'
+                                  'totalToPay=$totalToPay&'
+                                  'cinemaName=${session[0].room['name']}&'
+                                  'type=${session[0].type}&'
+                                  'date=${session[0].date}');
                             }
                           },
                         ),

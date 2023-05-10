@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import '../constants/colors.dart';
-import '../constants/font_styling.dart';
+import 'package:cine_me/core/constants/colors.dart';
+import 'package:cine_me/core/constants/font_styling.dart';
 
 class ErrorPage extends StatelessWidget {
   const ErrorPage({Key? key}) : super(key: key);

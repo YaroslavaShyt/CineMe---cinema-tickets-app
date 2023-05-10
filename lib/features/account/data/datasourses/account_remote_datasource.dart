@@ -19,6 +19,7 @@ class AccountRemoteDatasourseImpl implements AccountRemoteDatasourse{
   getUserJson(String accessToken, {Map<String, dynamic> newUserData=const{'name': '', 'phoneNumber': ''}}) async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? accessToken = prefs.getString('accessToken');
+    print('in the beginning');
     var response;
     var data;
     if(newUserData['name'].isEmpty && newUserData['phoneNumber'].isEmpty) {
@@ -40,11 +41,14 @@ class AccountRemoteDatasourseImpl implements AccountRemoteDatasourse{
       }
       response = await http.post(Uri.parse(API.apiUserAddress),
           headers: {
+            'Accept-Language': 'uk',
             'Content-Type': 'application/json; charset=UTF-8',
             'Authorization': 'Bearer $accessToken',},
           body: jsonEncode(data)
       );
     }
+    print(response.statusCode);
+    print(response.body);
     if (response.statusCode == 200) {
       return Right(jsonDecode(response.body));
     }

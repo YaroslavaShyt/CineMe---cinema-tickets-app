@@ -5,10 +5,7 @@ import 'package:cine_me/features/authentification/presentation/pages/login_page.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cine_me/core/getit/get_it.dart';
-
 import 'core/widgets/bottom_nav_bar.dart';
-import 'features/films/domain/usecases/get_films.dart';
-import 'features/films/presentation/pages/films/films_page.dart';
 
 class CineMe extends StatefulWidget {
   final initScreen;
@@ -36,16 +33,30 @@ class _CineMeState extends State<CineMe> {
 
   @override
   Widget build(BuildContext context) {
-    var screen = appFilms;
-    if (widget.initScreen is LogIn){
-      screen = appLogIn;
-    }
     return  MultiBlocProvider(
       providers: [
         BlocProvider<SilentLoginBloc>.value(
         value: _silentLoginBloc,
       ),],
-      child: screen
+      child: BeamerProvider(
+        routerDelegate: BeamerDelegate(
+          initialPath: '/home',
+          locationBuilder: RoutesLocationBuilder(
+            routes: {
+              '/home': (context, state, data) => const BottomNavBar(),
+            },
+          ),
+        ),
+        child: Builder(
+          builder: (context) {
+            var screen = appFilms;
+            if (widget.initScreen is LogIn) {
+              screen = appLogIn;
+            }
+            return screen;
+          },
+        ),
+      ),
     );
   }
 }

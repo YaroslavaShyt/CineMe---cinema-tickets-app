@@ -22,6 +22,7 @@ class BookTicketDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(detailsPath);
     return  AlertDialog(
       title: Text('Обрані місця: $seatsNumbers', style: notoSansDisplayBoldSmall),
       backgroundColor: lightBlack,

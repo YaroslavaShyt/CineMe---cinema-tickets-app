@@ -39,12 +39,6 @@ class AccountPageHead extends StatelessWidget {
           ],
         ),
         IconButton(onPressed: onPressed, icon: const Icon(Icons.edit, color: white, size: 20,))])),
-        Row(children: [
-          IconButton(
-            icon: const Icon(Icons.favorite_outline_outlined, color: white,),
-            onPressed: onPressed2,),
-            const Text('Улюблені фільми', style: notoSansDisplayBoldSmall,)
-        ],)
       ],
     );
   }
