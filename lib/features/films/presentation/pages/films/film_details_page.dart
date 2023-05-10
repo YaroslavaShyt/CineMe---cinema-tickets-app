@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cine_me/core/getit/get_it.dart';
 import 'package:cine_me/features/films/presentation/bloc/films/films_bloc.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-import 'package:cine_me/features/films/presentation/widgets/film_details_widget.dart';
+import 'package:cine_me/features/films/presentation/widgets/films_page_widgets/film_details_widget.dart';
 
 class FilmDetails extends StatefulWidget {
   final String filmName;

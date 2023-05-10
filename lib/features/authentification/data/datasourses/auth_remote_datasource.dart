@@ -4,7 +4,7 @@ import 'package:crypto/crypto.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:device_info_plus/device_info_plus.dart';
-import 'dart:io' show Build, Platform;
+import 'dart:io' show Platform;
 
 
 abstract class AuthenticationRemoteDatasource {
@@ -44,7 +44,6 @@ class AuthenticationRemoteDatasourceImpl
   @override
   Future<String> getDeviceInfo() async {
     final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    try {
       if (Platform.isAndroid) {
         final AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
         return androidInfo.id;
@@ -52,10 +51,7 @@ class AuthenticationRemoteDatasourceImpl
         final IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
         return iosInfo.identifierForVendor ?? '';
       }
-    } catch (e) {
-      print('Error getting device info: $e');
-    }
-    return 'empty string';
+    return '';
   }
 
 

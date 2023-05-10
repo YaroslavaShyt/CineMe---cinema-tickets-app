@@ -1,5 +1,4 @@
 import 'package:beamer/beamer.dart';
-import 'package:cine_me/core/constants/colors.dart';
 import 'package:cine_me/features/authentification/presentation/bloc/silent_login_bloc.dart';
 import 'package:cine_me/features/authentification/presentation/pages/login_page.dart';
 import 'package:flutter/material.dart';

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:beamer/beamer.dart';
-
-import '../pages/search_page.dart';
+import 'package:cine_me/features/films/presentation/pages/search/search_page.dart';
 
 
 

@@ -1,7 +1,7 @@
 import 'package:beamer/beamer.dart';
 import 'package:cine_me/core/constants/colors.dart';
 import 'package:cine_me/core/constants/font_styling.dart';
-import 'package:cine_me/features/films/presentation/widgets/transparent_button.dart';
+import 'package:cine_me/features/films/presentation/widgets/films_page_widgets/custom_red_button.dart';
 import 'package:flutter/material.dart';
 
 class BookTicketDialog extends StatelessWidget {
@@ -22,7 +22,6 @@ class BookTicketDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(detailsPath);
     return  AlertDialog(
       title: Text('Обрані місця: $seatsNumbers', style: notoSansDisplayBoldSmall),
       backgroundColor: lightBlack,

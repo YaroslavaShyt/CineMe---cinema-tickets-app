@@ -2,8 +2,8 @@ import 'package:cine_me/core/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:beamer/beamer.dart';
 import 'package:cine_me/features/account/presentation/widgets/account_location.dart';
-import 'package:cine_me/features/films/presentation/pages/nested_nav_locations/home_location.dart';
-import 'package:cine_me/features/films/presentation/widgets/search_location.dart';
+import 'package:cine_me/features/films/presentation/widgets/home_location.dart';
+import 'package:cine_me/features/films/presentation/widgets/search_page_widgets/search_location.dart';
 
 
 

@@ -2,8 +2,7 @@ import 'package:cine_me/features/authentification/presentation/bloc/silent_login
 import 'package:cine_me/features/authentification/presentation/widgets/gradient.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../../core/constants/colors.dart';
+import 'package:cine_me/core/constants/colors.dart';
 
 class CustomBottomNavBar extends StatefulWidget implements PreferredSizeWidget{
   const CustomBottomNavBar({Key? key}) : super(key: key);
@@ -29,7 +28,7 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
               height: 50,
               child: OutlinedButton(
               style: OutlinedButton.styleFrom(
-                side: const BorderSide(color: white), // Встановлюємо колір межі
+                side: const BorderSide(color: white),
               ),
               onPressed: (){
             BlocProvider.of<SilentLoginBloc>(context).add(

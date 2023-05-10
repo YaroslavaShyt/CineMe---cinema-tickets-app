@@ -1,10 +1,8 @@
-import 'package:beamer/beamer.dart';
 import 'package:cine_me/core/constants/colors.dart';
 import 'package:cine_me/core/getit/get_it.dart';
-import 'package:cine_me/features/account/presentation/widgets/account_location.dart';
 import 'package:cine_me/features/films/presentation/bloc/buy_ticket/buy_ticket_bloc.dart';
-import 'package:cine_me/features/films/presentation/widgets/dialog.dart';
-import 'package:cine_me/features/films/presentation/widgets/text_field_widget.dart';
+import 'package:cine_me/features/films/presentation/widgets/search_page_widgets/dialog.dart';
+import 'package:cine_me/features/films/presentation/widgets/form_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

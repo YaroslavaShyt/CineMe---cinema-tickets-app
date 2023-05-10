@@ -2,17 +2,15 @@ import 'package:beamer/beamer.dart';
 import 'package:cine_me/core/getit/get_it.dart';
 import 'package:cine_me/features/films/presentation/bloc/book_ticket/book_ticket_bloc.dart';
 import 'package:cine_me/features/films/presentation/bloc/film_session/sessions_bloc.dart';
-import 'package:cine_me/features/films/presentation/pages/nested_nav_locations/home_location.dart';
-import 'package:cine_me/features/films/presentation/widgets/dialog.dart';
-import 'package:cine_me/features/films/presentation/widgets/seats.dart';
-import 'package:cine_me/features/films/presentation/widgets/session_details_widgets.dart';
+import 'package:cine_me/features/films/presentation/widgets/films_page_widgets/seats.dart';
+import 'package:cine_me/features/films/presentation/widgets/search_page_widgets/session_details_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cine_me/core/constants/colors.dart';
-import 'package:cine_me/features/films/presentation/widgets/transparent_button.dart';
+import 'package:cine_me/features/films/presentation/widgets/films_page_widgets/custom_red_button.dart';
 import 'package:cine_me/core/widgets/error_widget.dart';
 import 'package:cine_me/core/constants/font_styling.dart';
-import 'package:cine_me/features/films/presentation/widgets/screen_painter.dart';
+import 'package:cine_me/features/films/presentation/widgets/films_page_widgets/screen_painter.dart';
 
 
 class SessionDetails extends StatefulWidget {

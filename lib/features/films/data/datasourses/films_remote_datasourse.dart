@@ -42,7 +42,7 @@ class FilmsRemoteDatasourseImpl implements FilmsRemoteDatasourse{
       final data = jsonDecode(response.body);
       return Right(data);
       }
-    return const Left(AppError(AppErrorType.network));
+    return const Left(AppError('Не вдалося отримати дані про афішу.'));
   }
 
   @override
@@ -60,7 +60,7 @@ class FilmsRemoteDatasourseImpl implements FilmsRemoteDatasourse{
       final data = jsonDecode(response.body);
       return Right(data);
     }
-    return const Left(AppError(AppErrorType.network));
+    return const Left(AppError('Не вдалося отримати дані про сеанси.'));
   }
 
   @override
@@ -81,7 +81,7 @@ class FilmsRemoteDatasourseImpl implements FilmsRemoteDatasourse{
         return Right(data);
       }
     }
-    return const Left(AppError(AppErrorType.api));
+    return const Left(AppError('Не вдалося забронювати квиток.'));
   }
 
   @override
@@ -94,7 +94,6 @@ class FilmsRemoteDatasourseImpl implements FilmsRemoteDatasourse{
       String cardNumber,
       String expirationDate,
      ) async{
-
     final response = await http.post(Uri.parse(API.apiFilmBuyAddress),
            headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
@@ -115,6 +114,6 @@ class FilmsRemoteDatasourseImpl implements FilmsRemoteDatasourse{
         return Right(data);
       }
     }
-    return const Left(AppError(AppErrorType.api));
+    return const Left(AppError('Не вдалося придбати квиток.'));
   }
 }

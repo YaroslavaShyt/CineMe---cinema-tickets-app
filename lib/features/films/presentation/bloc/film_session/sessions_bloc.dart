@@ -19,16 +19,11 @@ class SessionsBloc extends Bloc<SessionsEvent, SessionsState>{
 
   @override
   Stream<SessionsState> mapEventToState(SessionsEvent event) async*{
-  //  print('у блоці сесії');
     if(event is SessionsInitiateEvent){
-   //   print('in bloc before sessions');
       final response = await filmSessions(filmId: filmId, sessionId: sessionId);
-   //   print('in bloc after sessions');
       yield response.fold((l){
         return SessionsError(l.toString());
       }, (r)=> SessionsSuccess(r));
-    }else{
-      print('it is not initial sessions');
     }
   }
 

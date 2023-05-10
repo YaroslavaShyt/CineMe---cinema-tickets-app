@@ -1,13 +1,11 @@
 import 'package:cine_me/features/account/data/datasourses/account_remote_datasource.dart';
 import 'package:cine_me/features/account/data/models/ticket_model.dart';
 import 'package:cine_me/features/account/data/models/user_model.dart';
-
 import 'package:cine_me/features/authentification/domain/entities/app_error_entity.dart';
-
 import 'package:dartz/dartz.dart';
+import 'package:cine_me/core/usecases/shared_pref_access_token.dart';
+import 'package:cine_me/features/account/domain/repository/account_repository.dart';
 
-import '../../../../core/usecases/shared_pref_access_token.dart';
-import '../../domain/repository/account_repository.dart';
 
 class AccountRepositoryImp implements AccountRepository{
   final AccountRemoteDatasourse _accountRemoteDatasourse;
@@ -31,7 +29,7 @@ class AccountRepositoryImp implements AccountRepository{
         return Right(UserModel(name: mapData['name'], phoneNumber: mapData['phoneNumber']));
       }
     }
-    return const Left(AppError(AppErrorType.api));
+    return const Left(AppError('Не вдалося отримати дані про користувача.'));
   }
 
   @override
@@ -54,10 +52,9 @@ class AccountRepositoryImp implements AccountRepository{
               date: mapData[i]['date']
           ));
         }
-        print(ticketsList);
         return Right(ticketsList);
       }
     }
-    return const Left(AppError(AppErrorType.api));
+    return const Left(AppError('Не вдалося отримати дані про квитки.'));
   }
 }
