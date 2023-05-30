@@ -1,23 +1,23 @@
 import 'package:cine_me/features/account/data/datasourses/account_remote_datasource.dart';
 import 'package:cine_me/features/account/data/models/ticket_model.dart';
 import 'package:cine_me/features/account/data/models/user_model.dart';
-import 'package:cine_me/features/authentification/domain/entities/app_error_entity.dart';
+import 'package:cine_me/features/authentication/domain/entities/app_error_entity.dart';
 import 'package:dartz/dartz.dart';
 import 'package:cine_me/core/usecases/shared_pref_access_token.dart';
 import 'package:cine_me/features/account/domain/repository/account_repository.dart';
 
 
 class AccountRepositoryImp implements AccountRepository{
-  final AccountRemoteDatasourse _accountRemoteDatasourse;
+  final AccountRemoteDataSource _accountRemoteDataSource;
 
-  AccountRepositoryImp(this._accountRemoteDatasourse);
+  AccountRepositoryImp(this._accountRemoteDataSource);
 
 
   @override
   Future<Either<AppError, UserModel>>
   getAccountData({Map<String, dynamic> newUserData = const {'name': '', 'phoneNumber': ''}}) async{
     final accessToken = await getAccessToken();
-    final data = await _accountRemoteDatasourse.getUserJson(accessToken, newUserData: newUserData);
+    final data = await _accountRemoteDataSource.getUserJson(accessToken, newUserData: newUserData);
     if (data.isRight()){
       final elseData = data.getOrElse(() => {});
       if (elseData != {}){
@@ -37,7 +37,7 @@ class AccountRepositoryImp implements AccountRepository{
   getUserTickets()async{
     List<TicketModel> ticketsList = [];
     final accessToken = await getAccessToken();
-    final data = await _accountRemoteDatasourse.getUserTicketsJson(accessToken);
+    final data = await _accountRemoteDataSource.getUserTicketsJson(accessToken);
     if(data.isRight()){
       final elseData = data.getOrElse(() => {});
       if (elseData != {}){

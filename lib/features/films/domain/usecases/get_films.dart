@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:cine_me/features/films/domain/usecases/usecase.dart';
-import 'package:cine_me/features/authentification/domain/entities/app_error_entity.dart';
+import 'package:cine_me/features/authentication/domain/entities/app_error_entity.dart';
 import 'package:cine_me/features/films/data/models/film_model.dart';
 import 'package:cine_me/features/films/domain/repository/films_repository.dart';
 

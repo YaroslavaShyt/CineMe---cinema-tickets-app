@@ -23,7 +23,7 @@ class FilmsBloc extends Bloc<FilmsEvent, FilmsState>{
     if(event is FilmsInitiateEvent){
       final response = await films(search: event.search);
       yield response.fold((l){
-        return const FilmsError('error');
+        return const FilmsError('Помилка отримання фільмів.');
       }, (r)=> FilmsSuccess(r));
     }
   }

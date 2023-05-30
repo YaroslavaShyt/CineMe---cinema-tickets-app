@@ -1,8 +1,8 @@
-import 'package:cine_me/features/authentification/domain/entities/app_error_entity.dart';
+import 'package:cine_me/features/authentication/domain/entities/app_error_entity.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:bloc/bloc.dart';
-import 'package:cine_me/features/authentification/domain/usecases/silent_login.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:cine_me/features/authentication/domain/usecases/silent_login.dart';
 part 'silent_login_state.dart';
 part 'silent_login_event.dart';
 

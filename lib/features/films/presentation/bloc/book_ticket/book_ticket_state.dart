@@ -10,7 +10,7 @@ abstract class BookTicketState extends Equatable {
 class BookTicketInitial extends BookTicketState {}
 
 class BookTicketSuccess extends BookTicketState {
-  final IsTicketBooked isTicketBooked;
+  final IsSuccess isTicketBooked;
 
   const BookTicketSuccess(this.isTicketBooked);
 

@@ -1,16 +1,14 @@
-import 'dart:convert';
 import 'package:dartz/dartz.dart';
-import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
+import 'package:dio/dio.dart';
+import 'package:cine_me/core/usecases/get_today_date.dart';
 import 'package:cine_me/core/constants/api_constants.dart';
-import 'package:cine_me/features/authentification/domain/entities/app_error_entity.dart';
+import 'package:cine_me/features/authentication/domain/entities/app_error_entity.dart';
 
-abstract class FilmsRemoteDatasourse{
+abstract class FilmsRemoteDataSource{
   Future<Either<AppError, Map<String, dynamic>>>
   getTodayFilmsJson(String accessToken, {String search = ''});
   Future<Either<AppError, Map<String, dynamic>>>
   getFilmSessionsJson(String accessToken, {String filmId='', String sessionId=''});
-  String getDateTimeNow();
   Future<Either<AppError, Map<String, dynamic>>>
   bookTicket(String accessToken, int sessionId, List<int> seats);
   Future<Either<AppError, Map<String, dynamic>>>
@@ -18,102 +16,121 @@ abstract class FilmsRemoteDatasourse{
       String email, String cardNumber, String expirationDate, String cvv);
 }
 
-class FilmsRemoteDatasourseImpl implements FilmsRemoteDatasourse{
+class FilmsRemoteDataSourceImpl implements FilmsRemoteDataSource {
+  Dio dio = Dio();
 
   @override
-  String getDateTimeNow(){
-    DateTime now = DateTime.now();
-    return DateFormat('yyyy-MM-dd').format(now);
-  }
-
-  @override
-  Future<Either<AppError, Map<String, dynamic>>>
-  getTodayFilmsJson(String accessToken, {String search = ''}) async {
+  Future<Either<AppError, Map<String, dynamic>>> getTodayFilmsJson(String accessToken, {String search = ''}) async {
     String formattedDate = getDateTimeNow();
-    var request = '${API.apiFilmsAddress}?date=$formattedDate&query=$search';
-    if(search.isNotEmpty){
+    String request = '${API.apiFilmsAddress}?date=$formattedDate&query=$search';
+    if (search.isNotEmpty) {
       request = '${API.apiFilmsAddress}?query=$search';
     }
-    final response = await http.get(Uri.parse(request),
-        headers: {
-      'Authorization': 'Bearer $accessToken',
-          'Accept-Language': 'uk'});
-    if (response.statusCode == 200){
-      final data = jsonDecode(response.body);
-      return Right(data);
+    try {
+      final response = await dio.get(
+        request,
+        options: buildOptions(accessToken),
+      );
+      if (response.statusCode == 200) {
+        final data = response.data;
+        return Right(data);
       }
+    } catch (error) {
+      throw Exception('Error: $error');
+    }
     return const Left(AppError('Не вдалося отримати дані про афішу.'));
   }
 
   @override
-  Future<Either<AppError, Map<String, dynamic>>>
-  getFilmSessionsJson(String accessToken, {String filmId='', String sessionId=''}) async{
-    var request;
+  Future<Either<AppError, Map<String, dynamic>>> getFilmSessionsJson(String accessToken,
+      {String filmId = '', String sessionId = ''}) async {
+    String request;
     String formattedDate = getDateTimeNow();
-    sessionId.isEmpty && filmId.isNotEmpty?
-    request = '?movieId=${filmId}date=$formattedDate':
+    if (sessionId.isEmpty && filmId.isNotEmpty) {
+      request = '?movieId=$filmId&date=$formattedDate';
+    } else {
       request = '/$sessionId';
-    final response = await http.get(Uri.parse('${API.apiFilmSessionAddress}$request'),
-        headers: {'Authorization': 'Bearer $accessToken',
-          'Accept-Language': 'uk'});
-    if (response.statusCode == 200){
-      final data = jsonDecode(response.body);
-      return Right(data);
+    }
+    try {
+      final response = await dio.get(
+        '${API.apiFilmSessionAddress}$request',
+        options: buildOptions(accessToken),
+      );
+      if (response.statusCode == 200) {
+        final data = response.data;
+        return Right(data);
+      }
+    } catch (error) {
+      throw Exception('Error: $error');
     }
     return const Left(AppError('Не вдалося отримати дані про сеанси.'));
   }
 
   @override
-  Future<Either<AppError, Map<String, dynamic>>>
-  bookTicket(String accessToken, int sessionId, List<int> seats) async{
-    final response = await http.post(Uri.parse(API.apiFilmBookAddress),
-        headers: {'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': 'Bearer $accessToken',
-          'Accept-Language': 'uk'},
-        body: jsonEncode({
+  Future<Either<AppError, Map<String, dynamic>>> bookTicket(String accessToken, int sessionId, List<int> seats) async {
+    try {
+      final response = await dio.post(
+        API.apiFilmBookAddress,
+        options: buildOptions(accessToken),
+        data: {
           'seats': seats,
-          'sessionId': sessionId
-        })
-    );
-    if (response.statusCode == 200){
-      final data = jsonDecode(response.body);
-      if(data['success'] == true && data['data'] == true){
-        return Right(data);
+          'sessionId': sessionId,
+        },
+      );
+      if (response.statusCode == 200) {
+        final data = response.data;
+        if (data['success'] == true && data['data'] == true) {
+          return Right(data);
+        }
       }
+    } catch (error) {
+      throw Exception('Error: $error');
     }
     return const Left(AppError('Не вдалося забронювати квиток.'));
   }
 
   @override
-  Future<Either<AppError, Map<String, dynamic>>>
-  buyTicket(String accessToken,
+  Future<Either<AppError, Map<String, dynamic>>> buyTicket(
+      String accessToken,
       int sessionId,
       List<int> seats,
       String email,
       String cvv,
       String cardNumber,
       String expirationDate,
-     ) async{
-    final response = await http.post(Uri.parse(API.apiFilmBuyAddress),
-           headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Authorization': 'Bearer $accessToken',
-             'Accept-Language': 'uk'},
-           body: jsonEncode({
-              'sessionId': sessionId,
-              'seats': seats,
-              'email': email,
-              'cardNumber': cardNumber.toString(),
-              'expirationDate': expirationDate,
-              'cvv': cvv
-           })
-    );
-    if (response.statusCode == 200){
-      final data = jsonDecode(response.body);
-      if(data['success'] == true){
-        return Right(data);
+      ) async {
+    try {
+      final response = await dio.post(
+        API.apiFilmBuyAddress,
+        options: buildOptions(accessToken),
+        data: {
+          'sessionId': sessionId,
+          'seats': seats,
+          'email': email,
+          'cardNumber': cardNumber.toString(),
+          'expirationDate': expirationDate,
+          'cvv': cvv,
+        },
+      );
+      if (response.statusCode == 200) {
+        final data = response.data;
+        if (data['success'] == true) {
+          return Right(data);
+        }
       }
+    } catch (error) {
+      throw Exception('Error: $error');
     }
     return const Left(AppError('Не вдалося придбати квиток.'));
+  }
+
+  Options buildOptions(String accessToken) {
+    return Options(
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $accessToken',
+        'Accept-Language': 'uk',
+      },
+    );
   }
 }

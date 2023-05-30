@@ -1,6 +1,6 @@
 import 'package:beamer/beamer.dart';
-import 'package:bloc/bloc.dart';
-import 'package:cine_me/features/films/data/models/is_payment_success_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:cine_me/features/films/data/models/is_success_model.dart';
 import 'package:cine_me/features/films/domain/usecases/buy_ticket.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';

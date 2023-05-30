@@ -8,9 +8,7 @@ abstract class SilentLoginState extends Equatable {
 }
 
 class SilentLoginInitial extends SilentLoginState {}
-
 class SilentLoginSuccess extends SilentLoginState {}
-
 class SilentLoginError extends SilentLoginState {
   final String message;
 

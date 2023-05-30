@@ -12,4 +12,19 @@ class FilmSessionModel{
     required this.minPrice,
     this.room = const {}
 });
+
+  factory FilmSessionModel.fromJson(Map<String, dynamic> json) {
+    final String id = json['id'];
+    final String date = json['date'];
+    final String type = json['type'];
+    final String minPrice = json['minPrice'];
+    final Map<String, dynamic> room = json['room'];
+    return FilmSessionModel(
+        id: id,
+        date: date,
+        type: type,
+        minPrice: minPrice,
+        room: room
+    );
+  }
 }

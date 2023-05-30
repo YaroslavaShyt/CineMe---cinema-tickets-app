@@ -1,8 +1,8 @@
 import 'package:cine_me/features/account/domain/usecases/get_account.dart';
 import 'package:cine_me/features/account/domain/usecases/get_user_tickets.dart';
 import 'package:cine_me/features/account/presentation/bloc/account_bloc.dart';
-import 'package:cine_me/features/authentification/data/datasourses/auth_remote_datasource.dart';
-import 'package:cine_me/features/authentification/domain/usecases/silent_login.dart';
+import 'package:cine_me/features/authentication/data/datasourses/auth_remote_datasource.dart';
+import 'package:cine_me/features/authentication/domain/usecases/silent_login.dart';
 import 'package:cine_me/features/films/data/datasourses/films_remote_datasourse.dart';
 import 'package:cine_me/features/films/data/repositories/films_repository_imp.dart';
 import 'package:cine_me/features/films/domain/repository/films_repository.dart';
@@ -15,9 +15,9 @@ import 'package:get_it/get_it.dart';
 import 'package:cine_me/features/account/data/datasourses/account_remote_datasource.dart';
 import 'package:cine_me/features/account/data/repositories/account_repository_imp.dart';
 import 'package:cine_me/features/account/domain/repository/account_repository.dart';
-import 'package:cine_me/features/authentification/data/repositories/auth_repository_imp.dart';
-import 'package:cine_me/features/authentification/domain/repositories/silent_authentication_repository.dart';
-import 'package:cine_me/features/authentification/presentation/bloc/silent_login_bloc.dart';
+import 'package:cine_me/features/authentication/data/repositories/auth_repository_imp.dart';
+import 'package:cine_me/features/authentication/domain/repositories/silent_authentication_repository.dart';
+import 'package:cine_me/features/authentication/presentation/bloc/silent_login_bloc.dart';
 import 'package:cine_me/features/films/domain/usecases/get_films.dart';
 import 'package:cine_me/features/films/presentation/bloc/buy_ticket/buy_ticket_bloc.dart';
 import 'package:cine_me/features/films/presentation/bloc/films/films_bloc.dart';
@@ -38,8 +38,8 @@ Future init() async {
       ));
 
 
-  getItInst.registerLazySingleton<FilmsRemoteDatasourse>(
-          () => FilmsRemoteDatasourseImpl());
+  getItInst.registerLazySingleton<FilmsRemoteDataSource>(
+          () => FilmsRemoteDataSourceImpl());
   getItInst.registerLazySingleton<Films>(() => Films(getItInst()));
   getItInst.registerLazySingleton<FilmsRepository>(
           () => FilmsRepositoryImpl(getItInst()));
@@ -63,8 +63,8 @@ Future init() async {
   );
 
   getItInst.registerLazySingleton<Tickets>(()=> Tickets(getItInst()));
-  getItInst.registerLazySingleton<AccountRemoteDatasourse>(
-          () =>AccountRemoteDatasourseImpl());
+  getItInst.registerLazySingleton<AccountRemoteDataSource>(
+          () =>AccountRemoteDataSourceImpl());
   getItInst.registerLazySingleton<AccountRepository>(
           () => AccountRepositoryImp(getItInst()));
   getItInst.registerLazySingleton<Account>(() => Account(getItInst()));

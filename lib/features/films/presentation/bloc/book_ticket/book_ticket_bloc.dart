@@ -1,4 +1,4 @@
-import 'package:cine_me/features/films/data/models/is_ticket_booked.dart';
+import 'package:cine_me/features/films/data/models/is_success_model.dart';
 import 'package:cine_me/features/films/domain/usecases/get_ticket_booked.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

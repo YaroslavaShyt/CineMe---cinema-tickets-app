@@ -1,74 +1,95 @@
-import 'dart:convert';
 import 'package:dartz/dartz.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 import 'package:cine_me/core/constants/api_constants.dart';
-import 'package:cine_me/features/authentification/domain/entities/app_error_entity.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cine_me/features/authentication/domain/entities/app_error_entity.dart';
 
-abstract class AccountRemoteDatasourse{
-  Future<Either<AppError, Map<String, dynamic>>>
-  getUserJson(String accessToken, {Map<String, dynamic> newUserData=const {}});
-  Future<Either<AppError, Map<String, dynamic>>>
-  getUserTicketsJson(String accessToken);
+abstract class AccountRemoteDataSource {
+  Future<Either<AppError, Map<String, dynamic>>> getUserJson(
+      String accessToken, {
+        Map<String, dynamic> newUserData = const {},
+      });
+
+  Future<Either<AppError, Map<String, dynamic>>> getUserTicketsJson(
+      String accessToken,
+      );
 }
 
-class AccountRemoteDatasourseImpl implements AccountRemoteDatasourse{
+class AccountRemoteDataSourceImpl implements AccountRemoteDataSource {
+  Dio dio = Dio();
 
   @override
-  Future<Either<AppError, Map<String, dynamic>>>
-  getUserJson(String accessToken, {Map<String, dynamic> newUserData=const{'name': '', 'phoneNumber': ''}}) async{
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? accessToken = prefs.getString('accessToken');
-    var response;
-    var data;
-    if(newUserData['name'].isEmpty && newUserData['phoneNumber'].isEmpty) {
-       response = await http.get(Uri.parse(API.apiUserAddress),
-          headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Authorization': 'Bearer $accessToken',
-            'Accept-Language': 'uk'
-          });
-    }else{
-      if(newUserData['name'].isNotEmpty && newUserData['phoneNumber'].isNotEmpty){
-        data = {'name': newUserData['name'], 'phoneNumber': newUserData['phoneNumber']};
+  Future<Either<AppError, Map<String, dynamic>>> getUserJson(String accessToken,
+      {
+        Map<String, dynamic> newUserData = const {
+          'name': '',
+          'phoneNumber': ''
+        },
+      }) async {
+    var options = Options(
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $accessToken',
+        'Accept-Language': 'uk',
+      },
+    );
+
+    Map<String, String> data = {};
+    if (newUserData['name'].isEmpty && newUserData['phoneNumber'].isEmpty) {
+      try {
+        var response = await dio.get(
+          API.apiUserAddress,
+          options: options,
+        );
+        if (response.statusCode == 200) {
+          return Right(response.data);
+        }
+      } catch (error) {
+        return Left(AppError('Error: $error'));
       }
-      else if(newUserData['name'].isEmpty && newUserData['phoneNumber'].isNotEmpty){
-        data = {'phoneNumber': newUserData['phoneNumber']};
+    } else {
+      data = {
+        if (newUserData['name'].isNotEmpty) 'name': newUserData['name'],
+        if (newUserData['phoneNumber'].isNotEmpty)
+          'phoneNumber': newUserData['phoneNumber'],
+      };
+      try {
+        var response = await dio.post(
+          API.apiUserAddress,
+          options: options,
+          data: data,
+        );
+        if (response.statusCode == 200) {
+          return Right(response.data);
+        }
+      } catch (error) {
+        return Left(AppError('Error: $error'));
       }
-      else if(newUserData['name'].isNotEmpty && newUserData['phoneNumber'].isEmpty){
-        data = {'name': newUserData['name']};
-      }
-      response = await http.post(Uri.parse(API.apiUserAddress),
-          headers: {
-            'Accept-Language': 'uk',
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Authorization': 'Bearer $accessToken',},
-          body: jsonEncode(data)
-      );
-    }
-    if (response.statusCode == 200) {
-      return Right(jsonDecode(response.body));
     }
     return const Left(AppError('Не вдалося отримати дані про користувача.'));
   }
 
   @override
-  Future <Either<AppError, Map<String, dynamic>>>
-  getUserTicketsJson(String accessToken) async{
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? accessToken = prefs.getString('accessToken');
-    final response = await http.get(Uri.parse(API.apiUserTicketsAddress),
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': 'Bearer $accessToken',
-          'Accept-Language': 'uk'
-        });
-    if(response.statusCode==200){
-      final elseData = jsonDecode(response.body);
-      if(elseData['success'] == true){
-        return Right(elseData);
+  Future<Either<AppError, Map<String, dynamic>>> getUserTicketsJson(
+      String accessToken) async {
+    var options = Options(
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $accessToken',
+        'Accept-Language': 'uk',
+      },
+    );
+    try {
+      var response = await dio.get(
+        API.apiUserTicketsAddress,
+        options: options,
+      );
+      if (response.statusCode == 200 && response.data['success'] == true) {
+        return Right(response.data);
+      } else {
+        return Left(AppError('Error: ${response.statusCode}'));
       }
+    } catch (error) {
+      return Left(AppError('Error: $error'));
     }
-    return const Left(AppError('Не вдалося отримати дані про квитки.'));
   }
 }

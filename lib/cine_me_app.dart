@@ -1,6 +1,6 @@
 import 'package:beamer/beamer.dart';
-import 'package:cine_me/features/authentification/presentation/bloc/silent_login_bloc.dart';
-import 'package:cine_me/features/authentification/presentation/pages/login_page.dart';
+import 'package:cine_me/features/authentication/presentation/bloc/silent_login_bloc.dart';
+import 'package:cine_me/features/authentication/presentation/pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cine_me/core/getit/get_it.dart';

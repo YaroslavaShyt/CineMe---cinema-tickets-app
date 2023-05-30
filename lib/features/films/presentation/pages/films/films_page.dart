@@ -1,7 +1,10 @@
 import 'package:cine_me/core/constants/colors.dart';
 import 'package:cine_me/core/getit/get_it.dart';
+import 'package:cine_me/core/progress_page.dart';
+import 'package:cine_me/core/widgets/app_bar_widget.dart';
 import 'package:cine_me/core/widgets/error_widget.dart';
 import 'package:cine_me/features/films/presentation/bloc/films/films_bloc.dart';
+import 'package:cine_me/features/films/presentation/widgets/films_page_widgets/film_page_body_widget.dart';
 import 'package:cine_me/features/films/presentation/widgets/films_page_widgets/slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,6 +21,7 @@ class FilmsPage extends StatefulWidget {
 
 class _FilmsPageState extends State<FilmsPage> {
   late FilmsBloc filmsBloc;
+  final TextEditingController _controller = TextEditingController();
 
   @override
   void initState() {
@@ -28,8 +32,9 @@ class _FilmsPageState extends State<FilmsPage> {
 
   @override
   void dispose() {
-    super.dispose();
+    _controller.dispose();
     filmsBloc.close();
+    super.dispose();
   }
 
   @override
@@ -37,28 +42,22 @@ class _FilmsPageState extends State<FilmsPage> {
     return MultiBlocProvider(
         providers: [BlocProvider(create: (context) => filmsBloc)],
         child: Scaffold(
-            backgroundColor: lightBlack,
-            appBar: const FilmsAppBar(title: 'Афіша',),
             body: BlocConsumer<FilmsBloc, FilmsState>(
                 listener: (context, state) {},
               builder: (context, state) {
                 if (state is FilmsError) {
-                  return const ErrorPage();
+                  return Text(state.message, style: const TextStyle(color: white),);
                 }
                 else if (state is FilmsSuccess){
                   final films = state.films;
                   if (films.isEmpty){
                     return const ErrorPage();
                   }
-                  return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                       const SizedBox(height: 30,),
-                       FilmsSlider(detailsPath: widget.detailsPath, films: films)
-                  ]);
+                  return FilmBody(
+                      films: films,
+                      controller: _controller);
                 }
-                 return const Center(child: CircularProgressIndicator(color: white));
+                 return const ProgressPage(processName: 'Завантажуємо фільми...');
                 },
             ),
         ));

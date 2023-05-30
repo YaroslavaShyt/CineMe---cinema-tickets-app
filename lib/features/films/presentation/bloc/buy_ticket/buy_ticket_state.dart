@@ -10,7 +10,7 @@ abstract class BuyTicketState extends Equatable {
 class BuyTicketInitial extends BuyTicketState {}
 
 class BuyTicketSuccess extends BuyTicketState {
-  final IsPaymentSuccess result;
+  final IsSuccess result;
 
   const BuyTicketSuccess(this.result);
 

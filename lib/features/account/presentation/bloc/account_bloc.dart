@@ -1,6 +1,6 @@
 import 'package:cine_me/features/account/data/models/ticket_model.dart';
 import 'package:cine_me/features/account/domain/usecases/get_user_tickets.dart';
-import 'package:cine_me/features/authentification/domain/entities/app_error_entity.dart';
+import 'package:cine_me/features/authentication/domain/entities/app_error_entity.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
