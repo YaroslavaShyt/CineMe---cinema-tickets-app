@@ -1,18 +1,54 @@
 import 'package:flutter/material.dart';
 
-class CinemaAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const CinemaAppBar({Key? key}) : super(key: key);
-
-  @override
-  Size get preferredSize => const Size.fromHeight(100);
+class CinemaAppBar extends StatelessWidget{
+  final TextEditingController controller;
+  final double scrollOffset;
+  const CinemaAppBar({Key? key, required this.controller, required this.scrollOffset}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-        title: Text('Hello, Annonymus!', style: TextStyle(color: Theme.of(context).primaryColorDark),),
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        elevation: 0,
+    return Container(
+      height: 100,
+      decoration: BoxDecoration(
+        color:  const Color.fromRGBO(143, 141, 207, 100).withOpacity((scrollOffset / 150).clamp(0, 1).toDouble()),
+        borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30))
+      ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(width: 10),
+            IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.menu,
+                color: Theme.of(context).scaffoldBackgroundColor,
+              ),
+            ),
+            const SizedBox(width: 20),
+            Expanded(
+              child: TextField(
+                controller: controller,
+                decoration: const InputDecoration(
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+                  hintText: 'Type something',
+                  hintStyle: TextStyle(
+                    color: Color.fromRGBO(168, 167, 199, 100),
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 20),
+          ],
+        ),
     );
   }
-
 }

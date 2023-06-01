@@ -1,15 +1,12 @@
 import 'package:cine_me/core/constants/colors.dart';
 import 'package:cine_me/core/getit/get_it.dart';
 import 'package:cine_me/core/progress_page.dart';
-import 'package:cine_me/core/widgets/app_bar_widget.dart';
 import 'package:cine_me/core/widgets/error_widget.dart';
 import 'package:cine_me/features/films/presentation/bloc/films/films_bloc.dart';
-import 'package:cine_me/features/films/presentation/widgets/films_page_widgets/film_page_body_widget.dart';
-import 'package:cine_me/features/films/presentation/widgets/films_page_widgets/slider.dart';
+import 'package:cine_me/features/films/presentation/widgets/films_page_widgets/body_content_widget.dart';
+import 'package:cine_me/features/films/presentation/widgets/films_page_widgets/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:cine_me/core/widgets/films_app_bar.dart';
-
 
 class FilmsPage extends StatefulWidget {
   final String detailsPath;
@@ -22,12 +19,22 @@ class FilmsPage extends StatefulWidget {
 class _FilmsPageState extends State<FilmsPage> {
   late FilmsBloc filmsBloc;
   final TextEditingController _controller = TextEditingController();
+  late ScrollController _scrollController;
+  double _scrollControllerOffset = 0.0;
+
+  _scrollListener() {
+    setState(() {
+      _scrollControllerOffset = _scrollController.offset;
+    });
+  }
 
   @override
   void initState() {
-    super.initState();
+    _scrollController = ScrollController();
+    _scrollController.addListener(_scrollListener);
     filmsBloc = getItInst<FilmsBloc>(param1: '', param2: '');
     filmsBloc.add(const FilmsInitiateEvent());
+    super.initState();
   }
 
   @override
@@ -42,24 +49,28 @@ class _FilmsPageState extends State<FilmsPage> {
     return MultiBlocProvider(
         providers: [BlocProvider(create: (context) => filmsBloc)],
         child: Scaffold(
-            body: BlocConsumer<FilmsBloc, FilmsState>(
-                listener: (context, state) {},
-              builder: (context, state) {
-                if (state is FilmsError) {
-                  return Text(state.message, style: const TextStyle(color: white),);
+          drawer: const CustomDrawer(),
+          body: BlocConsumer<FilmsBloc, FilmsState>(
+            listener: (context, state) {},
+            builder: (context, state) {
+              if (state is FilmsError) {
+                return Text(
+                  state.message,
+                  style: const TextStyle(color: white),
+                );
+              } else if (state is FilmsSuccess) {
+                if (state.films.isEmpty) {
+                  return const ErrorPage();
                 }
-                else if (state is FilmsSuccess){
-                  final films = state.films;
-                  if (films.isEmpty){
-                    return const ErrorPage();
-                  }
-                  return FilmBody(
-                      films: films,
-                      controller: _controller);
-                }
-                 return const ProgressPage(processName: 'Завантажуємо фільми...');
-                },
-            ),
+                return BodyContent(
+                    scrollControllerOffset: _scrollControllerOffset,
+                    controller: _controller,
+                    scrollController: _scrollController,
+                    films: state.films);
+              }
+              return const ProgressPage(processName: 'Завантажуємо фільми...');
+            },
+          ),
         ));
   }
 }

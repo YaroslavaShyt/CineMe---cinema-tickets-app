@@ -1,8 +1,11 @@
+import 'package:cine_me/features/films/data/models/film_model.dart';
 import 'package:flutter/material.dart';
+import 'film_cards_list_widget.dart';
+
 
 class TopFilmsPageBlock extends StatelessWidget {
-  final TextEditingController controller;
-  const TopFilmsPageBlock({Key? key, required this.controller})
+  final List<FilmModel> films;
+  const TopFilmsPageBlock({Key? key, required this.films})
       : super(key: key);
 
   @override
@@ -21,47 +24,9 @@ class TopFilmsPageBlock extends StatelessWidget {
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(top: 30),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.menu,
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                ),
-              ),
-              const SizedBox(width: 20),
-              Expanded(
-                child: TextField(
-                  controller: controller,
-                  decoration: const InputDecoration(
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(30)),
-                      borderSide: BorderSide(color: Colors.white),
-                    ),
-                    hintText: 'Type something',
-                    hintStyle: TextStyle(
-                      color: Color.fromRGBO(168, 167, 199, 100),
-                    ),
-                    filled: true,
-                    fillColor: Colors.white,
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(30)),
-                      borderSide: BorderSide(color: Colors.white),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 20),
-            ],
-          ),
-        ),
         const Positioned(
             left: 30,
-            top: 130,
+            top: 110,
             child: Text(
               'Trending',
               style: TextStyle(
@@ -69,6 +34,9 @@ class TopFilmsPageBlock extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                   color: Colors.white),
             )),
+        Positioned(
+            top: 160,
+            child: FilmCardsList(films: films)),
       ],
     );
   }
