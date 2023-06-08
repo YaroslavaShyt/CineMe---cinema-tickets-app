@@ -23,6 +23,8 @@ import 'package:cine_me/features/films/presentation/bloc/buy_ticket/buy_ticket_b
 import 'package:cine_me/features/films/presentation/bloc/films/films_bloc.dart';
 import 'package:cine_me/features/films/presentation/bloc/film_session/sessions_bloc.dart';
 
+import '../../features/films/presentation/bloc/films_search_bloc/films_search_bloc.dart';
+
 
 final getItInst = GetIt.I;
 
@@ -46,6 +48,10 @@ Future init() async {
 
   getItInst.registerFactoryParam<FilmsBloc, String, String>((param1, param2) {
     return FilmsBloc(films: getItInst(), date: param1, search: param2);
+  });
+
+  getItInst.registerFactoryParam<FilmsSearchBloc, String, String>((param1, param2) {
+    return FilmsSearchBloc(films: getItInst(), date: param1, search: param2);
   });
 
 

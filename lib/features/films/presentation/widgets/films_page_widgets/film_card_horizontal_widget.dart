@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cine_me/features/films/data/models/film_model.dart';
 import 'package:cine_me/features/films/data/models/time_model.dart';
+import 'package:provider/provider.dart';
 
+import '../../../../../core/constants/theme.dart';
 
 class FilmCardHorizontal extends StatelessWidget {
   final FilmModel film;
@@ -17,9 +19,11 @@ class FilmCardHorizontal extends StatelessWidget {
               child: Container(
                 height: 200,
                 width: 320,
-                decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                    color: Colors.redAccent),
+                decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(20)),
+                    color: Provider.of<ThemeProvider>(context).getTheme == light
+                        ? const Color.fromRGBO(73, 71, 167, 100)
+                        : const Color.fromRGBO(236, 237, 246, 10)),
                 child: Image(
                   image: NetworkImage(film.image),
                   fit: BoxFit.cover,

@@ -1,0 +1,21 @@
+{
+  "authentication" : "Authentication",
+  "cinema of your city" : "Cinema of your city",
+  "type something" : "Type something",
+  "loading films" : "Loading films...",
+  "hello" : "Hello, ",
+  "edit data" : "Edit data",
+  "trending" : "Trending",
+  "category" : "Category",
+  "clear" : "Clear filter",
+  "romance" : "Romance",
+  "adventure" : "Adventure",
+  "horror" : "Horror",
+  "action" : "Action",
+  "poster" : "Poster",
+  "search" : "Search",
+  "my tickets" : "My tickets",
+  "ukrainian" : "ukrainian",
+  "light": "Light theme",
+  "dark" : "Dark theme"
+}

@@ -32,6 +32,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       initialPath: '/search',
       locationBuilder: (routeInformation, _) {
         if (routeInformation.location!.contains('/search')) {
+          print('contains');
           return SearchLocation(routeInformation);
         }
         return NotFound(path: routeInformation.location!);
@@ -52,7 +53,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     final uriString = Beamer.of(context).configuration.location!;
-    _currentIndex = uriString.contains('/home') ? 0 : 1;
+    _currentIndex = uriString.contains('/home') ? 0:
+    uriString.contains('/search') ? 1 : 2;
   }
 
   @override

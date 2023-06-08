@@ -25,7 +25,7 @@ class HomeLocation extends BeamLocation<BeamState> {
             state.uri.pathSegments[0] == 'home' &&
             state.uri.pathSegments[1] == 'details')
           BeamPage(
-            key: const ValueKey('home/details'),
+            key: const ValueKey('/home/details'),
             title: 'Details A',
             child: FilmDetails(
                 filmName: state.queryParameters['filmName'] ?? '',
@@ -36,7 +36,7 @@ class HomeLocation extends BeamLocation<BeamState> {
             state.uri.pathSegments[1] == 'details' &&
             state.uri.pathSegments[2] == 'sessions')
           BeamPage(
-              key: const ValueKey('home/details/sessions'),
+              key: const ValueKey('/home/details/sessions'),
               child: SessionsPage(
                   filmId: state.queryParameters['filmId'] ?? '',
                   filmName: state.queryParameters['filmName'] ?? '',
@@ -47,7 +47,7 @@ class HomeLocation extends BeamLocation<BeamState> {
             state.uri.pathSegments[2] == 'sessions' &&
             state.uri.pathSegments[3] == 'session')
           BeamPage(
-              key: const ValueKey('home/details/sessions/session'),
+              key: const ValueKey('/home/details/sessions/session'),
               child: SessionDetails(
                   detailsPath: '/home/details/sessions/session/buyticket',
                   filmName: state.queryParameters['filmName'] ?? '',
@@ -60,7 +60,7 @@ class HomeLocation extends BeamLocation<BeamState> {
             state.uri.pathSegments[3] == 'session' &&
             state.uri.pathSegments[4] == 'buyticket')
           BeamPage(
-            key: const ValueKey('home/details/sessions/session/buyticket'),
+            key: const ValueKey('/home/details/sessions/session/buyticket'),
             child: BuyTicketPage(
               cinemaName: state.queryParameters['cinemaName'] ?? '',
               filmName: state.queryParameters['filmName'] ?? '',

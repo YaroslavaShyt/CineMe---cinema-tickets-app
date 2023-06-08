@@ -1,5 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:cine_me/features/films/presentation/widgets/films_page_widgets/slider_item.dart';
+import 'package:cine_me/features/films/presentation/widgets/films_page_widgets/not_used/slider_item.dart';
 import 'package:flutter/material.dart';
 import 'package:cine_me/features/films/data/models/film_model.dart';
 

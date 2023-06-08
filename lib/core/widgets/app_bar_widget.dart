@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class CinemaAppBar extends StatelessWidget{
   final TextEditingController controller;
   final double scrollOffset;
-  const CinemaAppBar({Key? key, required this.controller, required this.scrollOffset}) : super(key: key);
+  final Function onPressed;
+  const CinemaAppBar({Key? key, required this.controller, required this.scrollOffset, required this.onPressed}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,9 @@ class CinemaAppBar extends StatelessWidget{
           children: [
             const SizedBox(width: 10),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                onPressed();
+              },
               icon: Icon(
                 Icons.menu,
                 color: Theme.of(context).scaffoldBackgroundColor,

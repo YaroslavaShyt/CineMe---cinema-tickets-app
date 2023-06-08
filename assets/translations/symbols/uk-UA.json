@@ -1,0 +1,21 @@
+{
+  "authentication" : "Авторизація",
+  "cinema of your city" : "Кінотеатр твого міста",
+  "type something" : "Напишіть щось...",
+  "loading films" : "Завантаження фільмів...",
+  "hello" : "Вітаю, ",
+  "edit data" : "Редагувати дані",
+  "trending" : "У тренді",
+  "category" : "Категорії",
+  "clear" : "Скинути фільтр",
+  "romance" : "Романтика",
+  "adventure" : "Пригоди",
+  "horror" : "Жахи",
+  "action" : "Бойовики",
+  "poster" : "Афіша",
+  "search" : "Пошук",
+  "my tickets" : "Мої квитки",
+  "ukrainian" : "Українська",
+  "light": "Світла тема",
+  "dark" : "Темна тема"
+}

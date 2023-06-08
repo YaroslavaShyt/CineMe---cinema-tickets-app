@@ -1,11 +1,17 @@
 import 'package:cine_me/features/films/data/models/film_model.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'film_cards_list_widget.dart';
 
 
 class TopFilmsPageBlock extends StatelessWidget {
   final List<FilmModel> films;
-  const TopFilmsPageBlock({Key? key, required this.films})
+  final String detailsPath;
+  const TopFilmsPageBlock({
+    Key? key,
+    required this.detailsPath,
+    required this.films
+  })
       : super(key: key);
 
   @override
@@ -20,23 +26,25 @@ class TopFilmsPageBlock extends StatelessWidget {
             height: 280,
             decoration: const BoxDecoration(
               shape: BoxShape.circle,
-              color: Color.fromRGBO(95, 94, 183, 100),
+              color: Color.fromRGBO(100, 100, 180, 100),
             ),
           ),
         ),
-        const Positioned(
+        Positioned(
             left: 30,
-            top: 110,
+            top: 100,
             child: Text(
-              'Trending',
-              style: TextStyle(
+              "trending".tr().toString(),
+              style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
                   color: Colors.white),
             )),
         Positioned(
-            top: 160,
-            child: FilmCardsList(films: films)),
+            top: 150,
+            child: FilmCardsList(
+                detailsPath: detailsPath,
+                films: films)),
       ],
     );
   }

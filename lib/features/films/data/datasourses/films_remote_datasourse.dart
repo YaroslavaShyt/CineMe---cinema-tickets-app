@@ -23,22 +23,25 @@ class FilmsRemoteDataSourceImpl implements FilmsRemoteDataSource {
   Future<Either<AppError, Map<String, dynamic>>> getTodayFilmsJson(String accessToken, {String search = ''}) async {
     String formattedDate = getDateTimeNow();
     String request = '${API.apiFilmsAddress}?date=$formattedDate&query=$search';
+    print('request: $request ');
     if (search.isNotEmpty) {
       request = '${API.apiFilmsAddress}?query=$search';
     }
-    try {
+  //  try {
       final response = await dio.get(
         request,
         options: buildOptions(accessToken),
       );
+      print('code: ${response.statusCode}');
       if (response.statusCode == 200) {
         final data = response.data;
+        print('success in get data films');
         return Right(data);
       }
-    } catch (error) {
-      throw Exception('Error: $error');
-    }
-    return const Left(AppError('Не вдалося отримати дані про афішу.'));
+ //   } catch (error) {
+ //     throw Exception('Error: $error');
+ //   }
+    return const Left(AppError('Не вдалося отримати дані про .'));
   }
 
   @override

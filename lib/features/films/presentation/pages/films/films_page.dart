@@ -1,10 +1,11 @@
-import 'package:cine_me/core/constants/colors.dart';
 import 'package:cine_me/core/getit/get_it.dart';
 import 'package:cine_me/core/progress_page.dart';
 import 'package:cine_me/core/widgets/error_widget.dart';
 import 'package:cine_me/features/films/presentation/bloc/films/films_bloc.dart';
+import 'package:cine_me/features/films/presentation/bloc/films_search_bloc/films_search_bloc.dart';
 import 'package:cine_me/features/films/presentation/widgets/films_page_widgets/body_content_widget.dart';
-import 'package:cine_me/features/films/presentation/widgets/films_page_widgets/drawer.dart';
+import 'package:cine_me/features/films/presentation/widgets/films_page_widgets/drawer/drawer.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,6 +19,7 @@ class FilmsPage extends StatefulWidget {
 
 class _FilmsPageState extends State<FilmsPage> {
   late FilmsBloc filmsBloc;
+  late FilmsSearchBloc filmsSearchBloc;
   final TextEditingController _controller = TextEditingController();
   late ScrollController _scrollController;
   double _scrollControllerOffset = 0.0;
@@ -33,6 +35,8 @@ class _FilmsPageState extends State<FilmsPage> {
     _scrollController = ScrollController();
     _scrollController.addListener(_scrollListener);
     filmsBloc = getItInst<FilmsBloc>(param1: '', param2: '');
+    filmsSearchBloc = getItInst<FilmsSearchBloc>(param1: '', param2: '');
+    filmsSearchBloc.add(const FilmsSearchInitiateEvent());
     filmsBloc.add(const FilmsInitiateEvent());
     super.initState();
   }
@@ -40,6 +44,7 @@ class _FilmsPageState extends State<FilmsPage> {
   @override
   void dispose() {
     _controller.dispose();
+    filmsSearchBloc.close();
     filmsBloc.close();
     super.dispose();
   }
@@ -47,7 +52,10 @@ class _FilmsPageState extends State<FilmsPage> {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-        providers: [BlocProvider(create: (context) => filmsBloc)],
+        providers: [
+          BlocProvider(create: (context) => filmsBloc),
+          BlocProvider(create: (context) => filmsSearchBloc)
+        ],
         child: Scaffold(
           drawer: const CustomDrawer(),
           body: BlocConsumer<FilmsBloc, FilmsState>(
@@ -56,17 +64,17 @@ class _FilmsPageState extends State<FilmsPage> {
               if (state is FilmsError) {
                 return Text(
                   state.message,
-                  style: const TextStyle(color: white),
                 );
               } else if (state is FilmsSuccess) {
-                if (state.films.isEmpty) {
-                  return const ErrorPage();
-                }
+                final films = state.films;
                 return BodyContent(
+                    filmsSearchBloc: filmsSearchBloc,
+                    detailsPath: widget.detailsPath,
+                    onPressed: (){Scaffold.of(context).openDrawer();},
                     scrollControllerOffset: _scrollControllerOffset,
                     controller: _controller,
                     scrollController: _scrollController,
-                    films: state.films);
+                    films: films);
               }
               return const ProgressPage(processName: 'Завантажуємо фільми...');
             },

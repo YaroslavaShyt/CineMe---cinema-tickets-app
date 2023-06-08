@@ -12,10 +12,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           gradient: appBarGradient
         ),
         child: AppBar(
-          title: Column(
+          title: const Column(
             crossAxisAlignment: CrossAxisAlignment.start,
               children:
-          const [Text('CineMe',
+          [Text('CineMe',
             style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.w400,

@@ -6,14 +6,14 @@ class Title extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(
               height: 210,
               child: Stack(
                 alignment: Alignment.center,
-                children: const [Positioned(
+                children: [Positioned(
                   top: 0,
                   child: Text(
                     'Cine',
@@ -27,8 +27,8 @@ class Title extends StatelessWidget {
                       style: TextStyle(color: white, fontSize: 96, fontFamily: 'Prompt', fontWeight: FontWeight.w600),
                     ),
                   ),],)),
-          const SizedBox(height: 40,),
-          const Text(
+          SizedBox(height: 40,),
+          Text(
             'Кінотеатр твого міста',
             style: TextStyle(color: white, fontSize: 20, fontWeight: FontWeight.w300),
           )

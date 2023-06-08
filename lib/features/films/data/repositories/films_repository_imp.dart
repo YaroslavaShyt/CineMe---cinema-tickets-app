@@ -6,6 +6,7 @@ import 'package:cine_me/features/films/domain/repository/films_repository.dart';
 import 'package:dartz/dartz.dart';
 import 'package:cine_me/features/authentication/domain/entities/app_error_entity.dart';
 import 'package:cine_me/features/films/data/datasourses/films_remote_datasourse.dart';
+import 'package:intl/date_symbol_data_file.dart';
 
 
 class FilmsRepositoryImpl implements FilmsRepository {
@@ -17,9 +18,10 @@ class FilmsRepositoryImpl implements FilmsRepository {
   Future<Either<AppError, List<FilmModel>>> getTodayFilms({String search = ''}) async {
     try {
       final accessToken = await getAccessToken();
+      //await initializeDateFormatting('uk_UA', '');
       final data = await _filmsRemoteDataSource.getTodayFilmsJson(accessToken, search: search);
       return data.fold(
-            (error) => const Left(AppError('Не вдалося отримати дані про афішу.')),
+            (error) => Left(AppError(error.appErrorType)),
             (json) {
           final List<FilmModel> filmsList = (json['data'] as List)
               .map((filmData) => FilmModel.fromJson(filmData))
@@ -28,7 +30,7 @@ class FilmsRepositoryImpl implements FilmsRepository {
         },
       );
     } catch (e) {
-     return const Left(AppError('Не вдалося отримати дані про афішу.'));
+     return Left(AppError(e.toString()));
     }
   }
 
