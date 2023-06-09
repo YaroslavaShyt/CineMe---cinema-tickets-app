@@ -6,6 +6,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cine_me/core/getit/get_it.dart';
+import 'core/locale_bloc.dart';
 import 'core/widgets/bottom_nav_bar.dart';
 import 'package:provider/provider.dart';
 
@@ -43,6 +44,7 @@ class _CineMeState extends State<CineMe> {
 
   @override
   Widget build(BuildContext context) {
+    final LocaleBloc localeBloc = LocaleBloc();
     return Consumer<ThemeProvider>(
       builder: (context, value, child){
       return MaterialApp.router(

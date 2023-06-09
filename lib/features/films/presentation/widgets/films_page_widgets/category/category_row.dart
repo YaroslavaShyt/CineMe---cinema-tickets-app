@@ -37,11 +37,10 @@ class CategoryRow extends StatelessWidget {
                 ),
               ),
               child: SizedBox(
-                width: 100,
                 child: OutlinedButton(
                     onPressed: onPressedClearFilter,
                     child: Text(
-                      "see more".tr().toString(),
+                      "clear".tr().toString(),
                       style: TextStyle(
                           color: Provider.of<ThemeProvider>(context).getTheme == light
                               ?  Colors.grey

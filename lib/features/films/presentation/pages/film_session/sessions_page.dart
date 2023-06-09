@@ -3,6 +3,7 @@ import 'package:cine_me/core/getit/get_it.dart';
 import 'package:cine_me/core/widgets/error_widget.dart';
 import 'package:cine_me/features/films/data/models/film_session_model.dart';
 import 'package:cine_me/features/films/presentation/bloc/film_session/sessions_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cine_me/core/constants/colors.dart';
@@ -27,7 +28,10 @@ class _SessionsPageState extends State<SessionsPage> {
   @override
   void initState() {
     super.initState();
-    sessionsBloc = getItInst<SessionsBloc>(param1: widget.filmId, param2: '');
+    sessionsBloc = getItInst<SessionsBloc>(
+        param1: widget.filmId,
+        param2: {'sessionId':'', 'localization': /*context.locale == const Locale('uk', 'UA') ? 'uk' :*/ 'en'}
+    );
     sessionsBloc.add(SessionsInitiateEvent(filmId: widget.filmId));
   }
 

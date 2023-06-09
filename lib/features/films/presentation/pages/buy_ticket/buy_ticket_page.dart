@@ -3,6 +3,7 @@ import 'package:cine_me/core/getit/get_it.dart';
 import 'package:cine_me/features/films/presentation/bloc/buy_ticket/buy_ticket_bloc.dart';
 import 'package:cine_me/features/films/presentation/widgets/search_page_widgets/dialog.dart';
 import 'package:cine_me/features/films/presentation/widgets/form_widget.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -42,7 +43,7 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
   @override
   void initState() {
     super.initState();
-    buyTicketBloc = getItInst<BuyTicketBloc>(param1: context);
+    buyTicketBloc = getItInst<BuyTicketBloc>(param1: context, param2: /*context.locale == const Locale('uk', 'UA') ? 'uk' : */'en');
   }
 
   @override

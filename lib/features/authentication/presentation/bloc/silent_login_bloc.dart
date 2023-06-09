@@ -10,7 +10,7 @@ part 'silent_login_event.dart';
 class SilentLoginBloc extends Bloc<SilentLoginEvent, SilentLoginState>{
   final SilentLogin silentLogin;
 
-  SilentLoginBloc({required this.silentLogin}):super(SilentLoginInitial());
+  SilentLoginBloc({required this.silentLogin,}):super(SilentLoginInitial());
 
   @override
   Stream<SilentLoginState> mapEventToState(SilentLoginEvent event) async*{

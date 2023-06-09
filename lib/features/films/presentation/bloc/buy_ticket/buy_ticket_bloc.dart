@@ -12,7 +12,9 @@ class BuyTicketBloc extends Bloc<BuyTicketEvent, BuyTicketState>{
   final BuildContext context;
   final BoughtTicket boughtTicket;
 
+
   BuyTicketBloc({
+
     required this.boughtTicket,
     required this.context,
   }) : super(BuyTicketInitial());

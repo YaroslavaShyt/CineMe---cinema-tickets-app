@@ -9,7 +9,8 @@ abstract class FilmsEvent extends Equatable{
 
 class FilmsInitiateEvent extends FilmsEvent {
   final String search;
-  const FilmsInitiateEvent({this.search = ''});
+  final String localization;
+  const FilmsInitiateEvent({this.search = '', this.localization = 'en'});
 
 
   @override

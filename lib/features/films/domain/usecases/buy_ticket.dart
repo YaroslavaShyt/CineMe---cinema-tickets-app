@@ -11,7 +11,8 @@ class BoughtTicket implements UseCaseTicketBought<IsSuccess>{
 
   @override
   Future<Either<AppError, IsSuccess>>
-  call({int sessionId=0, List<int> seats=const [0],
+  call(
+      {int sessionId=0, List<int> seats=const [0],
     String email='', String cvv='',
     String cardNumber='', String expirationDate='',
   }) async => _filmsRepository.getIsPaymentSuccess(

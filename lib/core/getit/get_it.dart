@@ -34,7 +34,7 @@ Future init() async {
   getItInst.registerLazySingleton<SilentLogin>(() => SilentLogin(getItInst()));
   getItInst.registerLazySingleton<AuthenticationRepository>(
           () => AuthenticationRepositoryImp(getItInst()));
-  getItInst.registerFactory(() =>
+  getItInst.registerFactory<SilentLoginBloc>(() =>
       SilentLoginBloc(
         silentLogin: getItInst(),
       ));
@@ -46,11 +46,11 @@ Future init() async {
   getItInst.registerLazySingleton<FilmsRepository>(
           () => FilmsRepositoryImpl(getItInst()));
 
-  getItInst.registerFactoryParam<FilmsBloc, String, String>((param1, param2) {
+  getItInst.registerFactoryParam<FilmsBloc, String, String>((param1, param2, ) {
     return FilmsBloc(films: getItInst(), date: param1, search: param2);
   });
 
-  getItInst.registerFactoryParam<FilmsSearchBloc, String, String>((param1, param2) {
+  getItInst.registerFactoryParam<FilmsSearchBloc, String,  String>((param1, param2) {
     return FilmsSearchBloc(films: getItInst(), date: param1, search: param2);
   });
 
@@ -80,7 +80,7 @@ Future init() async {
 
   getItInst.registerLazySingleton<BoughtTicket>(() => BoughtTicket(getItInst()));
   getItInst.registerFactoryParam<BuyTicketBloc, BuildContext, void>((param1, param2) =>
-      BuyTicketBloc(boughtTicket: getItInst(), context: param1),
+      BuyTicketBloc(boughtTicket: getItInst(), context: param1,),
   );
 
 

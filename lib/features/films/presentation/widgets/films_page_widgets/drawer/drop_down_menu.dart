@@ -6,7 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 
 class DropDownMenu extends StatefulWidget {
-  DropDownMenu({Key? key}) : super(key: key);
+  final function;
+  DropDownMenu({Key? key, required this.function}) : super(key: key);
 
   @override
   State<DropDownMenu> createState() => _DropDownMenuState();
@@ -14,12 +15,13 @@ class DropDownMenu extends StatefulWidget {
 
 class _DropDownMenuState extends State<DropDownMenu> {
   final List<String> dropdownItems = ['🇺🇦 Українська', '🇬🇧 English', '🇪🇸 Español'];
-  late String selectedOption;
+  String selectedOption = '🇺🇦 Українська';
 
   @override
-  void initState() {
-    super.initState();
+  void initState(){
     _loadSavedOption();
+    super.initState();
+
   }
 
   void _loadSavedOption() async {
@@ -83,6 +85,7 @@ class _DropDownMenuState extends State<DropDownMenu> {
       });
       prefs.setString('selectedOption', newValue);
       Get.updateLocale(locale);
+      widget.function(locale.languageCode == 'uk' && locale.countryCode == 'UA' ? 'uk' : 'en');
     }
 
   }

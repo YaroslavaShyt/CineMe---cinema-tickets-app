@@ -6,7 +6,6 @@ import 'package:cine_me/features/films/domain/repository/films_repository.dart';
 import 'package:dartz/dartz.dart';
 import 'package:cine_me/features/authentication/domain/entities/app_error_entity.dart';
 import 'package:cine_me/features/films/data/datasourses/films_remote_datasourse.dart';
-import 'package:intl/date_symbol_data_file.dart';
 
 
 class FilmsRepositoryImpl implements FilmsRepository {
@@ -15,11 +14,10 @@ class FilmsRepositoryImpl implements FilmsRepository {
   FilmsRepositoryImpl(this._filmsRemoteDataSource);
 
   @override
-  Future<Either<AppError, List<FilmModel>>> getTodayFilms({String search = ''}) async {
+  Future<Either<AppError, List<FilmModel>>> getTodayFilms({String search = '', String localization = 'en',}) async {
     try {
       final accessToken = await getAccessToken();
-      //await initializeDateFormatting('uk_UA', '');
-      final data = await _filmsRemoteDataSource.getTodayFilmsJson(accessToken, search: search);
+      final data = await _filmsRemoteDataSource.getTodayFilmsJson(localization, accessToken, search: search);
       return data.fold(
             (error) => Left(AppError(error.appErrorType)),
             (json) {

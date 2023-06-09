@@ -1,5 +1,6 @@
 import 'package:cine_me/core/constants/colors.dart';
 import 'package:cine_me/core/widgets/error_widget.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cine_me/core/getit/get_it.dart';
@@ -34,7 +35,8 @@ class _FilmDetailsState extends State<FilmDetails> {
   @override
   void initState() {
     super.initState();
-    filmsBloc = getItInst<FilmsBloc>(param1: '', param2: widget.filmName);
+    filmsBloc = getItInst<FilmsBloc>(param1: '', param2: {'search': widget.filmName,
+      'localization': /*context.locale == const Locale('uk', 'UA') ? 'uk' :*/ 'en'});
     filmsBloc.add(FilmsInitiateEvent(search: widget.filmName));
   }
 

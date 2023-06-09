@@ -11,7 +11,8 @@ import 'package:provider/provider.dart';
 
 class CustomDrawer extends StatefulWidget {
   static Locale selectedLanguage = const Locale("uk", "UA");
-  const CustomDrawer({Key? key}) : super(key: key);
+  final function;
+  const CustomDrawer({Key? key, required this.function}) : super(key: key);
 
   @override
   State<CustomDrawer> createState() => _CustomDrawerState();
@@ -196,7 +197,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
               ),
               ListTile(
                 leading: const Icon(FontAwesome.language),
-                title: DropDownMenu(),
+                title: DropDownMenu(function: widget.function,),
               ),
             ],
           ),

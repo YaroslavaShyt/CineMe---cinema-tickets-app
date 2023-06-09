@@ -10,7 +10,8 @@ class BookedTicket extends UseCaseTicketBooked<Type>{
 
   BookedTicket(this._filmsRepository);
   @override
-  Future<Either<AppError, IsSuccess>> call({
+  Future<Either<AppError, IsSuccess>> call(
+      {
     int sessionId = 0,
     List<int> seats = const []
   }) async => _filmsRepository.getIsTicketBooked(sessionId, seats);

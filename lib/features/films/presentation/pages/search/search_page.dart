@@ -1,6 +1,7 @@
 import 'package:cine_me/core/constants/colors.dart';
 import 'package:cine_me/core/widgets/films_app_bar.dart';
 import 'package:cine_me/features/films/presentation/widgets/search_page_widgets/search_widgets.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cine_me/core/getit/get_it.dart';
@@ -23,7 +24,9 @@ class _SearchPageState extends State<SearchPage> {
   @override
   void initState() {
     super.initState();
-    filmsBloc = getItInst<FilmsBloc>(param1: '', param2: '');
+    filmsBloc = getItInst<FilmsBloc>(
+        param1: '',
+        param2: '');
   }
 
   @override

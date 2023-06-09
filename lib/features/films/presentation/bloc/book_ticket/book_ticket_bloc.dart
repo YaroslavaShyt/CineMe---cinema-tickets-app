@@ -11,7 +11,9 @@ class BookTicketBloc extends Bloc<BookTicketEvent, BookTicketState>{
   final int sessionId;
   final List<int> seats;
 
+
   BookTicketBloc({
+
     required this.bookedTicket,
     required this.sessionId,
     required this.seats,

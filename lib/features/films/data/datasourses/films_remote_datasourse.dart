@@ -6,13 +6,13 @@ import 'package:cine_me/features/authentication/domain/entities/app_error_entity
 
 abstract class FilmsRemoteDataSource{
   Future<Either<AppError, Map<String, dynamic>>>
-  getTodayFilmsJson(String accessToken, {String search = ''});
+  getTodayFilmsJson(String localization, String accessToken, {String search = ''});
   Future<Either<AppError, Map<String, dynamic>>>
   getFilmSessionsJson(String accessToken, {String filmId='', String sessionId=''});
   Future<Either<AppError, Map<String, dynamic>>>
   bookTicket(String accessToken, int sessionId, List<int> seats);
   Future<Either<AppError, Map<String, dynamic>>>
-  buyTicket(String accessToken, int sessionId, List<int> seats,
+  buyTicket(String accessToken, int sessionId,List<int> seats,
       String email, String cardNumber, String expirationDate, String cvv);
 }
 
@@ -20,32 +20,34 @@ class FilmsRemoteDataSourceImpl implements FilmsRemoteDataSource {
   Dio dio = Dio();
 
   @override
-  Future<Either<AppError, Map<String, dynamic>>> getTodayFilmsJson(String accessToken, {String search = ''}) async {
+  Future<Either<AppError, Map<String, dynamic>>> getTodayFilmsJson(
+      String localization, String accessToken, {String search = ''}) async {
     String formattedDate = getDateTimeNow();
     String request = '${API.apiFilmsAddress}?date=$formattedDate&query=$search';
-    print('request: $request ');
     if (search.isNotEmpty) {
       request = '${API.apiFilmsAddress}?query=$search';
     }
-  //  try {
+    try {
       final response = await dio.get(
         request,
-        options: buildOptions(accessToken),
+        options: buildOptions(accessToken, localization),
       );
       print('code: ${response.statusCode}');
+      print(localization);
       if (response.statusCode == 200) {
         final data = response.data;
         print('success in get data films');
         return Right(data);
       }
- //   } catch (error) {
- //     throw Exception('Error: $error');
- //   }
+    } catch (error) {
+      throw Exception('Error: $error');
+    }
     return const Left(AppError('Не вдалося отримати дані про .'));
   }
 
   @override
-  Future<Either<AppError, Map<String, dynamic>>> getFilmSessionsJson(String accessToken,
+  Future<Either<AppError, Map<String, dynamic>>> getFilmSessionsJson(
+      String accessToken ,
       {String filmId = '', String sessionId = ''}) async {
     String request;
     String formattedDate = getDateTimeNow();
@@ -57,7 +59,7 @@ class FilmsRemoteDataSourceImpl implements FilmsRemoteDataSource {
     try {
       final response = await dio.get(
         '${API.apiFilmSessionAddress}$request',
-        options: buildOptions(accessToken),
+        options: buildOptions(accessToken, 'en'),
       );
       if (response.statusCode == 200) {
         final data = response.data;
@@ -70,11 +72,12 @@ class FilmsRemoteDataSourceImpl implements FilmsRemoteDataSource {
   }
 
   @override
-  Future<Either<AppError, Map<String, dynamic>>> bookTicket(String accessToken, int sessionId, List<int> seats) async {
+  Future<Either<AppError, Map<String, dynamic>>> bookTicket(
+      String accessToken, int sessionId ,  List<int> seats) async {
     try {
       final response = await dio.post(
         API.apiFilmBookAddress,
-        options: buildOptions(accessToken),
+        options: buildOptions(accessToken, 'en'),
         data: {
           'seats': seats,
           'sessionId': sessionId,
@@ -105,7 +108,7 @@ class FilmsRemoteDataSourceImpl implements FilmsRemoteDataSource {
     try {
       final response = await dio.post(
         API.apiFilmBuyAddress,
-        options: buildOptions(accessToken),
+        options: buildOptions(accessToken, 'en'),
         data: {
           'sessionId': sessionId,
           'seats': seats,
@@ -127,12 +130,12 @@ class FilmsRemoteDataSourceImpl implements FilmsRemoteDataSource {
     return const Left(AppError('Не вдалося придбати квиток.'));
   }
 
-  Options buildOptions(String accessToken) {
+  Options buildOptions(String accessToken, String localization) {
     return Options(
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $accessToken',
-        'Accept-Language': 'uk',
+        'Accept-Language': localization,
       },
     );
   }

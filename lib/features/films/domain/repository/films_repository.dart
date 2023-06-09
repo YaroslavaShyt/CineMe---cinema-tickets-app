@@ -5,18 +5,23 @@ import 'package:cine_me/features/authentication/domain/entities/app_error_entity
 import 'package:cine_me/features/films/data/models/film_session_model.dart';
 
 abstract class FilmsRepository{
-  Future<Either<AppError, List<FilmModel>>> getTodayFilms ({
+  Future<Either<AppError, List<FilmModel>>> getTodayFilms (
+  {
+    String localization = 'en',
     String search = ''
   });
-  Future<Either<AppError, List<FilmSessionModel>>> getFilmSessions({
+  Future<Either<AppError, List<FilmSessionModel>>> getFilmSessions(
+      {
     String filmId='',
     String sessionId=''
   });
   Future<Either<AppError, IsSuccess>> getIsTicketBooked(
+
       int sessionId,
       List<int> seats
       );
   Future<Either<AppError, IsSuccess>> getIsPaymentSuccess(
+
       int sessionId,
       List<int> seats,
       String email,

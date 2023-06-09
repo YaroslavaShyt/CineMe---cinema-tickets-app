@@ -4,6 +4,7 @@ import 'package:cine_me/features/films/presentation/bloc/book_ticket/book_ticket
 import 'package:cine_me/features/films/presentation/bloc/film_session/sessions_bloc.dart';
 import 'package:cine_me/features/films/presentation/widgets/films_page_widgets/seats.dart';
 import 'package:cine_me/features/films/presentation/widgets/search_page_widgets/session_details_widgets.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cine_me/core/constants/colors.dart';
@@ -36,7 +37,9 @@ class _SessionDetailsState extends State<SessionDetails> {
   void initState() {
     super.initState();
     sessionsBloc =
-        getItInst<SessionsBloc>(param1: '', param2: widget.sessionId);
+        getItInst<SessionsBloc>(
+            param1: '',
+            param2: {'sessionId':widget.sessionId, 'localization': /*context.locale == const Locale('uk', 'UA') ? 'uk' :*/ 'en'});
     sessionsBloc
         .add(SessionsInitiateEvent(filmId: '', sessionId: widget.sessionId));
     bookTicketBloc = getItInst<BookTicketBloc>(

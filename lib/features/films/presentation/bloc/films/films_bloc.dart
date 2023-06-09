@@ -10,18 +10,20 @@ class FilmsBloc extends Bloc<FilmsEvent, FilmsState>{
   final Films films;
   final String date;
   final String search;
+  final String localization;
 
   FilmsBloc({
     required this.films,
     required this.date,
     required this.search,
+    this.localization = 'en'
   }) : super(FilmsInitial());
 
 
   @override
   Stream<FilmsState> mapEventToState(FilmsEvent event) async*{
     if(event is FilmsInitiateEvent){
-      final response = await films(search: event.search);
+      final response = await films(search: event.search, localization: event.localization);
       yield response.fold((l) => FilmsError(l.appErrorType)
       , (r)=> FilmsSuccess(r));
     }

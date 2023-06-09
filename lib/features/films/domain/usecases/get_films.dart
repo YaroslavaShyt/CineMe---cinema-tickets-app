@@ -10,6 +10,6 @@ class Films implements UseCase<List<FilmModel>>{
   Films(this._filmsRepository);
 
   @override
-  Future<Either<AppError, List<FilmModel>>> call({String search = ''}) async =>
-      _filmsRepository.getTodayFilms(search: search);
+  Future<Either<AppError, List<FilmModel>>> call( {String search = '', String localization = 'en',}) async =>
+      _filmsRepository.getTodayFilms(search: search, localization: localization);
 }

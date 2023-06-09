@@ -28,12 +28,6 @@ class FilmBody extends StatefulWidget {
 
 class _FilmBodyState extends State<FilmBody> {
 
-  List<FilmModel> getTopFilms() {
-    widget.films.sort((a, b) => b.rating.compareTo(a.rating));
-    return widget.films.take(3).toList();
-  }
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,29 +52,43 @@ class _FilmBodyState extends State<FilmBody> {
                   ),
                   TopFilmsPageBlock(
                     detailsPath: widget.detailsPath,
-                    films: getTopFilms(),
+                    films: widget.films,
                   ),
                 ],
               ),
             ),
             CategoryRow(
               onPressedClearFilter: (){
-                widget.filmsSearchBloc.add(const FilmsSearchInitiateEvent(search: ''));
+                widget.filmsSearchBloc.add(FilmsSearchInitiateEvent(search: '',
+                    localization: context.locale.languageCode == 'uk' &&
+                        context.locale.countryCode == 'UA'? 'uk' : 'en'));
               },
             ),
             const SizedBox(height: 10),
             CategoryOptionsRow(
               onPressedAction: () {
-                widget.filmsSearchBloc.add(FilmsSearchInitiateEvent(search: "action".tr().toString()));
+                widget.filmsSearchBloc.add(FilmsSearchInitiateEvent(search: "action".tr().toString(),
+                    localization: context.locale.languageCode == 'uk' &&
+                        context.locale.countryCode == 'UA'? 'uk' : 'en'
+                ));
               },
               onPressedAdventure: () {
-                widget.filmsSearchBloc.add(FilmsSearchInitiateEvent(search: "adventure".tr().toString()));
+                widget.filmsSearchBloc.add(FilmsSearchInitiateEvent(search: "adventure".tr().toString(),
+                    localization: context.locale.languageCode == 'uk' &&
+                        context.locale.countryCode == 'UA'? 'uk' : 'en'
+                ));
               },
               onPressedHorror: () {
-                widget.filmsSearchBloc.add(FilmsSearchInitiateEvent(search: "horror".tr().toString()));
+                widget.filmsSearchBloc.add(FilmsSearchInitiateEvent(search: "horror".tr().toString(),
+                    localization: context.locale.languageCode == 'uk' &&
+                        context.locale.countryCode == 'UA'? 'uk' : 'en'
+                ));
               },
               onPressedRomance: () {
-                widget.filmsSearchBloc.add(FilmsSearchInitiateEvent(search: "romance".tr().toString()));
+                widget.filmsSearchBloc.add(FilmsSearchInitiateEvent(search: "romance".tr().toString(),
+                    localization: context.locale.languageCode == 'uk' &&
+                        context.locale.countryCode == 'UA'? 'uk' : 'en'
+                ));
               },
             ),
             RecentFilms(
