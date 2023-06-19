@@ -17,5 +17,17 @@
   "my tickets" : "My tickets",
   "ukrainian" : "ukrainian",
   "light": "Light theme",
-  "dark" : "Dark theme"
+  "dark" : "Dark theme",
+  "h" : "h",
+  "min" : "min",
+  "cartoon" : "Cartoon",
+  "film" : "Films",
+  "show" : "Shows",
+  "back" : "Back",
+  "directors" : "Director",
+  "writers": "Writers",
+  "storyline": "Storyline",
+  "see sessions" : "See sessions",
+  "about" : "About content",
+  "reviews" : "Reviews"
 }

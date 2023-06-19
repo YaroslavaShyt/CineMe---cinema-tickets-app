@@ -1,4 +1,5 @@
 import 'package:cine_me/core/usecases/shared_pref_access_token.dart';
+import 'package:cine_me/features/films/data/models/film_comment_model.dart';
 import 'package:cine_me/features/films/data/models/film_model.dart';
 import 'package:cine_me/features/films/data/models/film_session_model.dart';
 import 'package:cine_me/features/films/data/models/is_success_model.dart';
@@ -93,6 +94,27 @@ class FilmsRepositoryImpl implements FilmsRepository {
       );
     } catch (e) {
       return const Left(AppError('Не вдалося придбати квитки.'));
+    }
+  }
+
+  @override
+  Future<Either<AppError, List<FilmCommentModel>>> getFilmComments(
+      String localization, String filmId) async{
+    try {
+      final accessToken = await getAccessToken();
+      final data = await _filmsRemoteDataSource.getFilmCommentsJson(localization, accessToken, filmId);
+      return data.fold(
+            (error) => const Left(AppError('Не вдалося отримати дані про коментарі.')),
+            (json) {
+              final List<dynamic> commentsDataList = json['data'];
+              final List<FilmCommentModel> commentsList = commentsDataList
+                  .map((commentsData) => FilmCommentModel.fromJson(commentsData))
+                  .toList();
+          return Right(commentsList);
+        },
+      );
+    } catch (e) {
+      return const Left(AppError('Не вдалося отримати дані про коментарі.'));
     }
   }
 }

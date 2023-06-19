@@ -5,8 +5,9 @@ import 'package:provider/provider.dart';
 class FilmAppBar extends StatelessWidget {
   final Function onPressed;
   final double scrollOffset;
+  final widget;
   const FilmAppBar(
-      {Key? key, required this.onPressed, required this.scrollOffset})
+      {Key? key, required this.onPressed, required this.scrollOffset, required this.widget})
       : super(key: key);
 
   @override
@@ -31,14 +32,24 @@ class FilmAppBar extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 20),
-            Text(
-              'CineMe',
-              style: TextStyle(
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold,
-                  color:  Provider.of<ThemeProvider>(context).getTheme.primaryColorLight),
-            )
+            widget
           ]),
         );
+  }
+}
+
+
+class AppTitle extends StatelessWidget {
+  const AppTitle({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      'CineMe',
+      style: TextStyle(
+          fontSize: 40,
+          fontWeight: FontWeight.bold,
+          color:  Provider.of<ThemeProvider>(context).getTheme.primaryColorLight),
+    );
   }
 }

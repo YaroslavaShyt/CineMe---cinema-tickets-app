@@ -1,5 +1,6 @@
 import 'package:cine_me/core/constants/colors.dart';
 import 'package:cine_me/core/widgets/films_app_bar.dart';
+import 'package:cine_me/features/films/presentation/widgets/search_page_widgets/scaffold_search.dart';
 import 'package:cine_me/features/films/presentation/widgets/search_page_widgets/search_widgets.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,8 @@ import 'package:cine_me/core/getit/get_it.dart';
 import 'package:cine_me/core/widgets/error_widget.dart';
 import 'package:cine_me/features/films/presentation/bloc/films/films_bloc.dart';
 import 'package:cine_me/core/constants/font_styling.dart';
+
+import '../../../data/models/film_model.dart';
 
 class SearchPage extends StatefulWidget {
   final String detailsPath;
@@ -18,21 +21,40 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  final controller = TextEditingController();
+  final TextEditingController controller = TextEditingController();
   late FilmsBloc filmsBloc;
+  List<FilmModel> films = [];
+  late ScrollController _scrollController;
+  double _scrollControllerOffset = 0.0;
+  String localization = 'en';
 
   @override
   void initState() {
-    super.initState();
+    _scrollController = ScrollController();
+    _scrollController.addListener(_scrollListener);
     filmsBloc = getItInst<FilmsBloc>(
         param1: '',
         param2: '');
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies(){
+    localization = context.locale.languageCode == 'uk' && context.locale.countryCode == 'UA'? 'uk' : 'en';
+    filmsBloc.add(FilmsInitiateEvent(search: '', localization: localization));
+    super.didChangeDependencies();
+  }
+
+  _scrollListener() {
+    setState(() {
+      _scrollControllerOffset = _scrollController.offset;
+    });
   }
 
   @override
   void dispose() {
-    super.dispose();
     filmsBloc.close();
+    super.dispose();
   }
 
   @override
@@ -45,46 +67,30 @@ class _SearchPageState extends State<SearchPage> {
           if (state is FilmsError) {
             return const ErrorPage();
           } else if (state is FilmsSuccess) {
-            final films = state.films;
-            if (films.isEmpty) {
-              return const ErrorPage();
-            }
-            return Scaffold(
-                appBar: const FilmsAppBar(title: 'Пошук'),
-                backgroundColor: lightBlack,
-                body: SearchWidget(
-                  films: films,
-                  controller: controller,
-                  field: TextField(
-                    onChanged: (string) {
-                      filmsBloc.add(FilmsInitiateEvent(search: string));
-                    },
-                    style: notoSansDisplayRegularSmall,
-                    controller: controller,
-                    decoration: const InputDecoration(
-                      hintText: 'Шукати',
-                      border: InputBorder.none,
-                    ),
-                  ),
-                ));
+            films = state.films;
           }
-          return Scaffold(
-              appBar: const FilmsAppBar(title: 'Пошук'),
-              backgroundColor: lightBlack,
-              body: SearchWidget(
-                controller: controller,
-                field: TextField(
-                  onChanged: (string) {
-                    filmsBloc.add(FilmsInitiateEvent(search: string));
-                  },
-                  style: notoSansDisplayRegularSmall,
-                  controller: controller,
-                  decoration: const InputDecoration(
-                    hintText: 'Шукати',
-                    border: InputBorder.none,
-                  ),
-                ),
-              ));
+          return SearchScaffold(
+            onPressedEmpty: (){
+              filmsBloc.add(FilmsInitiateEvent(localization: localization));
+            },
+            onPressedFilms: () {
+              filmsBloc.add(FilmsInitiateEvent(search: 'film', localization: localization));
+            },
+            onPressedCartoons: () {
+              filmsBloc.add(FilmsInitiateEvent(search: 'cartoon', localization: localization));
+            },
+            onPressedShow: () {
+              filmsBloc.add(FilmsInitiateEvent(search: 'show', localization: localization));
+            },
+            scrollController: _scrollController,
+            scrollControllerOffset: _scrollControllerOffset,
+            films: films,
+            controller: controller,
+            function: (string) {
+              filmsBloc.add(FilmsInitiateEvent(search: string, localization: localization));
+            },
+          );
+
         },
       ),
     );

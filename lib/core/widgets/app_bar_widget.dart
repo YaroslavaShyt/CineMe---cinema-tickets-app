@@ -55,3 +55,5 @@ class CinemaAppBar extends StatelessWidget{
     );
   }
 }
+
+

@@ -1,5 +1,5 @@
 import 'package:cine_me/features/films/presentation/widgets/search_page_widgets/session_details_widgets.dart';
-import 'package:cine_me/features/films/presentation/widgets/films_page_widgets/custom_red_button.dart';
+import 'package:cine_me/features/films/presentation/widgets/films_page_widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:cine_me/core/constants/colors.dart';
 import 'package:cine_me/core/constants/font_styling.dart';

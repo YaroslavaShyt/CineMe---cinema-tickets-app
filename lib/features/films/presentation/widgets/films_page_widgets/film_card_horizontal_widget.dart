@@ -1,3 +1,5 @@
+import 'package:cine_me/features/films/presentation/widgets/hour_minute_text.dart';
+import 'package:cine_me/features/films/presentation/widgets/title_year.dart';
 import 'package:flutter/material.dart';
 import 'package:cine_me/features/films/data/models/film_model.dart';
 import 'package:cine_me/features/films/data/models/time_model.dart';
@@ -43,26 +45,9 @@ class FilmCardHorizontal extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Wrap(
-                        children: [
-                          Text(film.name,
-                            style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white),),
-                          Text('(${film.year.toString()})',
-                            style: const TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
-                                color: Color.fromRGBO(255, 255, 255, 100)),),
-                        ],
-                      ),
+                     TitleYear(year: film.year.toString(), title: film.name),
                       const SizedBox(height: 15,),
-                      Text(HourMinute(time: film.duration).hourMinute,
-                        style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: Color.fromRGBO(255, 255, 255, 100)),),
+                      HourMinuteText(duration: film.duration),
                     ],
                   ),
                 ),

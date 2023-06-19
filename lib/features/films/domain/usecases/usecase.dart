@@ -13,3 +13,7 @@ abstract class UseCaseTicketBooked<Type>{
 abstract class UseCaseTicketBought<Type>{
   Future<Either<AppError, IsSuccess>> call();
 }
+
+abstract class UseCaseFilmComment<Type>{
+  Future<Either<AppError, Type>> call(String localization, String filmId);
+}

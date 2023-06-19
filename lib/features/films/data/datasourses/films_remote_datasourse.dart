@@ -9,15 +9,40 @@ abstract class FilmsRemoteDataSource{
   getTodayFilmsJson(String localization, String accessToken, {String search = ''});
   Future<Either<AppError, Map<String, dynamic>>>
   getFilmSessionsJson(String accessToken, {String filmId='', String sessionId=''});
+
   Future<Either<AppError, Map<String, dynamic>>>
   bookTicket(String accessToken, int sessionId, List<int> seats);
   Future<Either<AppError, Map<String, dynamic>>>
   buyTicket(String accessToken, int sessionId,List<int> seats,
       String email, String cardNumber, String expirationDate, String cvv);
+
+  Future<Either<AppError, Map<String, dynamic>>>
+  getFilmCommentsJson(String localization, String accessToken, String filmId);
 }
 
 class FilmsRemoteDataSourceImpl implements FilmsRemoteDataSource {
   Dio dio = Dio();
+
+  @override
+  Future<Either<AppError, Map<String, dynamic>>> getFilmCommentsJson(
+      String localization, String accessToken, String filmId) async{
+    try {
+    final response = await dio.get(
+      '${API.apiFilmComments}?movieId=$filmId',
+      options: buildOptions(accessToken, localization),
+    );
+
+    print('status code ${response.statusCode}');
+      if (response.statusCode == 200) {
+        final data = response.data;
+        print(data);
+        return Right(data);
+      }
+    } catch (error) {
+      throw Exception('Error: $error');
+    }
+    return const Left(AppError('Не вдалося отримати дані про коменти.'));
+  }
 
   @override
   Future<Either<AppError, Map<String, dynamic>>> getTodayFilmsJson(
@@ -32,11 +57,8 @@ class FilmsRemoteDataSourceImpl implements FilmsRemoteDataSource {
         request,
         options: buildOptions(accessToken, localization),
       );
-      print('code: ${response.statusCode}');
-      print(localization);
       if (response.statusCode == 200) {
         final data = response.data;
-        print('success in get data films');
         return Right(data);
       }
     } catch (error) {

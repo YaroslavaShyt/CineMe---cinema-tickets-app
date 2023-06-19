@@ -50,7 +50,7 @@ class _FilmsPageState extends State<FilmsPage> {
 
   _initialize() {
     final currentLocale = context.locale;
-    filmsSearchBloc.add(const FilmsSearchInitiateEvent());
+    filmsSearchBloc.add(FilmsSearchInitiateEvent(localization: currentLocale.languageCode == 'uk' && currentLocale.countryCode == 'UA'? 'uk' : 'en'));
     filmsBloc.add(FilmsInitiateEvent(localization: currentLocale.languageCode == 'uk' && currentLocale.countryCode == 'UA'? 'uk' : 'en'));
     _initialized = true;
   }

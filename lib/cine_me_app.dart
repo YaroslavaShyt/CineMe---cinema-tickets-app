@@ -44,7 +44,6 @@ class _CineMeState extends State<CineMe> {
 
   @override
   Widget build(BuildContext context) {
-    final LocaleBloc localeBloc = LocaleBloc();
     return Consumer<ThemeProvider>(
       builder: (context, value, child){
       return MaterialApp.router(

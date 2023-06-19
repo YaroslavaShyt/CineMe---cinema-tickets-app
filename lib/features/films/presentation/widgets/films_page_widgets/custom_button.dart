@@ -19,10 +19,10 @@ class CustomButton extends StatelessWidget {
     return OutlinedButton(
         onPressed: onPressed,
         style: OutlinedButton.styleFrom(
-          backgroundColor: red,
+          backgroundColor: const Color.fromRGBO(73, 71, 157, 10),
           minimumSize: const Size(double.infinity, 50.0),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(0.0),
+            borderRadius: BorderRadius.circular(20.0),
           ),
           foregroundColor: white,
         ),

@@ -46,6 +46,7 @@ class BodyContent extends StatelessWidget {
         PreferredSize(
           preferredSize: Size(MediaQuery.of(context).size.width, 100.0),
           child: FilmAppBar(
+            widget: const AppTitle(),
             scrollOffset: scrollControllerOffset,
             onPressed: onPressed,
           ),)

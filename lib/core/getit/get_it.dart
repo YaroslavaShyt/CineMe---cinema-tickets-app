@@ -7,9 +7,11 @@ import 'package:cine_me/features/films/data/datasourses/films_remote_datasourse.
 import 'package:cine_me/features/films/data/repositories/films_repository_imp.dart';
 import 'package:cine_me/features/films/domain/repository/films_repository.dart';
 import 'package:cine_me/features/films/domain/usecases/buy_ticket.dart';
+import 'package:cine_me/features/films/domain/usecases/get_comments.dart';
 import 'package:cine_me/features/films/domain/usecases/get_session.dart';
 import 'package:cine_me/features/films/domain/usecases/get_ticket_booked.dart';
 import 'package:cine_me/features/films/presentation/bloc/book_ticket/book_ticket_bloc.dart';
+import 'package:cine_me/features/films/presentation/bloc/get_comments/comments_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
 import 'package:cine_me/features/account/data/datasourses/account_remote_datasource.dart';
@@ -83,5 +85,7 @@ Future init() async {
       BuyTicketBloc(boughtTicket: getItInst(), context: param1,),
   );
 
-
+  getItInst.registerLazySingleton<Comments>(()=> Comments(getItInst()));
+  getItInst.registerFactory<CommentsBloc>(() =>
+      CommentsBloc(comments: getItInst()));
 }
