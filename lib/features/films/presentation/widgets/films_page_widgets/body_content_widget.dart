@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:cine_me/core/widgets/app_bar_widget.dart';
 import 'package:cine_me/features/films/data/models/film_model.dart';
-import '../../bloc/films_search_bloc/films_search_bloc.dart';
+import 'package:cine_me/core/widgets/app_title.dart';
+import 'package:cine_me/features/films/presentation/bloc/films_search_bloc/films_search_bloc.dart';
 import 'appbar.dart';
 import 'film_page_body_widget.dart';
 

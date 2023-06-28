@@ -3,7 +3,7 @@ import 'package:cine_me/features/films/presentation/bloc/films_search_bloc/films
 import 'package:flutter/material.dart';
 import 'package:cine_me/features/films/data/models/film_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'film_card_vertical_widget.dart';
+import 'film_cards/film_card_vertical_widget.dart';
 
 
 class RecentFilms extends StatefulWidget {

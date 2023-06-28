@@ -4,6 +4,9 @@ import 'package:cine_me/core/constants/colors.dart';
 import 'package:intl/intl.dart';
 import 'package:barcode_widget/barcode_widget.dart';
 
+import '../../../../core/constants/theme.dart';
+import '../../../../core/usecases/date_formatting.dart';
+import 'package:provider/provider.dart';
 
 class AccountPageHead extends StatelessWidget {
   final String username;
@@ -66,7 +69,9 @@ class TicketCard extends StatelessWidget {
         child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: white,
+              color: Provider.of<ThemeProvider>(context).getTheme == light
+                  ? Colors.black54
+                  : const Color.fromRGBO(236, 237, 246, 10),
               border: Border.all(
                 color: Colors.black,
                 width: 2,
@@ -79,7 +84,7 @@ class TicketCard extends StatelessWidget {
                 Padding(padding: const EdgeInsets.fromLTRB(5, 5, 5, 5), child:
              Image(image: NetworkImage(image),)),
               Container(
-                  color: red,
+                  color:  const Color.fromRGBO(73, 71, 157, 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -87,14 +92,10 @@ class TicketCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                              DateFormat('HH:mm').format(
-                                  DateTime.fromMillisecondsSinceEpoch(
-                                      date * 1000)),
+                              formatUnixTime(date.toString()),
                               style: notoSansDisplayRegularTiny),
                           Text(
-                            DateFormat('dd.MM').format(
-                                DateTime.fromMillisecondsSinceEpoch(
-                                    date * 1000)),
+                            formatUnixDate(date.toString()),
                             style: notoSansDisplayBoldLarge,
                           ),
                         ],

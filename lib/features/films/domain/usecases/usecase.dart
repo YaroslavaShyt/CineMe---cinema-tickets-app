@@ -17,3 +17,15 @@ abstract class UseCaseTicketBought<Type>{
 abstract class UseCaseFilmComment<Type>{
   Future<Either<AppError, Type>> call(String localization, String filmId);
 }
+
+abstract class UseCaseCommentAdded<Type>{
+  Future<Either<AppError, IsSuccess>> call(
+      String comment, String filmId, String localization, int rating
+      );
+}
+
+abstract class UseCaseCommentDeleted<Type>{
+  Future<Either<AppError, IsSuccess>> call(
+      String commentId, String localization
+      );
+}

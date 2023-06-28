@@ -1,7 +1,7 @@
 import 'package:beamer/beamer.dart';
 import 'package:cine_me/core/constants/colors.dart';
 import 'package:cine_me/core/constants/font_styling.dart';
-import 'package:cine_me/features/films/presentation/widgets/films_page_widgets/custom_button.dart';
+import 'package:cine_me/core/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
 class BookTicketDialog extends StatelessWidget {

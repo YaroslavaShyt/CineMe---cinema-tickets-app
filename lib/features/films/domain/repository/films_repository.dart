@@ -22,4 +22,15 @@ abstract class FilmsRepository {
 
   Future<Either<AppError, List<FilmCommentModel>>> getFilmComments(
       String localization, String filmId);
+
+  Future<Either<AppError, IsSuccess>> getIsCommentAdded(
+      String comment,
+      String filmId,
+      String localization,
+      int rating);
+
+  Future<Either<AppError, IsSuccess>> getIsCommentDeleted(
+      String commentId,
+      String localization,
+      );
 }

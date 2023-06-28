@@ -1,8 +1,7 @@
-import 'package:cine_me/core/constants/colors.dart';
-import 'package:cine_me/core/getit/get_it.dart';
+import 'package:cine_me/core/get_it/get_it.dart';
 import 'package:cine_me/features/films/presentation/bloc/buy_ticket/buy_ticket_bloc.dart';
 import 'package:cine_me/features/films/presentation/widgets/search_page_widgets/dialog.dart';
-import 'package:cine_me/features/films/presentation/widgets/form_widget.dart';
+import 'package:cine_me/features/films/presentation/widgets/film_buy_ticket_widgets/form_widget.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,24 +33,30 @@ class BuyTicketPage extends StatefulWidget {
 }
 
 class _BuyTicketPageState extends State<BuyTicketPage> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _cardNumberController = TextEditingController();
-  final TextEditingController _expirationDate = TextEditingController();
-  final TextEditingController _cvvController = TextEditingController();
   late BuyTicketBloc buyTicketBloc;
 
   @override
   void initState() {
     super.initState();
-    buyTicketBloc = getItInst<BuyTicketBloc>(param1: context, param2: /*context.locale == const Locale('uk', 'UA') ? 'uk' : */'en');
+    buyTicketBloc = getItInst<BuyTicketBloc>(param1: context, param2: 'en');
   }
+
+  @override
+  void dispose() {
+    buyTicketBloc.close();
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
         providers: [BlocProvider(create: (context) => buyTicketBloc)],
         child: Scaffold(
-          backgroundColor: lightBlack,
+          appBar: AppBar(
+            backgroundColor: const Color.fromRGBO(73, 71, 167, 100),
+            shadowColor: Colors.transparent,
+          ),
           body: BlocConsumer<BuyTicketBloc, BuyTicketState>(
               listener: (context, state) {},
               builder: (context, state) {
@@ -64,9 +69,9 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
-                              body: 'Кіна не буде :(',
-                              success: 'Операція не успішна!',
-                              buttonText: "Сумно");
+                              body: "no film".tr().toString(),
+                              success: "operation error".tr().toString(),
+                              buttonText: "sad".tr().toString());
                         });
                   });
                 } else if (state is BuyTicketSuccess) {
@@ -77,39 +82,11 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
                     type: widget.type,
                     cinemaName: widget.cinemaName,
                     date: widget.date,
-                    emailController: _emailController,
                     totalToPay: widget.totalToPay,
-                    onPressed: () {
-                      if (_emailController.text.isEmpty ||
-                          _cardNumberController.text.isEmpty ||
-                          _cvvController.text.isEmpty ||
-                          _expirationDate.text.isEmpty) {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return CustomAlertDialog(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  body: '',
-                                  success: 'Заповніть усі поля!',
-                                  buttonText: "Добре");
-                            });
-                      } else {
-                        buyTicketBloc.add(BuyTicketInitiateEvent(
-                            seats: widget.seats,
-                            sessionId: widget.sessionId,
-                            email: _emailController.text,
-                            cardNumber:
-                                _cardNumberController.text.replaceAll(' ', ''),
-                            expireDate: _expirationDate.text,
-                            cvv: _cvvController.text));
-                      }
-                    },
-                    expirationDate: _expirationDate,
-                    cardNumberController: _cardNumberController,
-                    cvvController: _cvvController);
-              }),
+                    seats: widget.seats,
+                  sessionId: widget.sessionId,
+                );}
+              )
         ));
   }
 }

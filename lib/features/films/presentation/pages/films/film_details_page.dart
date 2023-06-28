@@ -1,17 +1,17 @@
 import 'package:cine_me/core/constants/colors.dart';
 import 'package:cine_me/core/widgets/error_widget.dart';
-import 'package:cine_me/features/films/presentation/bloc/get_comments/comments_bloc.dart';
+import 'package:cine_me/features/films/presentation/bloc/comments/comments_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:cine_me/core/getit/get_it.dart';
+import 'package:cine_me/core/get_it/get_it.dart';
 import 'package:cine_me/features/films/presentation/bloc/films/films_bloc.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:cine_me/features/films/presentation/widgets/films_page_widgets/film_details_widget.dart';
 import 'package:provider/provider.dart';
-import '../../../../../core/constants/theme.dart';
-import '../../../data/models/film_model.dart';
-import '../../widgets/film_details_page_widgets/comments/film_comments.dart';
+import 'package:cine_me/core/constants/theme.dart';
+import 'package:cine_me/features/films/data/models/film_model.dart';
+import 'package:cine_me/features/films/presentation/widgets/film_details_page_widgets/comments/film_comments.dart';
 
 class FilmDetails extends StatefulWidget {
   final String filmName;
@@ -35,7 +35,8 @@ class _FilmDetailsState extends State<FilmDetails> with SingleTickerProviderStat
   void playVideo(String videoUrl) {
     controller = YoutubePlayerController(
         initialVideoId: YoutubePlayer.convertUrlToId(videoUrl)!,
-        flags: const YoutubePlayerFlags(autoPlay: false, enableCaption: false));
+        flags: const YoutubePlayerFlags(autoPlay: false, enableCaption: false)
+    );
   }
 
   @override
@@ -61,7 +62,6 @@ class _FilmDetailsState extends State<FilmDetails> with SingleTickerProviderStat
   }
 
   void _handleTabChange() {
-    print('in function');
     if (_tabController.index == 1) {
       if (films.isNotEmpty) {
         commentsBloc.add(CommentsInitiateEvent(localization: localization, filmId: films[0].id.toString()));
@@ -72,6 +72,7 @@ class _FilmDetailsState extends State<FilmDetails> with SingleTickerProviderStat
   @override
   void dispose() {
     filmsBloc.close();
+    commentsBloc.close();
     controller.dispose();
     _tabController.dispose();
     super.dispose();
@@ -107,8 +108,25 @@ class _FilmDetailsState extends State<FilmDetails> with SingleTickerProviderStat
                                 : const Color.fromRGBO(236, 237, 246, 10),
                             labelColor: Colors.black,
                             tabs: [
-                              Tab(text: "about".tr().toString()),
-                              Tab(text: "reviews".tr().toString()),
+                              Tab(
+                                child: Text(
+                                  "about".tr().toString(),
+                                  style: TextStyle(
+                                    color: Provider.of<ThemeProvider>(context).getTheme == light
+                                        ? Colors.black
+                                        : Colors.white
+                                  ),
+                                ),
+                              ),
+                              Tab(
+                                child: Text(
+                                  "reviews".tr().toString(),
+                                   style: TextStyle(
+                                    color: Provider.of<ThemeProvider>(context).getTheme == light
+                                        ? Colors.black
+                                        : Colors.white
+                                ),
+                              ),),
                             ],
                           ),
                           Expanded(
@@ -128,7 +146,11 @@ class _FilmDetailsState extends State<FilmDetails> with SingleTickerProviderStat
                                     );
                                   },
                                 ),
-                                const FilmComments(),
+                                FilmComments(
+                                  filmId: films[0].id.toString(),
+                                  onDelete: (String commentId) {
+                                    commentsBloc.add(CommentDeleteInitiateEvent(commentId: commentId));
+                                  },),
                               ],
                             ),
                           ),

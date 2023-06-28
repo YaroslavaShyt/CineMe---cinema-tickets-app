@@ -117,5 +117,26 @@ class FilmsRepositoryImpl implements FilmsRepository {
       return const Left(AppError('Не вдалося отримати дані про коментарі.'));
     }
   }
+
+  @override
+  Future<Either<AppError, IsSuccess>>
+  getIsCommentAdded(String comment, String filmId, String localization, int rating) async{
+    final accessToken = await getAccessToken();
+    final data = await _filmsRemoteDataSource.addComment(accessToken, comment, filmId, localization, rating);
+    return data.fold(
+            (error) => const Left(AppError('Не вдалося додати коментар.')),
+            (json) => Right(IsSuccess.fromJson(json))
+    );
+  }
+
+  @override
+  Future<Either<AppError, IsSuccess>> getIsCommentDeleted(String commentId, String localization) async{
+    final accessToken = await getAccessToken();
+    final data = await _filmsRemoteDataSource.deleteComment(accessToken, int.parse(commentId), localization);
+    return data.fold(
+            (error) => const Left(AppError('Не вдалося видалити коментар.')),
+            (json) => Right(IsSuccess.fromJson(json))
+    );
+  }
 }
 

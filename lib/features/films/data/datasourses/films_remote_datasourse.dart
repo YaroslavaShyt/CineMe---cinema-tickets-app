@@ -18,10 +18,47 @@ abstract class FilmsRemoteDataSource{
 
   Future<Either<AppError, Map<String, dynamic>>>
   getFilmCommentsJson(String localization, String accessToken, String filmId);
+  Future<Either<AppError, Map<String, dynamic>>>
+  addComment(String accessToken, String comment, String filmId, String localization, int rating);
+  Future<Either<AppError, Map<String, dynamic>>>
+  deleteComment(String accessToken, int commentId, String localization,);
 }
 
 class FilmsRemoteDataSourceImpl implements FilmsRemoteDataSource {
   Dio dio = Dio();
+
+  @override
+  Future<Either<AppError, Map<String, dynamic>>>
+  deleteComment(String accessToken, int commentId, String localization,) async{
+    final response = await dio.delete(
+        '${API.apiFilmComments}/$commentId',
+        options: buildOptions(accessToken, localization),
+    );
+    if (response.statusCode == 200) {
+      final data = response.data;
+      return Right(data);
+    }
+    return const Left(AppError('Не вдалося видалити коментар.'));
+  }
+
+  @override
+  Future<Either<AppError, Map<String, dynamic>>>
+  addComment(String accessToken, String comment, String filmId, String localization, int rating) async{
+    final response = await dio.post(
+      API.apiFilmComments,
+      options: buildOptions(accessToken, localization),
+      data: {
+        "content": comment,
+        "rating": rating,
+        "movieId": int.parse(filmId)
+      }
+    );
+    if (response.statusCode == 200) {
+      final data = response.data;
+      return Right(data);
+    }
+    return const Left(AppError('Не вдалося додати коментар.'));
+  }
 
   @override
   Future<Either<AppError, Map<String, dynamic>>> getFilmCommentsJson(
@@ -31,11 +68,8 @@ class FilmsRemoteDataSourceImpl implements FilmsRemoteDataSource {
       '${API.apiFilmComments}?movieId=$filmId',
       options: buildOptions(accessToken, localization),
     );
-
-    print('status code ${response.statusCode}');
       if (response.statusCode == 200) {
         final data = response.data;
-        print(data);
         return Right(data);
       }
     } catch (error) {

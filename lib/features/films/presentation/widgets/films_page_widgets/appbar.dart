@@ -1,6 +1,4 @@
-import 'package:cine_me/core/constants/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class FilmAppBar extends StatelessWidget {
   final Function onPressed;
@@ -39,17 +37,4 @@ class FilmAppBar extends StatelessWidget {
 }
 
 
-class AppTitle extends StatelessWidget {
-  const AppTitle({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      'CineMe',
-      style: TextStyle(
-          fontSize: 40,
-          fontWeight: FontWeight.bold,
-          color:  Provider.of<ThemeProvider>(context).getTheme.primaryColorLight),
-    );
-  }
-}

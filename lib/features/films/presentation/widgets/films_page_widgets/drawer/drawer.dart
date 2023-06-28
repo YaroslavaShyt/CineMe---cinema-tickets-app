@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 import 'package:easy_localization/easy_localization.dart';
-import '../../../../../../core/getit/get_it.dart';
+import '../../../../../../core/get_it/get_it.dart';
 import '../../../../../account/presentation/bloc/account_bloc.dart';
 import 'package:provider/provider.dart';
 

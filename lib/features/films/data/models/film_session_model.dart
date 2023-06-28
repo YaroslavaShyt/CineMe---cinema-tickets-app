@@ -14,10 +14,10 @@ class FilmSessionModel{
 });
 
   factory FilmSessionModel.fromJson(Map<String, dynamic> json) {
-    final String id = json['id'];
-    final String date = json['date'];
+    final String id = json['id'].toString();
+    final String date = json['date'].toString();
     final String type = json['type'];
-    final String minPrice = json['minPrice'];
+    final String minPrice = json['minPrice'].toString();
     final Map<String, dynamic> room = json['room'];
     return FilmSessionModel(
         id: id,

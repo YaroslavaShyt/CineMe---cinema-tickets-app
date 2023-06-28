@@ -15,3 +15,13 @@ class SessionsInitiateEvent extends SessionsEvent {
   @override
   List<Object> get props => [];
 }
+
+
+class SessionDetailsInitiateEvent extends SessionsEvent {
+  final String filmId;
+  final String sessionId;
+  const SessionDetailsInitiateEvent({this.filmId='', this.sessionId=''});
+
+  @override
+  List<Object> get props => [];
+}

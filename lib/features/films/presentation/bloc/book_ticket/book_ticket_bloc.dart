@@ -8,21 +8,16 @@ part 'book_ticket_state.dart';
 
 class BookTicketBloc extends Bloc<BookTicketEvent, BookTicketState>{
   final BookedTicket bookedTicket;
-  final int sessionId;
-  final List<int> seats;
-
 
   BookTicketBloc({
 
     required this.bookedTicket,
-    required this.sessionId,
-    required this.seats,
   }) : super(BookTicketInitial());
 
   @override
   Stream<BookTicketState> mapEventToState(BookTicketEvent event) async*{
     if(event is BookTicketInitiateEvent){
-      final response = await bookedTicket(sessionId: sessionId, seats: seats);
+      final response = await bookedTicket(sessionId: event.sessionId, seats: event.seats);
       yield response.fold((l){
         return const BookTicketError('error');
       }, (r)=> BookTicketSuccess(r));

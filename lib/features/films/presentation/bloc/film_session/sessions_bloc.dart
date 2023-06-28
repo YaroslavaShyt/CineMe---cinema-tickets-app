@@ -8,19 +8,15 @@ part 'sessions_event.dart';
 
 class SessionsBloc extends Bloc<SessionsEvent, SessionsState>{
   final FilmSessions filmSessions;
-  final String filmId;
-  final String sessionId;
 
   SessionsBloc({
     required this.filmSessions,
-    required this.filmId,
-    required this.sessionId
   }) : super(SessionsInitial());
 
   @override
   Stream<SessionsState> mapEventToState(SessionsEvent event) async*{
     if(event is SessionsInitiateEvent){
-      final response = await filmSessions(filmId: filmId, sessionId: sessionId);
+      final response = await filmSessions(filmId: event.filmId, sessionId: event.sessionId);
       yield response.fold((l){
         return SessionsError(l.toString());
       }, (r)=> SessionsSuccess(r));

@@ -1,7 +1,7 @@
 import 'package:cine_me/features/films/data/models/film_model.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'film_cards_list_widget.dart';
+import 'film_cards/film_cards_list_widget.dart';
 
 
 class TopFilmsPageBlock extends StatelessWidget {

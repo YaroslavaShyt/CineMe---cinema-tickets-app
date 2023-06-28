@@ -10,7 +10,8 @@ abstract class AccountEvent extends Equatable{
 
 class AccountInitiateEvent extends AccountEvent {
   final Map<String, dynamic> newUserData;
-  const AccountInitiateEvent({this.newUserData = const {'name':'', 'phoneNumber': ''}});
+  final String localization;
+  const AccountInitiateEvent({this.newUserData = const {'name':'', 'phoneNumber': ''}, this.localization='eng'});
 
   @override
   List<Object> get props => [];

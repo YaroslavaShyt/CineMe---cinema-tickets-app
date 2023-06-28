@@ -1,16 +1,11 @@
-import 'package:cine_me/core/constants/colors.dart';
-import 'package:cine_me/core/widgets/films_app_bar.dart';
 import 'package:cine_me/features/films/presentation/widgets/search_page_widgets/scaffold_search.dart';
-import 'package:cine_me/features/films/presentation/widgets/search_page_widgets/search_widgets.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:cine_me/core/getit/get_it.dart';
+import 'package:cine_me/core/get_it/get_it.dart';
 import 'package:cine_me/core/widgets/error_widget.dart';
 import 'package:cine_me/features/films/presentation/bloc/films/films_bloc.dart';
-import 'package:cine_me/core/constants/font_styling.dart';
-
-import '../../../data/models/film_model.dart';
+import 'package:cine_me/features/films/data/models/film_model.dart';
 
 class SearchPage extends StatefulWidget {
   final String detailsPath;
@@ -32,15 +27,16 @@ class _SearchPageState extends State<SearchPage> {
   void initState() {
     _scrollController = ScrollController();
     _scrollController.addListener(_scrollListener);
-    filmsBloc = getItInst<FilmsBloc>(
-        param1: '',
-        param2: '');
+    filmsBloc = getItInst<FilmsBloc>(param1: '', param2: '');
     super.initState();
   }
 
   @override
-  void didChangeDependencies(){
-    localization = context.locale.languageCode == 'uk' && context.locale.countryCode == 'UA'? 'uk' : 'en';
+  void didChangeDependencies() {
+    localization = context.locale.languageCode == 'uk' &&
+            context.locale.countryCode == 'UA'
+        ? 'uk'
+        : 'en';
     filmsBloc.add(FilmsInitiateEvent(search: '', localization: localization));
     super.didChangeDependencies();
   }
@@ -70,27 +66,30 @@ class _SearchPageState extends State<SearchPage> {
             films = state.films;
           }
           return SearchScaffold(
-            onPressedEmpty: (){
+            onPressedEmpty: () {
               filmsBloc.add(FilmsInitiateEvent(localization: localization));
             },
             onPressedFilms: () {
-              filmsBloc.add(FilmsInitiateEvent(search: 'film', localization: localization));
+              filmsBloc.add(FilmsInitiateEvent(
+                  search: 'film', localization: localization));
             },
             onPressedCartoons: () {
-              filmsBloc.add(FilmsInitiateEvent(search: 'cartoon', localization: localization));
+              filmsBloc.add(FilmsInitiateEvent(
+                  search: 'cartoon', localization: localization));
             },
             onPressedShow: () {
-              filmsBloc.add(FilmsInitiateEvent(search: 'show', localization: localization));
+              filmsBloc.add(FilmsInitiateEvent(
+                  search: 'show', localization: localization));
             },
             scrollController: _scrollController,
             scrollControllerOffset: _scrollControllerOffset,
             films: films,
             controller: controller,
             function: (string) {
-              filmsBloc.add(FilmsInitiateEvent(search: string, localization: localization));
+              filmsBloc.add(FilmsInitiateEvent(
+                  search: string, localization: localization));
             },
           );
-
         },
       ),
     );
