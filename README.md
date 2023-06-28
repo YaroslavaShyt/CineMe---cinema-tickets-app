@@ -35,39 +35,35 @@ An application for buying and keeping tickets for cinema sessions.
 <table>
   <tr>
     <td align="center">
-      <img src="./assets/readme/img.png" width="300" />
+      <img src="./assets/readme/img.png" width="270" />
     </td>
     <td align="center">
-      <img src="./assets/readme/img_1.png" width="300" />
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <img src="./assets/readme/img_2.png" width="300" />
+      <img src="./assets/readme/img_1.png" width="270" />
     </td>
     <td align="center">
-      <img src="./assets/readme/img_3.png" width="300" />
+      <img src="./assets/readme/img_2.png" width="270" />
     </td>
   </tr>
   <tr>
     <td align="center">
-      <img src="./assets/readme/img_4.png" width="300" />
+      <img src="./assets/readme/img_3.png" width="270" />
+    </td>
+     <td align="center">
+      <img src="./assets/readme/img_4.png" width="270" />
     </td>
     <td align="center">
-      <img src="./assets/readme/img_5.png" width="300" />
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <img src="./assets/readme/img_6.png" width="300" />
-    </td>
-    <td align="center">
-      <img src="./assets/readme/img_7.png" width="300" />
+      <img src="./assets/readme/img_5.png" width="270" />
     </td>
   </tr>
   <tr>
     <td align="center">
-      <img src="./assets/readme/img_8.png" width="300" />
+      <img src="./assets/readme/img_6.png" width="270" />
+    </td>
+    <td align="center">
+      <img src="./assets/readme/img_7.png" width="270" />
+    </td>
+    <td align="center">
+      <img src="./assets/readme/img_8.png" width="270" />
     </td>
   </tr>
 </table>
