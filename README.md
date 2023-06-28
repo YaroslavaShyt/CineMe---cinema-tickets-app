@@ -1,16 +1,42 @@
-# cine_me
+# CineMe - cinema tickets application
+An application for buying and keeping tickets for cinema sessions.
 
-A new Flutter project.
+### Functionality
+- See posters
+- Search on categories
+- Dynamic search
+- See film details, watch trailer
+- View and add comments about the film
+- See sessions, choose seats, buy tickets
+- See bought tickets
+- Change theme
+- Change localization
+- Change personal data 
 
-## Getting Started
+### Technologies
+- Flutter, Dart
+- BLoC
+- Provider
+- GetIt
+- Shared preferences
+- Equatable
+- Crypto, device info plus, meta
+- Carousel slider
+- Beamer
+- Youtube player Flutter
+- Barcode widget
+- Share plus
+- Dio
+- Easy localization
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### UI
+#### Important!! - I am not the author of the UI. The author - https://dribbble.com/shots/6724418-Movie-app
+![](./assets/readme/img.png)
+![](./assets/readme/img_1.png)
+![](./assets/readme/img_2.png)
+![](./assets/readme/img_3.png)
+![](./assets/readme/img_4.png)
+![](./assets/readme/img_5.png)
+![](./assets/readme/img_6.png)
+![](./assets/readme/img_7.png)
+![](./assets/readme/img_8.png)
