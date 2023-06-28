@@ -31,8 +31,8 @@ An application for buying and keeping tickets for cinema sessions.
 
 ### UI
 #### Important!! - I am not the author of the UI. The author - https://dribbble.com/shots/6724418-Movie-app
-![](./assets/readme/img.png)
-![](./assets/readme/img_1.png)
+![](./assets/readme/img.png)  ![](./assets/readme/img_1.png)
+
 ![](./assets/readme/img_2.png)
 ![](./assets/readme/img_3.png)
 ![](./assets/readme/img_4.png)
