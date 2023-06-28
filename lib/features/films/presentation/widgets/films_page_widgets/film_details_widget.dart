@@ -35,7 +35,16 @@ class FilmDetailsWidget extends StatelessWidget {
         const SizedBox(
           height: 20,
         ),
-        RatingRow(rating: films[0].rating),
+        RatingRow(
+            rating: films[0].rating,
+          onPressed: (){
+            Share.share('${films[0].name}\n'
+                '${films[0].rating}\n'
+                '${films[0].country}\n'
+                '${films[0].year}\n'
+                '${films[0].trailer}');
+          },
+        ),
         Padding(
           padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 30.0),
           child: SummaryWidget(
