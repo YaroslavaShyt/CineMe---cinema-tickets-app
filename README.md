@@ -30,7 +30,7 @@ An application for buying and keeping tickets for cinema sessions.
 - Easy localization
 
 ### UI
-#### Important!! - I am not the author of the UI. The author - https://dribbble.com/shots/6724418-Movie-app
+#### Important!! - I am not the author of the UI design. The author - https://dribbble.com/shots/6724418-Movie-app
 
 <table>
   <tr>
